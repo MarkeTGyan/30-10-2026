@@ -5,3 +5,5 @@ pandas>=2.1
 numpy>=1.26
 Flask-SQLAlchemy>=3.1,<4
 psycopg[binary]>=3.2,<4
+requests>=2.31
+beautifulsoup4>=4.12
