@@ -6,7 +6,7 @@ import random
 import re
 import json
 import threading
-from auth_system import init_auth
+from auth_system import init_auth, csrf_token
 from zoneinfo import ZoneInfo
 from datetime import datetime, time as dtime, timedelta
 from flask import Flask, request, jsonify, render_template_string
@@ -79,6 +79,8 @@ main{width:100%;max-width:1300px;margin:0 auto;padding:clamp(8px, 2vw, 24px)}
 
 /* PROFESSIONAL HEADER */
 header{background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;padding:clamp(16px, 3vw, 28px) clamp(16px, 3vw, 32px);border-radius:16px;margin-bottom:16px;box-shadow:0 10px 25px -5px rgba(15,23,42,0.15)}
+.header-logout-form{display:flex;justify-content:flex-end;margin:0 0 8px}
+.header-logout-btn{background:linear-gradient(135deg,#ef4444,#b91c1c);padding:9px 18px;font-size:14px}
 header .tag{display:inline-block;padding:4px 12px;background:rgba(255,255,255,0.1);color:#38bdf8;border-radius:99px;font-size:12px;font-weight:700;margin-bottom:8px;letter-spacing:0.5px}
 h1{font-size:clamp(22px, 4vw, 36px);line-height:1.2;margin:4px 0 8px;color:#fff;font-weight:800}
 .sub{color:#94a3b8;font-size:clamp(13px, 1.5vw, 15px);line-height:1.5}
@@ -147,6 +149,10 @@ tbody tr:last-child td{border-bottom:0}
 <body>
 <main>
 <header>
+  <form class="header-logout-form" method="post" action="{{ url_for('auth.logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ token }}">
+    <button type="submit" class="header-logout-btn">Logout</button>
+  </form>
   <div class="tag">MarkeTGyan Professional Terminal</div>
   <h1>AI Stock Analyst & Screener</h1>
   <div class="sub">उन्नत तकनीकी विश्लेषण, सपोर्ट/रेजिस्टेंस, ऑटोमेटेड स्कैनर और वर्चुअल ट्रेडिंग टर्मिनल।</div>
@@ -892,7 +898,7 @@ def analyze_symbol(raw):
     }
 
 @app.get("/")
-def home(): return render_template_string(PAGE)
+def home(): return render_template_string(PAGE, token=csrf_token())
 
 @app.get("/api/analyze")
 def api_analyze():
