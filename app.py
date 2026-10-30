@@ -1098,7 +1098,7 @@ def api_rescan():
         threading.Thread(target=run_futures_scan).start()
         return jsonify({"success": True})
     return jsonify({"success": False})
-
+init_auth(app)
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=False)
