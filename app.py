@@ -7,7 +7,7 @@ import re
 import json
 import threading
 from zoneinfo import ZoneInfo
-from datetime import datetime, timedelta
+from datetime import datetime, time as dtime, timedelta
 from flask import Flask, request, jsonify, render_template_string
 import yfinance as yf
 import pandas as pd
@@ -272,7 +272,7 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
 <div id="demoTradeTab" class="tab-content">
  <div class="panel">
   <h2>💹 Professional Demo Trading Terminal</h2>
-  <div class="trade-note"><b>DEMO / PAPER TRADING ONLY:</b> शुरुआती वर्चुअल कैश ₹1,00,000 है। भाव और P&L हर 3 सेकंड में स्वतः लाइव अपडेट होते हैं।</div>
+  <div class="trade-note"><b>DEMO / PAPER TRADING ONLY:</b> शुरुआती वर्चुअल कैश ₹1,00,000 है। बाजार का समय प्रातः 9:15 से दोपहर 3:30 (IST) है। इस समय के बाहर AMO/PMO आर्डर लिए जा सकते हैं। भाव हर 3 सेकंड में स्वतः अपडेट होते हैं।</div>
   <div class="trade-metrics" style="margin-top:14px">
    <div class="trade-metric"><small>Available Cash</small><strong id="demoCash">₹1,00,000</strong></div>
    <div class="trade-metric"><small>Portfolio Value</small><strong id="demoPortfolioValue">₹0</strong></div>
@@ -285,12 +285,12 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
   <div class="trade-toolbar">
    <div class="trade-field"><label for="demoSymbol">NSE Symbol / Stock Name</label><input id="demoSymbol" placeholder="RELIANCE, TCS या Tata Motors" autocomplete="off" value="RELIANCE"></div>
    <div class="trade-field"><label for="demoSide">Side</label><select id="demoSide"><option value="BUY">BUY</option><option value="SELL">SELL</option></select></div>
-   <div class="trade-field"><label for="demoOrderType">Order Type</label><select id="demoOrderType"><option value="MARKET">Market</option><option value="LIMIT">Limit</option></select></div>
+   <div class="trade-field"><label for="demoOrderType">Order Type</label><select id="demoOrderType"><option value="MARKET">Market</option><option value="LIMIT">Limit</option><option value="AMO">AMO (After Market)</option><option value="PMO">PMO (Post Market)</option></select></div>
    <div class="trade-field"><label for="demoQty">Quantity</label><input id="demoQty" type="number" min="1" step="1" value="1"></div>
-   <div class="trade-field"><label for="demoLimitPrice">Limit Price (₹)</label><input id="demoLimitPrice" type="number" min="0.01" step="0.05" placeholder="केवल Limit Order"></div>
+   <div class="trade-field"><label for="demoLimitPrice">Limit Price (₹)</label><input id="demoLimitPrice" type="number" min="0.01" step="0.05" placeholder="Limit/AMO/PMO मूल्य"></div>
    <div class="trade-field"><label>Live Quote</label><div id="demoQuote" class="trade-status">भाव प्राप्त नहीं हुआ</div></div>
   </div>
-  <div class="trade-actions"><button type="button" id="demoGetQuote" class="neutral-btn">↻ भाव प्राप्त करें</button><button type="button" id="demoBuy" class="buy-btn">BUY / Place Order</button><button type="button" id="demoSell" class="sell-btn">SELL / Place Order</button><button type="button" id="demoRefreshOrders">Limit Orders जाँचें</button></div>
+  <div class="trade-actions"><button type="button" id="demoGetQuote" class="neutral-btn">↻ भाव प्राप्त करें</button><button type="button" id="demoBuy" class="buy-btn">BUY / Place Order</button><button type="button" id="demoSell" class="sell-btn">SELL / Place Order</button><button type="button" id="demoRefreshOrders">Pending Orders जाँचें</button></div>
   <div id="demoMessage" class="hint" aria-live="polite"></div>
  </div>
  
@@ -339,8 +339,12 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
   <div id="screenerStatus" class="trade-status" style="margin-top:12px">स्कैनर स्थिति: तैयार</div>
   <div class="progress-track" style="margin-top:10px"><div id="progBar" class="progress-fill"></div></div>
   
-  <h3 style="margin-top:20px;">★ Confirmed Signals</h3>
-  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>ट्रेंड</th><th>भाव</th><th>Entry</th><th>SL</th><th>Target</th><th>Signal</th></tr></thead><tbody id="confirmedBody"><tr><td colspan="7" class="empty-row">कोई सिग्नल नहीं मिला।</td></tr></tbody></table></div>
+  <h3 class="green" style="margin-top:20px;">📈 Uptrend Confirmed Signals (Entry के करीब वाले सबसे ऊपर)</h3>
+  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>ट्रेंड</th><th>भाव</th><th>Entry</th><th>SL</th><th>Target</th><th>Signal</th></tr></thead><tbody id="uptrendConfirmedBody"><tr><td colspan="7" class="empty-row">कोई सिग्नल नहीं मिला।</td></tr></tbody></table></div>
+  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। सिग्नल केवल तकनीकी विश्लेषण आधारित हैं; निवेश से पहले स्वयं पुष्टि करें।</div>
+
+  <h3 class="red" style="margin-top:20px;">📉 Downtrend Confirmed Signals (Entry के करीब वाले सबसे ऊपर)</h3>
+  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>ट्रेंड</th><th>भाव</th><th>Entry</th><th>SL</th><th>Target</th><th>Signal</th></tr></thead><tbody id="downtrendConfirmedBody"><tr><td colspan="7" class="empty-row">कोई सिग्नल नहीं मिला।</td></tr></tbody></table></div>
   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। सिग्नल केवल तकनीकी विश्लेषण आधारित हैं; निवेश से पहले स्वयं पुष्टि करें।</div>
 
   <h3 style="margin-top:20px;">📋 सभी फ्यूचर स्टॉक्स की स्थिति</h3>
@@ -615,7 +619,7 @@ $('demoSymbol').addEventListener('input',()=>{
 $('demoSymbol').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();clearTimeout(demoQuoteTimer);getDemoQuote().catch(err=>{$('demoQuote').textContent=err.message;$('demoQuote').className='trade-status error';});}});
 $('demoSymbol').addEventListener('change',()=>{clearTimeout(demoQuoteTimer);getDemoQuote().catch(err=>{$('demoQuote').textContent=err.message;$('demoQuote').className='trade-status error';});});
 $('demoGetQuote').addEventListener('click',async()=>{try{await getDemoQuote();}catch(e){$('demoQuote').textContent=e.message;$('demoQuote').className='trade-status error';}});
-$('demoOrderType').addEventListener('change',()=>{$('demoLimitPrice').disabled=$('demoOrderType').value!=='LIMIT';if($('demoOrderType').value==='MARKET')$('demoLimitPrice').value='';});
+$('demoOrderType').addEventListener('change',()=>{$('demoLimitPrice').disabled=$('demoOrderType').value!=='LIMIT' && $('demoOrderType').value!=='AMO' && $('demoOrderType').value!=='PMO';if($('demoOrderType').value==='MARKET')$('demoLimitPrice').value='';});
 $('demoOrderType').dispatchEvent(new Event('change'));
 function demoExecute(d,order,price){
  const sym=order.symbol,qty=Number(order.qty);let p=d.positions[sym]||{qty:0,avg:0,openedAt:'',lastTradeDate:''};let realized=0;
@@ -634,20 +638,61 @@ async function submitDemoOrder(side){
  const btn=side==='BUY'?$('demoBuy'):$('demoSell');btn.disabled=true;
  try{
   const quote=await getDemoQuote($('demoSymbol').value,true);const qty=Number($('demoQty').value);if(!Number.isInteger(qty)||qty<1)throw new Error('Quantity कम से कम 1 पूर्ण संख्या होनी चाहिए।');
-  const type=$('demoOrderType').value,limit=Number($('demoLimitPrice').value);if(type==='LIMIT'&&(!Number.isFinite(limit)||limit<=0))throw new Error('Limit Order के लिए वैध Limit Price भरें।');
-  const d=demoLoad();if(side==='SELL' && Number((d.positions[quote.symbol]||{}).qty||0)<qty)throw new Error(`SELL के लिए पर्याप्त शेयर नहीं हैं। उपलब्ध मात्रा: ${Number((d.positions[quote.symbol]||{}).qty||0)}`);const order={id:'D'+Date.now()+Math.random().toString(36).slice(2,6),symbol:quote.symbol,side,type,qty,price:type==='MARKET'?quote.price:limit,status:'PENDING',createdAt:new Date().toISOString(),realized:0};
-  if(type==='MARKET'){demoExecute(d,order,quote.price);d.orders.unshift(order);demoSave(d);$('demoMessage').className='trade-status';$('demoMessage').textContent=`DEMO ${side} EXECUTED: ${qty} ${quote.symbol} @ ${fmtINR(quote.price)}. यह वास्तविक ट्रेड नहीं है।`;}
-  else{d.orders.unshift(order);demoSave(d);$('demoMessage').className='trade-status';$('demoMessage').textContent=`LIMIT ${side} ORDER दर्ज हुआ। Limit price market condition पूरी होने पर ही Demo में execute होगा।`;}
+  const type=$('demoOrderType').value,limit=Number($('demoLimitPrice').value);
+  if((type==='LIMIT'||type==='AMO'||type==='PMO')&&(!Number.isFinite(limit)||limit<=0))throw new Error('इस Order Type के लिए वैध Price भरें।');
+  
+  const d=demoLoad();
+  if(side==='SELL' && Number((d.positions[quote.symbol]||{}).qty||0)<qty)throw new Error(`SELL के लिए पर्याप्त शेयर नहीं हैं। उपलब्ध मात्रा: ${Number((d.positions[quote.symbol]||{}).qty||0)}`);
+  
+  const order={id:'D'+Date.now()+Math.random().toString(36).slice(2,6),symbol:quote.symbol,side,type,qty,price:type==='MARKET'?quote.price:limit,status:'PENDING',createdAt:new Date().toISOString(),realized:0};
+  
+  // Check Indian Market Hours (9:15 AM to 3:30 PM IST)
+  const nowIST = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
+  const currentHour = nowIST.getHours();
+  const currentMinute = nowIST.getMinutes();
+  const currentTimeVal = currentHour * 60 + currentMinute;
+  const marketOpenVal = 9 * 60 + 15;
+  const marketCloseVal = 15 * 60 + 30;
+  const isMarketOpen = currentTimeVal >= marketOpenVal && currentTimeVal <= marketCloseVal;
+
+  if(type==='MARKET' && isMarketOpen){
+   demoExecute(d,order,quote.price);d.orders.unshift(order);demoSave(d);$('demoMessage').className='trade-status';$('demoMessage').textContent=`DEMO ${side} EXECUTED: ${qty} ${quote.symbol} @ ${fmtINR(quote.price)}. यह वास्तविक ट्रेड नहीं है।`;
+  } else if(type==='AMO' || type==='PMO' || !isMarketOpen){
+   order.status='PENDING';
+   d.orders.unshift(order);demoSave(d);$('demoMessage').className='trade-status';$('demoMessage').textContent=`${type} ORDER सफलतापर्वक दर्ज हुआ। बाजार खुलने पर या लिमिट मूल्य आने पर यह निष्पादित होगा।`;
+  } else {
+   d.orders.unshift(order);demoSave(d);$('demoMessage').className='trade-status';$('demoMessage').textContent=`LIMIT ${side} ORDER दर्ज हुआ। भाव आने पर निष्पादित होगा।`;
+  }
   renderDemoTrading();
  }catch(e){$('demoMessage').className='trade-status error';$('demoMessage').textContent=e.message;}
  finally{btn.disabled=false;}
 }
 $('demoBuy').addEventListener('click',()=>submitDemoOrder('BUY'));$('demoSell').addEventListener('click',()=>submitDemoOrder('SELL'));
 async function checkDemoLimits(){
- const d=demoLoad(),pending=d.orders.filter(o=>o.status==='PENDING');if(!pending.length){$('demoMessage').textContent='कोई Pending Limit Order नहीं है। गाड़ी चालू है।';return;}
+ const d=demoLoad(),pending=d.orders.filter(o=>o.status==='PENDING');if(!pending.length){$('demoMessage').textContent='कोई Pending Order नहीं है।';return;}
  $('demoRefreshOrders').disabled=true;let executed=0,issues=[];
- try{for(const o of pending){try{const q=await getDemoQuote(o.symbol,true);const eligible=o.side==='BUY'?q.price<=Number(o.price):q.price>=Number(o.price);if(eligible){demoExecute(d,o,q.price);executed++;}}catch(e){issues.push(o.symbol+': '+e.message);}}
-  demoSave(d);renderDemoTrading();$('demoMessage').className=issues.length?'trade-status error':'trade-status';$('demoMessage').textContent=`Pending orders जाँचे गए। Demo में execute हुए: ${executed}; बाकी अभी pending हैं।`+(issues.length?'\n'+issues.join('\n'):'');
+ try{
+  const nowIST = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
+  const currentTimeVal = nowIST.getHours() * 60 + nowIST.getMinutes();
+  const marketOpenVal = 9 * 60 + 15;
+  const marketCloseVal = 15 * 60 + 30;
+  const isMarketOpen = currentTimeVal >= marketOpenVal && currentTimeVal <= marketCloseVal;
+
+  for(const o of pending){
+   try{
+    const q=await getDemoQuote(o.symbol,true);
+    let eligible = false;
+    if(o.type==='MARKET' && isMarketOpen) eligible = true;
+    else if(o.type==='AMO' || o.type==='PMO'){
+     if(o.side==='BUY' && q.price<=Number(o.price)) eligible = true;
+     if(o.side==='SELL' && q.price>=Number(o.price)) eligible = true;
+    } else {
+     eligible = o.side==='BUY'?q.price<=Number(o.price):q.price>=Number(o.price);
+    }
+    if(eligible){demoExecute(d,o,q.price);executed++;}
+   }catch(e){issues.push(o.symbol+': '+e.message);}
+  }
+  demoSave(d);renderDemoTrading();$('demoMessage').className=issues.length?'trade-status error':'trade-status';$('demoMessage').textContent=`Orders जाँचे गए। Execute हुए: ${executed}; बाकी pending हैं।`+(issues.length?'\n'+issues.join('\n'):'');
  }finally{$('demoRefreshOrders').disabled=false;}
 }
 $('demoRefreshOrders').addEventListener('click',checkDemoLimits);
@@ -695,8 +740,8 @@ async function fetchGainersLosers(){
     <td><b>${esc(x.symbol)}</b></td>
     <td>₹${fmt(x.current)}</td>
     <td class="${x.p_change>=0?'green':'red'}"><b>${x.p_change>=0?'+':''}${fmt(x.p_change)}%</b></td>
-    <td>${esc((x.daily_sup||[]).join(', ') || '-')} / ${esc((x.daily_res||[]).join(', ') || '-')}</td>
-    <td>${esc((x.hourly_sup||[]).join(', ') || '-')} / ${esc((x.hourly_res||[]).join(', ') || '-')}</td>
+    <td>${esc((x.daily_sup||[]).map(v=>Math.round(v)).join(', ') || '-')} / ${esc((x.daily_res||[]).map(v=>Math.round(v)).join(', ') || '-')}</td>
+    <td>${esc((x.hourly_sup||[]).map(v=>Math.round(v)).join(', ') || '-')} / ${esc((x.hourly_res||[]).map(v=>Math.round(v)).join(', ') || '-')}</td>
    </tr>`).join('');
   };
   $('gainersBody').innerHTML = renderRows(d.gainers);
@@ -712,15 +757,30 @@ async function fetchScreenerStatus(){
   $('progBar').style.width = (d.progress || 0) + '%';
   $('screenerStatus').textContent = `स्थिति: ${d.status} | प्रगति: ${d.completed}/${d.total} (${d.progress}%)`;
   
-  const confBody = $('confirmedBody');
-  if(!d.confirmed || !d.confirmed.length){confBody.innerHTML='<tr><td colspan="7" class="empty-row">कोई सिग्नल नहीं मिला।</td></tr>';}
+  const uptrendBody = $('uptrendConfirmedBody');
+  const downtrendBody = $('downtrendConfirmedBody');
+  
+  const uptrendList = (d.confirmed || []).filter(r => r.trend === 'UPTREND');
+  const downtrendList = (d.confirmed || []).filter(r => r.trend === 'DOWNTREND');
+
+  if(!uptrendList.length){uptrendBody.innerHTML='<tr><td colspan="7" class="empty-row">कोई Uptrend सिग्नल नहीं मिला।</td></tr>';}
   else{
-   confBody.innerHTML = d.confirmed.map(r=>`<tr>
-    <td><b>${esc(r.symbol)}</b></td><td class="${r.trend==='UPTREND'?'green':'red'}">${esc(r.trend)}</td>
+   uptrendBody.innerHTML = uptrendList.map(r=>`<tr>
+    <td><b>${esc(r.symbol)}</b></td><td class="green">${esc(r.trend)}</td>
     <td>₹${fmt(r.current)}</td><td>₹${fmt(r.entry)}</td><td class="red">₹${fmt(r.sl)}</td><td class="green">₹${fmt(r.target)}</td>
     <td><span class="tag">${esc(r.signal)}</span></td>
    </tr>`).join('');
   }
+
+  if(!downtrendList.length){downtrendBody.innerHTML='<tr><td colspan="7" class="empty-row">कोई Downtrend सिग्नल नहीं मिला।</td></tr>';}
+  else{
+   downtrendBody.innerHTML = downtrendList.map(r=>`<tr>
+    <td><b>${esc(r.symbol)}</b></td><td class="red">${esc(r.trend)}</td>
+    <td>₹${fmt(r.current)}</td><td>₹${fmt(r.entry)}</td><td class="red">₹${fmt(r.sl)}</td><td class="green">₹${fmt(r.target)}</td>
+    <td><span class="tag">${esc(r.signal)}</span></td>
+   </tr>`).join('');
+  }
+
   const allBody = $('allStocksBody');
   if(d.results && d.results.length){
    allBody.innerHTML = d.results.map(r=>`<tr>
@@ -1175,8 +1235,9 @@ def run_futures_scan():
                     sl = round(entry * 1.01, 2)
                     target = h_ll
                     signal = "SELL VALID"
-                    trend_label = "Downtrend"
+                    trend_label = "DOWNTREND"
                 
+                dist = abs(price - entry)
                 results.append({
                     "symbol": clean_name,
                     "current": round(price, 2),
@@ -1192,7 +1253,8 @@ def run_futures_scan():
                     "sl": round(sl, 2),
                     "target": round(target, 2),
                     "signal": signal,
-                    "status": "Active Setup"
+                    "status": "Active Setup",
+                    "dist_to_entry": dist
                 })
         except Exception:
             pass
@@ -1202,7 +1264,11 @@ def run_futures_scan():
     
     results.sort(key=lambda x: x["p_change"], reverse=True)
     SCAN_STATE["results"] = results
-    SCAN_STATE["confirmed"] = [r for r in results if r["signal"] in ["BUY VALID", "SELL VALID"]]
+    
+    confirmed = [r for r in results if r["signal"] in ["BUY VALID", "SELL VALID"]]
+    confirmed.sort(key=lambda x: x["dist_to_entry"])
+    SCAN_STATE["confirmed"] = confirmed
+    
     SCAN_STATE["gainers"] = results[:5]
     losers = results[-5:]
     losers.reverse()
