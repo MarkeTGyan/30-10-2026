@@ -227,7 +227,7 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
 <div id="savedTab" class="tab-content">
   <div class="panel">
     <h2>🗂️ पूर्व विश्लेषण के लिए डाले गए सभी स्टॉक्स</h2>
-    <p class="copy">यहाँ उन स्टॉक्स का रिकॉर्ड दिखाई देगा जिनका विश्लेषण सफलतापूर्वक किया गया है। नवीनतम विश्लेषण ऊपर दिखेगा। किसी स्टॉक को दोबारा देखने के लिए <b>फिर देखें</b> और रिकॉर्ड हटाने के लिए <b>Delete</b> दबाएँ। रिकॉर्ड इसी ब्राउज़र के Local Storage में रहता है।</p>
+    <p class="copy">यहाँ उन स्टॉक्स का रिकॉर्ड दिखाई देगा जिनका विश्लेषण सफलतापूर्वक किया गया है। नवीनतम विश्लेषण ऊपर दिखेगा। किसी स्टॉक को दोबारा देखने के लिए <b>फिर देखें</b> और रिकॉर्ड हटाने के लिए <b>Delete</b> दबाएँ।</p>
     <div id="savedStockMessage" class="hint"></div>
     <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>कंपनी / स्टॉक</th><th>अंतिम भाव</th><th>दैनिक बदलाव</th><th>Daily Support</th><th>Daily Resistance</th><th>1HR Support</th><th>1HR Resistance</th><th>ट्रेंड</th><th>विश्लेषण समय</th><th>विकल्प</th></tr></thead><tbody id="savedStocksBody"><tr><td colspan="10" class="empty-row">अभी कोई स्टॉक सेव नहीं है।</td></tr></tbody></table></div>
     <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह सहेजा गया रिकॉर्ड केवल व्यक्तिगत शैक्षिक समीक्षा के लिए है।</div>
@@ -255,7 +255,11 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
     <div class="trade-field"><label for="historyFromDate">From Date</label><input type="date" id="historyFromDate"></div>
     <div class="trade-field"><label for="historyToDate">To Date</label><input type="date" id="historyToDate"></div>
     <div class="trade-field"><label for="historyStockSearch">Stock Filter (Symbol/Name)</label><input type="text" id="historyStockSearch" placeholder="जैसे RELIANCE, TCS"></div>
-    <div class="trade-actions"><button id="filterHistoryBtn" type="button" class="neutral-btn">🔍 Filter करें</button><button id="refreshActiveHistory" type="button" class="neutral-btn">↻ History अपडेट करें</button></div>
+    <div class="trade-actions">
+      <button id="filterHistoryBtn" type="button" class="neutral-btn">🔍 Filter करें</button>
+      <button id="clearHistoryFilterBtn" type="button" class="sell-btn">❌ Filter Clear</button>
+      <button id="refreshActiveHistory" type="button" class="neutral-btn">↻ History अपडेट करें</button>
+    </div>
    </div>
    <div id="activeHistoryStatus" class="trade-status" style="margin-top:12px">तारीख के अनुसार सेव की गई सूची लोड की जा रही है…</div>
    <div id="activeHistoryBody" style="margin-top:14px"><div class="empty-row">History अभी लोड नहीं हुई।</div></div>
@@ -268,7 +272,7 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
 <div id="demoTradeTab" class="tab-content">
  <div class="panel">
   <h2>💹 Professional Demo Trading Terminal</h2>
-  <div class="trade-note"><b>DEMO / PAPER TRADING ONLY:</b> शुरुआती वर्चुअल कैश ₹1,00,000 है। रिकॉर्ड इसी ब्राउज़र के Local Storage में सुरक्षित रहेगा। भाव और P&L हर 3 सेकंड में स्वतः लाइव अपडेट होते हैं।</div>
+  <div class="trade-note"><b>DEMO / PAPER TRADING ONLY:</b> शुरुआती वर्चुअल कैश ₹1,00,000 है। भाव और P&L हर 3 सेकंड में स्वतः लाइव अपडेट होते हैं।</div>
   <div class="trade-metrics" style="margin-top:14px">
    <div class="trade-metric"><small>Available Cash</small><strong id="demoCash">₹1,00,000</strong></div>
    <div class="trade-metric"><small>Portfolio Value</small><strong id="demoPortfolioValue">₹0</strong></div>
@@ -284,7 +288,7 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
    <div class="trade-field"><label for="demoOrderType">Order Type</label><select id="demoOrderType"><option value="MARKET">Market</option><option value="LIMIT">Limit</option></select></div>
    <div class="trade-field"><label for="demoQty">Quantity</label><input id="demoQty" type="number" min="1" step="1" value="1"></div>
    <div class="trade-field"><label for="demoLimitPrice">Limit Price (₹)</label><input id="demoLimitPrice" type="number" min="0.01" step="0.05" placeholder="केवल Limit Order"></div>
-   <div class="trade-field"><label>Live / Latest Quote</label><div id="demoQuote" class="trade-status">भाव प्राप्त नहीं हुआ</div></div>
+   <div class="trade-field"><label>Live Quote</label><div id="demoQuote" class="trade-status">भाव प्राप्त नहीं हुआ</div></div>
   </div>
   <div class="trade-actions"><button type="button" id="demoGetQuote" class="neutral-btn">↻ भाव प्राप्त करें</button><button type="button" id="demoBuy" class="buy-btn">BUY / Place Order</button><button type="button" id="demoSell" class="sell-btn">SELL / Place Order</button><button type="button" id="demoRefreshOrders">Limit Orders जाँचें</button></div>
   <div id="demoMessage" class="hint" aria-live="polite"></div>
@@ -558,7 +562,7 @@ function renderActiveHistory(items){
  
  root.innerHTML=filtered.map(day=>{
   const rows=Array.isArray(day.data)?day.data:[];
-  if(!rows.length && searchTerm) return ''; // Skip if filtered out completely by stock search on this date
+  if(!rows.length && searchTerm) return '';
   const tableRows=rows.map((x,i)=>{const ch=Number(x.change_pct);return `<tr><td>${i+1}</td><td><b>${esc(x.name||x.symbol||'—')}</b><br><span class="tag">${esc(x.symbol||'')}</span></td><td>${fmtINR(x.close)}</td><td class="${ch>0?'green':ch<0?'red':''}">${Number.isFinite(ch)?(ch>0?'+':'')+ch.toFixed(2)+'%':'—'}</td><td>${fmtVol(x.volume)}</td></tr>`}).join('');
   return `<section class="history-day"><h3>📅 ${esc(day.date||'तारीख उपलब्ध नहीं')}</h3><div class="history-meta">सेव समय: ${esc(day.saved_at||'—')} • स्टॉक: ${rows.length}</div><div class="active-table-wrap"><table class="active-table"><thead><tr><th>Rank</th><th>स्टॉक / कंपनी</th><th>Close ₹</th><th>Change %</th><th>Volume</th></tr></thead><tbody>${tableRows||'<tr><td colspan="5" class="empty-row">इस तारीख का डेटा उपलब्ध नहीं है।</td></tr>'}</tbody></table></div></section>`;
  }).join('');
@@ -580,6 +584,12 @@ async function fetchActiveHistory(){
 }
 $('refreshActiveHistory').addEventListener('click',fetchActiveHistory);
 $('filterHistoryBtn').addEventListener('click',()=>renderActiveHistory(globalActiveHistory));
+$('clearHistoryFilterBtn').addEventListener('click',()=>{
+ $('historyFromDate').value = '';
+ $('historyToDate').value = '';
+ $('historyStockSearch').value = '';
+ renderActiveHistory(globalActiveHistory);
+});
 
 const DEMO_KEY='markeTGyan_demo_trade_v1';
 const DEMO_START_CASH=100000;
@@ -594,7 +604,7 @@ async function getDemoQuote(symbol,quiet=false){
  const requestId=++demoQuoteRequest;
  if(!quiet){$('demoQuote').textContent='भाव लोड हो रहा है…';$('demoQuote').className='trade-status';$('demoMessage').textContent='';}
  const r=await fetch('/api/demo/quote?symbol='+encodeURIComponent(query));const d=await r.json();if(requestId!==demoQuoteRequest)throw new Error('नया symbol दर्ज किया गया है; उसी का भाव प्राप्त करें।');if(!r.ok||d.error||!(Number(d.price)>0))throw new Error(d.error||'वैध भाव उपलब्ध नहीं है।');
- const sym=String(d.symbol||query).toUpperCase().replace(/\.NS$/,'');demoQuotes[sym]=Number(d.price);$('demoSymbol').value=sym;$('demoQuote').textContent=fmtINR(d.price)+' • '+(d.as_of||'Latest available')+' • '+(d.source||'Yahoo Finance');$('demoQuote').className='trade-status';renderDemoTrading();return {symbol:sym,price:Number(d.price),as_of:d.as_of||''};
+ const sym=String(d.symbol||query).toUpperCase().replace(/\.NS$/,'');demoQuotes[sym]=Number(d.price);$('demoSymbol').value=sym;$('demoQuote').textContent=fmtINR(d.price);$('demoQuote').className='trade-status';renderDemoTrading();return {symbol:sym,price:Number(d.price),as_of:d.as_of||''};
 }
 $('demoSymbol').addEventListener('input',()=>{
  clearTimeout(demoQuoteTimer);demoQuoteRequest++;const q=$('demoSymbol').value.trim();
@@ -1098,6 +1108,18 @@ def demo_quote():
 # =====================================================
 SCAN_STATE = {"results": [], "confirmed": [], "gainers": [], "losers": [], "status": "READY", "completed": 0, "total": len(STOCK_UNIVERSE), "progress": 0, "running": False}
 
+def find_dow_pivots(series_high, series_low):
+    highs = []
+    lows = []
+    for i in range(2, len(series_high) - 2):
+        if series_high.iloc[i] >= series_high.iloc[i-1] and series_high.iloc[i] >= series_high.iloc[i-2] and \
+           series_high.iloc[i] >= series_high.iloc[i+1] and series_high.iloc[i] >= series_high.iloc[i+2]:
+            highs.append(series_high.iloc[i])
+        if series_low.iloc[i] <= series_low.iloc[i-1] and series_low.iloc[i] <= series_low.iloc[i-2] and \
+           series_low.iloc[i] <= series_low.iloc[i+1] and series_low.iloc[i] <= series_low.iloc[i+2]:
+            lows.append(series_low.iloc[i])
+    return highs, lows
+
 def run_futures_scan():
     global SCAN_STATE
     SCAN_STATE["running"] = True
@@ -1110,33 +1132,67 @@ def run_futures_scan():
         clean_name = sym.replace(".NS", "")
         try:
             ticker = yf.Ticker(sym)
-            hist = ticker.history(period="1y", interval="1d", auto_adjust=False)
-            if hist is not None and not hist.empty and len(hist) > 5:
+            hist = ticker.history(period="6mo", interval="1d", auto_adjust=False)
+            hist_1h = ticker.history(period="1mo", interval="60m", auto_adjust=False)
+            
+            if hist is not None and not hist.empty and len(hist) > 10:
                 close = hist["Close"].dropna()
                 price = float(close.iloc[-1])
                 prev = float(close.iloc[-2]) if len(close) > 1 else price
                 chg = ((price / prev) - 1) * 100 if prev else 0.0
                 
-                last_closes = close.tail(20)
-                s_daily = clean_num(last_closes.iloc[:-1].min())
-                r_daily = clean_num(last_closes.iloc[:-1].max())
+                d_highs, d_lows = find_dow_pivots(hist["High"], hist["Low"])
+                is_uptrend = False
+                is_downtrend = False
+                
+                if len(d_highs) >= 2 and len(d_lows) >= 2:
+                    if d_highs[-1] > d_highs[-2] and d_lows[-1] > d_lows[-2]:
+                        is_uptrend = True
+                    elif d_highs[-1] < d_highs[-2] and d_lows[-1] < d_lows[-2]:
+                        is_downtrend = True
+                
+                if not is_uptrend and not is_downtrend:
+                    if chg >= 0: is_uptrend = True
+                    else: is_downtrend = True
+                
+                h_highs, h_lows = [], []
+                if hist_1h is not None and not hist_1h.empty and len(hist_1h) > 10:
+                    h_highs, h_lows = find_dow_pivots(hist_1h["High"], hist_1h["Low"])
+                
+                h_hl = h_lows[-1] if len(h_lows) > 0 else clean_num(close.iloc[-1] * 0.98)
+                h_hh = h_highs[-1] if len(h_highs) > 0 else clean_num(close.iloc[-1] * 1.02)
+                h_lh = h_highs[-1] if len(h_highs) > 0 else clean_num(close.iloc[-1] * 1.01)
+                h_ll = h_lows[-1] if len(h_lows) > 0 else clean_num(close.iloc[-1] * 0.99)
+                
+                if is_uptrend:
+                    entry = h_hl
+                    sl = round(entry * 0.99, 2)
+                    target = h_hh
+                    signal = "BUY VALID"
+                    trend_label = "UPTREND"
+                else:
+                    entry = h_lh
+                    sl = round(entry * 1.01, 2)
+                    target = h_ll
+                    signal = "SELL VALID"
+                    trend_label = "Downtrend"
                 
                 results.append({
                     "symbol": clean_name,
                     "current": round(price, 2),
                     "p_change": round(chg, 2),
-                    "daily_sup": [s_daily] if s_daily else [],
-                    "daily_res": [r_daily] if r_daily else [],
-                    "hourly_sup": [round(price * 0.99, 2)],
-                    "hourly_res": [round(price * 1.01, 2)],
-                    "trend": "UPTREND" if chg >= 0 else "DOWNTREND",
-                    "hh": r_daily or round(price * 1.02, 2),
-                    "hl": s_daily or round(price * 0.98, 2),
-                    "entry": round(price, 2),
-                    "sl": s_daily or round(price * 0.98, 2),
-                    "target": r_daily or round(price * 1.02, 2),
-                    "signal": "BUY VALID" if chg > 0 else "WAIT",
-                    "status": "Active Setup" if chg > 0 else "Consolidating"
+                    "daily_sup": [d_lows[-1]] if d_lows else [],
+                    "daily_res": [d_highs[-1]] if d_highs else [],
+                    "hourly_sup": [h_hl],
+                    "hourly_res": [h_hh],
+                    "trend": trend_label,
+                    "hh": d_highs[-1] if d_highs else round(price * 1.02, 2),
+                    "hl": d_lows[-1] if d_lows else round(price * 0.98, 2),
+                    "entry": round(entry, 2),
+                    "sl": round(sl, 2),
+                    "target": round(target, 2),
+                    "signal": signal,
+                    "status": "Active Setup"
                 })
         except Exception:
             pass
@@ -1146,7 +1202,7 @@ def run_futures_scan():
     
     results.sort(key=lambda x: x["p_change"], reverse=True)
     SCAN_STATE["results"] = results
-    SCAN_STATE["confirmed"] = [r for r in results if r["signal"] == "BUY VALID"]
+    SCAN_STATE["confirmed"] = [r for r in results if r["signal"] in ["BUY VALID", "SELL VALID"]]
     SCAN_STATE["gainers"] = results[:5]
     losers = results[-5:]
     losers.reverse()
