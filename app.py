@@ -80,8 +80,8 @@ h1{font-size:clamp(26px,4.3vw,42px);line-height:1.2;letter-spacing:-.4px;margin:
 .panel{background:rgba(255,255,255,.96);border:1px solid #dce6f0;border-radius:18px;padding:clamp(14px,2.2vw,22px);margin:16px 0;box-shadow:0 5px 18px rgba(45,76,112,.07)}
 .panel h2{color:#284d77}
 form{display:flex;gap:10px;flex-wrap:wrap}
-input{flex:1;min-width:min(210px,100%);background:#fbfdff;color:#26364a;border:1.5px solid #c6d6e7;border-radius:12px;padding:15px;font-size:17px;min-height:50px;outline:none;transition:border-color .2s,box-shadow .2s}
-input:focus{border-color:#4b8ed8;box-shadow:0 0 0 3px rgba(75,142,216,.15)}
+input,select{flex:1;min-width:min(210px,100%);background:#fbfdff;color:#26364a;border:1.5px solid #c6d6e7;border-radius:12px;padding:15px;font-size:17px;min-height:50px;outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus{border-color:#4b8ed8;box-shadow:0 0 0 3px rgba(75,142,216,.15)}
 button{border:0;border-radius:12px;padding:13px 19px;background:linear-gradient(135deg,#f9d976,#f0bd46);color:#28364a;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 3px 8px rgba(150,117,34,.13);transition:transform .15s,filter .15s;min-height:46px}
 button:hover{filter:brightness(.98);transform:translateY(-1px)}button:active{transform:translateY(0)}button:focus-visible{outline:3px solid #4b8ed8;outline-offset:2px}button:disabled{opacity:.65;cursor:wait;transform:none}
 .hint{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.6}
@@ -238,10 +238,10 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
 <div id="active20Tab" class="tab-content">
  <div class="panel">
   <h2>📈 Active Stocks Screener</h2>
-  <p class="copy">बाजार के वास्तविक तकनीकी मानदंडों के आधार पर सक्रिय स्टॉक लिए जाते हैं और Volume के घटते क्रम में अधिकतम 20 स्टॉक दिखते हैं।</p>
+  <p class="copy">बाजार के वास्तविक तकनीकी मानदंडों के आधार पर सक्रिय स्टॉक लिए जाते हैं।</p>
   <div class="demo-subtabs active-subtabs">
    <button type="button" class="active" data-active-subtab="activeCurrentPanel">आज के Active Stocks</button>
-   <button type="button" data-active-subtab="activeHistoryPanel">📚 Daily History</button>
+   <button type="button" data-active-subtab="activeHistoryPanel">📚 Active Stocks History</button>
   </div>
   <div id="activeCurrentPanel">
    <div class="trade-actions"><button id="refreshActive20" type="button" class="neutral-btn">↻ अभी सूची अपडेट करें</button></div>
@@ -251,7 +251,12 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह स्क्रीनर परिणाम केवल शैक्षिक अध्ययन के लिए हैं।</div>
   </div>
   <div id="activeHistoryPanel" style="display:none">
-   <div class="trade-actions"><button id="refreshActiveHistory" type="button" class="neutral-btn">↻ History अपडेट करें</button></div>
+   <div class="trade-toolbar" style="margin-bottom:14px;">
+    <div class="trade-field"><label for="historyFromDate">From Date</label><input type="date" id="historyFromDate"></div>
+    <div class="trade-field"><label for="historyToDate">To Date</label><input type="date" id="historyToDate"></div>
+    <div class="trade-field"><label for="historyStockSearch">Stock Filter (Symbol/Name)</label><input type="text" id="historyStockSearch" placeholder="जैसे RELIANCE, TCS"></div>
+    <div class="trade-actions"><button id="filterHistoryBtn" type="button" class="neutral-btn">🔍 Filter करें</button><button id="refreshActiveHistory" type="button" class="neutral-btn">↻ History अपडेट करें</button></div>
+   </div>
    <div id="activeHistoryStatus" class="trade-status" style="margin-top:12px">तारीख के अनुसार सेव की गई सूची लोड की जा रही है…</div>
    <div id="activeHistoryBody" style="margin-top:14px"><div class="empty-row">History अभी लोड नहीं हुई।</div></div>
    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। ऐतिहासिक सूची केवल पिछले डेटा के अवलोकन हेतु है।</div>
@@ -503,16 +508,18 @@ $('stockForm').addEventListener('submit',async e=>{
 });
 
 let active20Loaded=false;
+let globalActiveHistory = [];
+
 function fmtINR(v){return '₹'+Number(v||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function fmtVol(v){return Number(v||0).toLocaleString('en-IN',{maximumFractionDigits:0})}
 function renderActive20(rows){
  const body=$('active20Body');
  if(!Array.isArray(rows)||!rows.length){body.innerHTML='<tr><td colspan="5" class="empty-row">इस समय कोई परिणाम उपलब्ध नहीं है।</td></tr>';return;}
- body.innerHTML=rows.slice(0,20).map((x,i)=>{const ch=Number(x.change_pct);return `<tr><td><span class="active-rank">${i+1}</span></td><td><b>${esc(x.name||x.symbol||'—')}</b><br><span class="tag">${esc(x.symbol||'')}</span></td><td>${fmtINR(x.close)}</td><td class="${ch>0?'green':ch<0?'red':''}">${Number.isFinite(ch)?(ch>0?'+':'')+ch.toFixed(2)+'%':'—'}</td><td><b>${fmtVol(x.volume)}</b></td></tr>`}).join('');
+ body.innerHTML=rows.map((x,i)=>{const ch=Number(x.change_pct);return `<tr><td><span class="active-rank">${i+1}</span></td><td><b>${esc(x.name||x.symbol||'—')}</b><br><span class="tag">${esc(x.symbol||'')}</span></td><td>${fmtINR(x.close)}</td><td class="${ch>0?'green':ch<0?'red':''}">${Number.isFinite(ch)?(ch>0?'+':'')+ch.toFixed(2)+'%':'—'}</td><td><b>${fmtVol(x.volume)}</b></td></tr>`}).join('');
 }
 async function fetchActive20Stocks(){
  const b=$('refreshActive20');b.disabled=true;$('active20Status').className='trade-status';$('active20Status').textContent='सक्रिय सूची प्राप्त की जा रही है…';
- try{const r=await fetch('/api/screener/active20?refresh=1',{headers:{'Accept':'application/json'}});const raw=await r.text();let d;try{d=JSON.parse(raw)}catch(parseErr){const isHtml=/^\s*</.test(raw);throw new Error(isHtml?`सर्वर ने JSON के बजाय HTML लौटाया (HTTP ${r.status})।`: `सर्वर का उत्तर JSON नहीं है (HTTP ${r.status})।`)}if(!r.ok||d.error)throw new Error(d.error||`डेटा प्राप्त नहीं हुआ (HTTP ${r.status})`);renderActive20(d.data||[]);$('active20Status').textContent=(d.data||[]).length?`सफल: ${(d.data||[]).length} स्टॉक मिले। Volume घटते क्रम में सूची दिखाई गई है।`:'इस समय कोई परिणाम नहीं मिला।';$('active20Time').textContent='अंतिम अपडेट: '+(d.updated_at||new Date().toLocaleString('en-IN'));window.active20Loaded=true;}
+ try{const r=await fetch('/api/screener/active20?refresh=1',{headers:{'Accept':'application/json'}});const raw=await r.text();let d;try{d=JSON.parse(raw)}catch(parseErr){const isHtml=/^\s*</.test(raw);throw new Error(isHtml?`सर्वर ने JSON के बजाय HTML लौटाया (HTTP ${r.status})।`: `सर्वर का उत्तर JSON नहीं है (HTTP ${r.status})।`)}if(!r.ok||d.error)throw new Error(d.error||`डेटा प्राप्त नहीं हुआ (HTTP ${r.status})`);renderActive20(d.data||[]);$('active20Status').textContent=(d.data||[]).length?`सफल: ${(d.data||[]).length} स्टॉक मिले।`:'इस समय कोई परिणाम नहीं मिला।';$('active20Time').textContent='अंतिम अपडेट: '+(d.updated_at||new Date().toLocaleString('en-IN'));window.active20Loaded=true;}
  catch(e){$('active20Status').className='trade-status error';$('active20Status').textContent='डेटा नहीं मिल पाया: '+e.message+'\nकृपया बाद में पुनः प्रयास करें।';$('active20Body').innerHTML='<tr><td colspan="5" class="empty-row">डेटा उपलब्ध नहीं है।</td></tr>';}
  finally{b.disabled=false;}
 }
@@ -528,21 +535,51 @@ document.querySelectorAll('[data-active-subtab]').forEach(b=>b.addEventListener(
 
 function renderActiveHistory(items){
  const root=$('activeHistoryBody');
- if(!Array.isArray(items)||!items.length){root.innerHTML='<div class="empty-row">अभी कोई दैनिक History सेव नहीं है। शाम 4 बजे के बाद डेटा उपलब्ध होने पर यह अपने-आप सेव होगा।</div>';return;}
- root.innerHTML=items.map(day=>{
+ const fromDate = $('historyFromDate').value;
+ const toDate = $('historyToDate').value;
+ const searchTerm = $('historyStockSearch').value.trim().toUpperCase();
+
+ let filtered = items.map(day => {
+  let rows = Array.isArray(day.data) ? day.data : [];
+  if(searchTerm){
+   rows = rows.filter(x => String(x.symbol||'').toUpperCase().includes(searchTerm) || String(x.name||'').toUpperCase().includes(searchTerm));
+  }
+  return {...day, data: rows};
+ });
+
+ if(fromDate){
+  filtered = filtered.filter(day => day.date >= fromDate);
+ }
+ if(toDate){
+  filtered = filtered.filter(day => day.date <= toDate);
+ }
+
+ if(!filtered.length){root.innerHTML='<div class="empty-row">कोई रिकॉर्ड नहीं मिला (चयनित फ़िल्टर के आधार पर)।</div>';return;}
+ 
+ root.innerHTML=filtered.map(day=>{
   const rows=Array.isArray(day.data)?day.data:[];
+  if(!rows.length && searchTerm) return ''; // Skip if filtered out completely by stock search on this date
   const tableRows=rows.map((x,i)=>{const ch=Number(x.change_pct);return `<tr><td>${i+1}</td><td><b>${esc(x.name||x.symbol||'—')}</b><br><span class="tag">${esc(x.symbol||'')}</span></td><td>${fmtINR(x.close)}</td><td class="${ch>0?'green':ch<0?'red':''}">${Number.isFinite(ch)?(ch>0?'+':'')+ch.toFixed(2)+'%':'—'}</td><td>${fmtVol(x.volume)}</td></tr>`}).join('');
   return `<section class="history-day"><h3>📅 ${esc(day.date||'तारीख उपलब्ध नहीं')}</h3><div class="history-meta">सेव समय: ${esc(day.saved_at||'—')} • स्टॉक: ${rows.length}</div><div class="active-table-wrap"><table class="active-table"><thead><tr><th>Rank</th><th>स्टॉक / कंपनी</th><th>Close ₹</th><th>Change %</th><th>Volume</th></tr></thead><tbody>${tableRows||'<tr><td colspan="5" class="empty-row">इस तारीख का डेटा उपलब्ध नहीं है।</td></tr>'}</tbody></table></div></section>`;
  }).join('');
 }
+
 async function fetchActiveHistory(){
  const b=$('refreshActiveHistory');if(b)b.disabled=true;
- $('activeHistoryStatus').className='trade-status';$('activeHistoryStatus').textContent='दैनिक History लोड हो रही है…';
- try{const r=await fetch('/api/screener/active-stocks/history');const d=await r.json();if(!r.ok||d.error)throw new Error(d.error||'History प्राप्त नहीं हुई');renderActiveHistory(d.history||[]);$('activeHistoryStatus').textContent=`History उपलब्ध: ${(d.history||[]).length} तारीखें। ${d.storage_note||''}`;}
+ $('activeHistoryStatus').className='trade-status';$('activeHistoryStatus').textContent='Active Stocks History लोड हो रही है…';
+ try{
+  const r=await fetch('/api/screener/active-stocks/history');
+  const d=await r.json();
+  if(!r.ok||d.error)throw new Error(d.error||'History प्राप्त नहीं हुई');
+  globalActiveHistory = d.history||[];
+  renderActiveHistory(globalActiveHistory);
+  $('activeHistoryStatus').textContent=`History उपलब्ध: ${globalActiveHistory.length} तारीखें।`;
+ }
  catch(e){$('activeHistoryStatus').className='trade-status error';$('activeHistoryStatus').textContent='History प्राप्त नहीं हुई: '+e.message;}
  finally{if(b)b.disabled=false;}
 }
 $('refreshActiveHistory').addEventListener('click',fetchActiveHistory);
+$('filterHistoryBtn').addEventListener('click',()=>renderActiveHistory(globalActiveHistory));
 
 const DEMO_KEY='markeTGyan_demo_trade_v1';
 const DEMO_START_CASH=100000;
