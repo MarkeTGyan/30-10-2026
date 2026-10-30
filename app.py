@@ -77,15 +77,19 @@ html{scroll-behavior:smooth}
 body{margin:0;background:linear-gradient(135deg,#f8fafc 0%,#eef2f6 100%);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Noto Sans Devanagari",sans-serif;color:var(--text);font-size:15px;line-height:1.6}
 main{width:100%;max-width:1300px;margin:0 auto;padding:clamp(8px, 2vw, 24px)}
 
-/* PROFESSIONAL HEADER */
-header{background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;padding:clamp(16px, 3vw, 28px) clamp(16px, 3vw, 32px);border-radius:16px;margin-bottom:16px;box-shadow:0 10px 25px -5px rgba(15,23,42,0.15)}
-.header-logout-form{display:flex;justify-content:flex-end;margin:0 0 8px}
-.header-logout-btn{background:linear-gradient(135deg,#ef4444,#b91c1c);padding:9px 18px;font-size:14px}
-header .tag{display:inline-block;padding:4px 12px;background:rgba(255,255,255,0.1);color:#38bdf8;border-radius:99px;font-size:12px;font-weight:700;margin-bottom:8px;letter-spacing:0.5px}
-h1{font-size:clamp(22px, 4vw, 36px);line-height:1.2;margin:4px 0 8px;color:#fff;font-weight:800}
-.sub{color:#94a3b8;font-size:clamp(13px, 1.5vw, 15px);line-height:1.5}
+/* PREMIUM PROFESSIONAL HEADER */
+header{position:relative;overflow:hidden;background:linear-gradient(115deg,#071b36 0%,#123f70 48%,#087e8b 100%);color:#fff;padding:clamp(20px, 3.2vw, 34px) clamp(18px, 3vw, 36px);border:1px solid rgba(125,211,252,.28);border-radius:20px;margin-bottom:18px;box-shadow:0 16px 38px rgba(8,47,73,.22)}
+header:before{content:"";position:absolute;width:300px;height:300px;right:-100px;top:-170px;border:1px solid rgba(255,255,255,.18);border-radius:50%;box-shadow:0 0 0 32px rgba(255,255,255,.035),0 0 0 68px rgba(255,255,255,.025);pointer-events:none}
+header:after{content:"";position:absolute;width:180px;height:180px;right:18%;bottom:-145px;border-radius:50%;background:rgba(34,211,238,.13);filter:blur(3px);pointer-events:none}
+.header-logout-form{position:relative;z-index:2;display:flex;justify-content:flex-end;margin:0 0 10px}
+.header-logout-btn{background:linear-gradient(135deg,#fb7185,#dc2626);padding:10px 20px;font-size:14px;border:1px solid rgba(255,255,255,.2);box-shadow:0 7px 18px rgba(127,29,29,.25)}
+header .tag{position:relative;z-index:1;display:inline-flex;align-items:center;padding:6px 14px;background:linear-gradient(90deg,rgba(251,191,36,.2),rgba(34,211,238,.16));border:1px solid rgba(253,230,138,.4);color:#fde68a;border-radius:99px;font-size:12px;font-weight:800;margin-bottom:12px;letter-spacing:1px;text-transform:uppercase}
+header h1{position:relative;z-index:1;font-size:clamp(26px, 4.3vw, 42px);line-height:1.16;margin:4px 0 10px;background:linear-gradient(90deg,#fff 0%,#fde68a 48%,#a5f3fc 100%);-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent;font-weight:900;letter-spacing:-.7px;text-shadow:0 8px 26px rgba(0,0,0,.12)}
+header .sub{position:relative;z-index:1;color:#dbeafe;font-size:clamp(13px, 1.6vw, 16px);line-height:1.7;max-width:850px}
+@media(max-width:600px){header{border-radius:15px;padding:18px}header h1{font-size:27px}.header-logout-btn{padding:8px 14px}}
 
 /* PANELS & CARDS */
+
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:clamp(12px, 2vw, 22px);margin:14px 0;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
 .panel h2{color:#1e293b;font-size:clamp(17px, 2vw, 20px);margin:0 0 12px;display:flex;align-items:center;gap:8px;font-weight:700}
 .panel h3{font-size:16px;font-weight:700;margin:12px 0 8px}
