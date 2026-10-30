@@ -90,9 +90,26 @@ button:hover{filter:brightness(.98);transform:translateY(-1px)}button:active{tra
 .metric small{display:block;color:#5c7086;margin-bottom:7px;font-size:14px}.metric strong{font-size:clamp(20px,2.6vw,25px);overflow-wrap:anywhere;color:#263e5b}
 .green{color:var(--green)!important}.red{color:var(--red)!important}.gold{color:#986b08!important}
 h2{font-size:clamp(19px,2.3vw,23px);line-height:1.35;margin:0 0 14px}h3{margin:0 0 8px}.section{margin-top:22px}.copy{line-height:1.8;color:#40536a}.tag{display:inline-block;padding:6px 11px;border-radius:999px;background:#e6f1ff;color:#285f9d;font-size:13px;font-weight:800;border:1px solid #d2e5fb}
-table{width:100%;border-collapse:separate;border-spacing:0;margin:0 0 18px;background:#fff;border:1px solid #dce6f0;border-radius:12px;overflow:hidden}td,th{text-align:left;border-bottom:1px solid #e5edf5;padding:12px 11px;vertical-align:top;line-height:1.55}th{color:#365674;background:#eef5fc;font-weight:800}tr:last-child td,tr:last-child th{border-bottom:0}tbody tr:nth-child(even){background:#f8fbfe}tbody tr:hover{background:#f0f7ff}
+table{width:100%;border-collapse:separate;border-spacing:0;margin:0 0 12px;background:#fff;border:1px solid #dce6f0;border-radius:12px;overflow:hidden}td,th{text-align:left;border-bottom:1px solid #e5edf5;padding:12px 11px;vertical-align:top;line-height:1.55}th{color:#365674;background:#eef5fc;font-weight:800}tr:last-child td,tr:last-child th{border-bottom:0}tbody tr:nth-child(even){background:#f8fbfe}tbody tr:hover{background:#f0f7ff}
 .error{color:#b52d3a;white-space:pre-wrap;background:var(--soft-red);padding:12px;border-radius:10px}.hidden{display:none}.saved-table-wrap{overflow-x:auto;border-radius:12px;-webkit-overflow-scrolling:touch}.saved-table{min-width:1050px}.saved-actions{display:flex;gap:7px;flex-wrap:wrap}.small-btn{padding:8px 11px;font-size:13px;border-radius:9px;min-height:36px;box-shadow:none;white-space:nowrap}.delete-btn{background:#ffe2e4;color:#9d2631;border:1px solid #f6c4c8}.open-btn{background:#dff5e8;color:#176a43;border:1px solid #b9e6cc}.empty-row{text-align:center;color:var(--muted);padding:22px!important;background:#f8fbfe}
 footer{color:#63768a;font-size:12px;line-height:1.7;padding:18px 0 30px}
+
+/* STYLISH SEBI DISCLAIMER BOX */
+.sebi-disclaimer {
+  background: linear-gradient(135deg, #fffbf0, #fff5d6);
+  border: 1px solid #e6d39c;
+  border-left: 4px solid #d49f13;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #5c4708;
+  line-height: 1.6;
+  margin: 10px 0 18px 0;
+  box-shadow: 0 2px 6px rgba(212, 159, 19, 0.08);
+}
+.sebi-disclaimer b {
+  color: #8c6305;
+}
 
 /* TABS CONTAINER: SCROLLABLE HORIZONTALLY ON MOBILE, COMPACT FOR ALL SCREENS */
 .tab-buttons{display:flex;gap:6px;margin:8px 0 16px;border:0;padding:6px;background:#e5edf6;border-radius:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;box-shadow:inset 0 1px 3px rgba(40,70,105,.06);white-space:nowrap}
@@ -164,14 +181,43 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
   <div class="panel"><div id="company"></div><div id="metrics" class="grid"></div></div>
   <div class="panel"><h2>🧭 Trend और Momentum</h2><div id="trend" class="copy"></div></div>
   
-  <div class="panel"><h2>📊 Daily Support/Resistance</h2><div id="dailyLevels"></div></div>
-  <div class="panel"><h2>📋 डेली S/R आधारित Entry, Stop Loss और Target योजना</h2><div id="dailyTradePlan"></div><p class="copy"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह तालिका केवल शैक्षिक उद्देश्य के लिए उपलब्ध ऐतिहासिक डेटा से बने संभावित स्तर दिखाती है; यह खरीदने/बेचने की व्यक्तिगत सलाह नहीं है। ट्रेड से पहले स्वयं पुष्टि करें और जोखिम समझें।</p></div>
-  <div class="panel"><h2>⏱️ 1HR Support/Resistance</h2><div id="hourlyLevels"></div></div>
-  <div class="panel"><h2>📋 1 घंटे के S/R आधारित Entry, Stop Loss और Target योजना</h2><div id="hourlyTradePlan"></div><p class="copy"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह तालिका केवल शैक्षिक उद्देश्य के लिए उपलब्ध ऐतिहासिक डेटा से बने संभावित स्तर दिखाती है; यह खरीदने/बेचने की व्यक्तिगत सलाह नहीं है। ट्रेड से पहले स्वयं पुष्टि करें और जोखिम समझें।</p></div>
+  <div class="panel">
+    <h2>📊 Daily Support/Resistance</h2>
+    <div id="dailyLevels"></div>
+    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह तालिका केवल शैक्षिक उद्देश्य के लिए उपलब्ध ऐतिहासिक डेटा से बने संभावित स्तर दिखाती है; यह खरीदने/बेचने की व्यक्तिगत सलाह नहीं है।</div>
+  </div>
+  
+  <div class="panel">
+    <h2>📋 डेली S/R आधारित Entry, Stop Loss और Target योजना</h2>
+    <div id="dailyTradePlan"></div>
+    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह तालिका केवल शैक्षिक उद्देश्य के लिए उपलब्ध ऐतिहासिक डेटा से बने संभावित स्तर दिखाती है; यह खरीदने/बेचने की व्यक्तिगत सलाह नहीं है। ट्रेड से पहले स्वयं पुष्टि करें और जोखिम समझें।</div>
+  </div>
+  
+  <div class="panel">
+    <h2>⏱️ 1HR Support/Resistance</h2>
+    <div id="hourlyLevels"></div>
+    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह तालिका केवल शैक्षिक उद्देश्य के लिए उपलब्ध ऐतिहासिक डेटा से बने संभावित स्तर दिखाती है; यह खरीदने/बेचने की व्यक्तिगत सलाह नहीं है।</div>
+  </div>
+  
+  <div class="panel">
+    <h2>📋 1 घंटे के S/R आधारित Entry, Stop Loss और Target योजना</h2>
+    <div id="hourlyTradePlan"></div>
+    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह तालिका केवल शैक्षिक उद्देश्य के लिए उपलब्ध ऐतिहासिक डेटा से बने संभावित स्तर दिखाती है; यह खरीदने/बेचने की व्यक्तिगत सलाह नहीं है। ट्रेड से पहले स्वयं पुष्टि करें और जोखिम समझें।</div>
+  </div>
 
-  <div class="panel"><h2>🏢 कंपनी की वित्तीय स्थिति (Financials)</h2><div id="fundamentals"></div></div>
-  <div class="panel"><h2>📊 Shareholding Pattern</h2><div id="shareholding"></div></div>
-  <div class="panel"><h2>🧠 AI-जैसा निष्कर्ष</h2><div id="verdict" class="copy"></div></div>
+  <div class="panel">
+    <h2>🏢 कंपनी की वित्तीय स्थिति (Financials)</h2>
+    <div id="fundamentals"></div>
+    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। वित्तीय आँकड़े केवल शैक्षिक और विश्लेषणात्मक संदर्भ के लिए हैं।</div>
+  </div>
+  
+  <div class="panel">
+    <h2>📊 Shareholding Pattern</h2>
+    <div id="shareholding"></div>
+    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। शेयरहोल्डिंग डेटा सार्वजनिक स्रोतों पर आधारित है।</div>
+  </div>
+  
+  <div class="panel"><h2>🧠 AI- जैसा निष्कर्ष</h2><div id="verdict" class="copy"></div></div>
   <div class="panel"><h2>⚠️ Risk Checklist</h2><div id="risks" class="copy"></div></div>
   <div class="panel"><h2>📝 उपलब्ध डेटा के आधार पर समग्र विश्लेषण नोट</h2><div id="analysisNote" class="copy"></div></div>
   </div>
@@ -184,14 +230,15 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
     <p class="copy">यहाँ उन स्टॉक्स का रिकॉर्ड दिखाई देगा जिनका विश्लेषण सफलतापूर्वक किया गया है। नवीनतम विश्लेषण ऊपर दिखेगा। किसी स्टॉक को दोबारा देखने के लिए <b>फिर देखें</b> और रिकॉर्ड हटाने के लिए <b>Delete</b> दबाएँ। रिकॉर्ड इसी ब्राउज़र के Local Storage में रहता है।</p>
     <div id="savedStockMessage" class="hint"></div>
     <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>कंपनी / स्टॉक</th><th>अंतिम भाव</th><th>दैनिक बदलाव</th><th>Daily Support</th><th>Daily Resistance</th><th>1HR Support</th><th>1HR Resistance</th><th>ट्रेंड</th><th>विश्लेषण समय</th><th>विकल्प</th></tr></thead><tbody id="savedStocksBody"><tr><td colspan="10" class="empty-row">अभी कोई स्टॉक सेव नहीं है।</td></tr></tbody></table></div>
+    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह सहेजा गया रिकॉर्ड केवल व्यक्तिगत शैक्षिक समीक्षा के लिए है।</div>
   </div>
 </div>
 
-<!-- TAB 3: Active Stocks (Chartink Screener & Daily History) -->
+<!-- TAB 3: Active Stocks -->
 <div id="active20Tab" class="tab-content">
  <div class="panel">
-  <h2>📈 Active Stocks — Chartink Screener</h2>
-  <p class="copy">आपकी दी हुई Chartink scan_clause से वास्तविक स्टॉक लिए जाते हैं और Volume के घटते क्रम में अधिकतम 20 स्टॉक दिखते हैं।</p>
+  <h2>📈 Active Stocks Screener</h2>
+  <p class="copy">बाजार के वास्तविक तकनीकी मानदंडों के आधार पर सक्रिय स्टॉक लिए जाते हैं और Volume के घटते क्रम में अधिकतम 20 स्टॉक दिखते हैं।</p>
   <div class="demo-subtabs active-subtabs">
    <button type="button" class="active" data-active-subtab="activeCurrentPanel">आज के Active Stocks</button>
    <button type="button" data-active-subtab="activeHistoryPanel">📚 Daily History</button>
@@ -201,11 +248,13 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
    <div id="active20Status" class="trade-status" style="margin-top:12px">सूची लोड करने के लिए अपडेट बटन दबाएँ।</div>
    <div id="active20Time" class="hint"></div>
    <div class="active-table-wrap" style="margin-top:14px"><table class="active-table"><thead><tr><th>Rank</th><th>स्टॉक / कंपनी</th><th>Close ₹</th><th>Change %</th><th>Volume</th></tr></thead><tbody id="active20Body"><tr><td colspan="5" class="empty-row">अभी डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
+   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह स्क्रीनर परिणाम केवल शैक्षिक अध्ययन के लिए हैं।</div>
   </div>
   <div id="activeHistoryPanel" style="display:none">
    <div class="trade-actions"><button id="refreshActiveHistory" type="button" class="neutral-btn">↻ History अपडेट करें</button></div>
    <div id="activeHistoryStatus" class="trade-status" style="margin-top:12px">तारीख के अनुसार सेव की गई सूची लोड की जा रही है…</div>
    <div id="activeHistoryBody" style="margin-top:14px"><div class="empty-row">History अभी लोड नहीं हुई।</div></div>
+   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। ऐतिहासिक सूची केवल पिछले डेटा के अवलोकन हेतु है।</div>
   </div>
  </div>
 </div>
@@ -235,9 +284,25 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
   <div class="trade-actions"><button type="button" id="demoGetQuote" class="neutral-btn">↻ भाव प्राप्त करें</button><button type="button" id="demoBuy" class="buy-btn">BUY / Place Order</button><button type="button" id="demoSell" class="sell-btn">SELL / Place Order</button><button type="button" id="demoRefreshOrders">Limit Orders जाँचें</button></div>
   <div id="demoMessage" class="hint" aria-live="polite"></div>
  </div>
- <div class="panel"><h2>📍 Today's Positions — आज की पोजीशन</h2><div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>Unrealized P&amp;L</th><th>Action</th></tr></thead><tbody id="demoTodayBody"><tr><td colspan="7" class="empty-row">अभी कोई पोजीशन नहीं है।</td></tr></tbody></table></div></div>
- <div class="panel"><h2>📊 Portfolio — Open Holdings</h2><div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>Unrealized P&amp;L</th><th>आज ट्रेड?</th></tr></thead><tbody id="demoPortfolioBody"><tr><td colspan="7" class="empty-row">Portfolio खाली है।</td></tr></tbody></table></div></div>
- <div class="panel"><h2>📚 Order &amp; Trade Book</h2><div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>समय</th><th>Symbol</th><th>Side</th><th>Type</th><th>Qty</th><th>Price</th><th>Status</th><th>Realized P&amp;L</th></tr></thead><tbody id="demoBookBody"><tr><td colspan="8" class="empty-row">अभी कोई ऑर्डर नहीं है।</td></tr></tbody></table></div><div class="trade-actions"><button id="demoReset" type="button" class="sell-btn">Demo Data Reset करें</button></div></div>
+ 
+ <div class="panel">
+   <h2>📍 Today's Positions — आज की पोजीशन</h2>
+   <div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>Unrealized P&amp;L</th><th>Action</th></tr></thead><tbody id="demoTodayBody"><tr><td colspan="7" class="empty-row">अभी कोई पोजीशन नहीं है।</td></tr></tbody></table></div>
+   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह वर्चुअल पेपर ट्रेडिंग है, वास्तविक बाजार जोखिम लागू होता है।</div>
+ </div>
+ 
+ <div class="panel">
+   <h2>📊 Portfolio — Open Holdings</h2>
+   <div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>Unrealized P&amp;L</th><th>आज ट्रेड?</th></tr></thead><tbody id="demoPortfolioBody"><tr><td colspan="7" class="empty-row">Portfolio खाली है।</td></tr></tbody></table></div>
+   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। होल्डिंग्स केवल अभ्यास के लिए हैं।</div>
+ </div>
+ 
+ <div class="panel">
+   <h2>📚 Order &amp; Trade Book</h2>
+   <div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>समय</th><th>Symbol</th><th>Side</th><th>Type</th><th>Qty</th><th>Price</th><th>Status</th><th>Realized P&amp;L</th></tr></thead><tbody id="demoBookBody"><tr><td colspan="8" class="empty-row">अभी कोई ऑर्डर नहीं है।</td></tr></tbody></table></div>
+   <div class="trade-actions"><button id="demoReset" type="button" class="sell-btn">Demo Data Reset करें</button></div>
+   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। ट्रेड बुक simulated data दर्शाती है।</div>
+ </div>
 </div>
 
 <!-- TAB 5: Top Gainers / Losers (Futures Universe) -->
@@ -246,10 +311,14 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
   <h2>📊 Top 5 Gainers & Losers (Future Stocks Universe)</h2>
   <div class="trade-actions"><button id="refreshGL" type="button" class="neutral-btn" onclick="fetchGainersLosers()">↻ अभी अपडेट करें</button></div>
   <div id="glStatus" class="trade-status" style="margin-top:12px">डेटा लोड करने के लिए बटन दबाएँ।</div>
+  
   <h3 class="green" style="margin-top:20px;">🔥 Top 5 Gainers</h3>
   <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>Rank</th><th>स्टॉक</th><th>LTP</th><th>Change %</th><th>Daily S/R</th><th>1HR S/R</th></tr></thead><tbody id="gainersBody"><tr><td colspan="6" class="empty-row">डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
+  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह सूची केवल शैक्षिक अध्ययन हेतु है।</div>
+
   <h3 class="red" style="margin-top:20px;">🧊 Top 5 Losers</h3>
   <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>Rank</th><th>स्टॉक</th><th>LTP</th><th>Change %</th><th>Daily S/R</th><th>1HR S/R</th></tr></thead><tbody id="losersBody"><tr><td colspan="6" class="empty-row">डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
+  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह सूची केवल शैक्षिक अध्ययन हेतु है।</div>
  </div>
 </div>
 
@@ -260,10 +329,14 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
   <div class="trade-actions"><button type="button" class="neutral-btn" onclick="triggerRescan()">अभी स्कैन शुरू करें</button></div>
   <div id="screenerStatus" class="trade-status" style="margin-top:12px">स्कैनर स्थिति: तैयार</div>
   <div class="progress-track" style="margin-top:10px"><div id="progBar" class="progress-fill"></div></div>
+  
   <h3 style="margin-top:20px;">★ Confirmed Signals</h3>
   <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>ट्रेंड</th><th>भाव</th><th>Entry</th><th>SL</th><th>Target</th><th>Signal</th></tr></thead><tbody id="confirmedBody"><tr><td colspan="7" class="empty-row">कोई सिग्नल नहीं मिला।</td></tr></tbody></table></div>
+  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। सिग्नल केवल तकनीकी विश्लेषण आधारित हैं; निवेश से पहले स्वयं पुष्टि करें।</div>
+
   <h3 style="margin-top:20px;">📋 सभी फ्यूचर स्टॉक्स की स्थिति</h3>
   <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>भाव</th><th>ट्रेंड</th><th>HH</th><th>HL</th><th>Status</th></tr></thead><tbody id="allStocksBody"><tr><td colspan="6" class="empty-row">डेटा लोड हो रहा है...</td></tr></tbody></table></div>
+  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह डेटा केवल शैक्षिक और शोध उद्देश्य के लिए है।</div>
  </div>
 </div>
 
@@ -340,7 +413,7 @@ function tradePlanTable(support, resistance, currency, timeframe){
   ['BUY (Support से)','कीमत सपोर्ट के पास आए और bullish candle/price confirmation मिले',fmtP(s),fmtP(buySL),fmtP(buyT1),fmtP(buyT2)],
   ['SELL (Resistance से)','कीमत रेजिस्टेंस के पास आए और bearish candle/price confirmation मिले',fmtP(r),fmtP(sellSL),fmtP(sellT1),fmtP(sellT2)]
  ];
- return '<div style="overflow-x:auto"><table><thead><tr>'+rows[0].map(x=>'<th>'+esc(x)+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(1).map(row=>'<tr>'+row.map((x,i)=>'<td>'+(i===0?'<b>'+esc(x)+'</b>':esc(x))+'</td>').join('')+'</tr>').join('')+'</tbody></table></div><p class="copy"><b>गणना का आधार:</b> BUY सपोर्ट से और SELL रेजिस्टेंस से। Support–Resistance दूरी का 25% Stop Loss buffer रखा गया है; Target 1 दूरी के मध्य बिंदु पर और Target 2 विपरीत स्तर पर है। ये शैक्षिक, नियम-आधारित स्तर हैं, निश्चित संकेत नहीं। कीमत सपोर्ट/रेजिस्टेंस से दूर हो तो केवल इन स्तरों के आधार पर market order न लें; confirmation, gap, slippage और charges का ध्यान रखें।</p>';
+ return '<div style="overflow-x:auto"><table><thead><tr>'+rows[0].map(x=>'<th>'+esc(x)+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(1).map(row=>'<tr>'+row.map((x,i)=>'<td>'+(i===0?'<b>'+esc(x)+'</b>':esc(x))+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';
 }
 
 // Single Stock Search
@@ -434,13 +507,13 @@ function fmtINR(v){return '₹'+Number(v||0).toLocaleString('en-IN',{minimumFrac
 function fmtVol(v){return Number(v||0).toLocaleString('en-IN',{maximumFractionDigits:0})}
 function renderActive20(rows){
  const body=$('active20Body');
- if(!Array.isArray(rows)||!rows.length){body.innerHTML='<tr><td colspan="5" class="empty-row">इस समय Chartink से कोई परिणाम उपलब्ध नहीं है।</td></tr>';return;}
+ if(!Array.isArray(rows)||!rows.length){body.innerHTML='<tr><td colspan="5" class="empty-row">इस समय कोई परिणाम उपलब्ध नहीं है।</td></tr>';return;}
  body.innerHTML=rows.slice(0,20).map((x,i)=>{const ch=Number(x.change_pct);return `<tr><td><span class="active-rank">${i+1}</span></td><td><b>${esc(x.name||x.symbol||'—')}</b><br><span class="tag">${esc(x.symbol||'')}</span></td><td>${fmtINR(x.close)}</td><td class="${ch>0?'green':ch<0?'red':''}">${Number.isFinite(ch)?(ch>0?'+':'')+ch.toFixed(2)+'%':'—'}</td><td><b>${fmtVol(x.volume)}</b></td></tr>`}).join('');
 }
 async function fetchActive20Stocks(){
- const b=$('refreshActive20');b.disabled=true;$('active20Status').className='trade-status';$('active20Status').textContent='Chartink screener से वास्तविक सूची प्राप्त की जा रही है…';
- try{const r=await fetch('/api/screener/active20?refresh=1',{headers:{'Accept':'application/json'}});const raw=await r.text();let d;try{d=JSON.parse(raw)}catch(parseErr){const isHtml=/^\s*</.test(raw);throw new Error(isHtml?`सर्वर ने JSON के बजाय HTML लौटाया (HTTP ${r.status})। Render Logs में देखें कि नई app.py Deploy हुई है या नहीं।`: `सर्वर का उत्तर JSON नहीं है (HTTP ${r.status})।`)}if(!r.ok||d.error)throw new Error(d.error||`डेटा प्राप्त नहीं हुआ (HTTP ${r.status})`);renderActive20(d.data||[]);$('active20Status').textContent=(d.data||[]).length?`सफल: ${(d.data||[]).length} स्टॉक मिले। Volume घटते क्रम में सूची दिखाई गई है।`:'Chartink से इस समय कोई परिणाम नहीं मिला।';$('active20Time').textContent='अंतिम अपडेट: '+(d.updated_at||new Date().toLocaleString('en-IN'));window.active20Loaded=true;}
- catch(e){$('active20Status').className='trade-status error';$('active20Status').textContent='डेटा नहीं मिल पाया: '+e.message+'\nकृपया बाद में पुनः प्रयास करें।';$('active20Body').innerHTML='<tr><td colspan="5" class="empty-row">डेटा उपलब्ध नहीं है। कोई नकली स्टॉक नहीं दिखाया गया।</td></tr>';}
+ const b=$('refreshActive20');b.disabled=true;$('active20Status').className='trade-status';$('active20Status').textContent='सक्रिय सूची प्राप्त की जा रही है…';
+ try{const r=await fetch('/api/screener/active20?refresh=1',{headers:{'Accept':'application/json'}});const raw=await r.text();let d;try{d=JSON.parse(raw)}catch(parseErr){const isHtml=/^\s*</.test(raw);throw new Error(isHtml?`सर्वर ने JSON के बजाय HTML लौटाया (HTTP ${r.status})।`: `सर्वर का उत्तर JSON नहीं है (HTTP ${r.status})।`)}if(!r.ok||d.error)throw new Error(d.error||`डेटा प्राप्त नहीं हुआ (HTTP ${r.status})`);renderActive20(d.data||[]);$('active20Status').textContent=(d.data||[]).length?`सफल: ${(d.data||[]).length} स्टॉक मिले। Volume घटते क्रम में सूची दिखाई गई है।`:'इस समय कोई परिणाम नहीं मिला।';$('active20Time').textContent='अंतिम अपडेट: '+(d.updated_at||new Date().toLocaleString('en-IN'));window.active20Loaded=true;}
+ catch(e){$('active20Status').className='trade-status error';$('active20Status').textContent='डेटा नहीं मिल पाया: '+e.message+'\nकृपया बाद में पुनः प्रयास करें।';$('active20Body').innerHTML='<tr><td colspan="5" class="empty-row">डेटा उपलब्ध नहीं है।</td></tr>';}
  finally{b.disabled=false;}
 }
 $('refreshActive20').addEventListener('click',fetchActive20Stocks);
@@ -876,10 +949,10 @@ def fetch_chartink_active20():
             payload = candidate; break
 
     if payload is None:
-        raise RuntimeError("Chartink से स्टॉक JSON नहीं मिला। " + (html_problem or "Invalid JSON"))
+        raise RuntimeError("स्टॉक डेटा प्राप्त करने में त्रुटि। " + (html_problem or "Invalid JSON"))
 
     records = payload.get("data", [])
-    if not records: raise RuntimeError("Chartink से कोई रिकॉर्ड नहीं मिला।")
+    if not records: raise RuntimeError("कोई रिकॉर्ड नहीं मिला।")
 
     def first_value(row, *keys, default=None):
         for key in keys:
