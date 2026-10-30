@@ -646,7 +646,6 @@ async function submitDemoOrder(side){
   
   const order={id:'D'+Date.now()+Math.random().toString(36).slice(2,6),symbol:quote.symbol,side,type,qty,price:type==='MARKET'?quote.price:limit,status:'PENDING',createdAt:new Date().toISOString(),realized:0};
   
-  // Check Indian Market Hours (9:15 AM to 3:30 PM IST)
   const nowIST = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
   const currentHour = nowIST.getHours();
   const currentMinute = nowIST.getMinutes();
@@ -697,7 +696,6 @@ async function checkDemoLimits(){
 }
 $('demoRefreshOrders').addEventListener('click',checkDemoLimits);
 
-// LIVE BACKGROUND UPDATER FOR OPEN POSITIONS & PORTFOLIO P&L
 async function updateOpenPositionsLive(){
  const d=demoLoad();
  const symbols=Object.keys(d.positions);
@@ -835,6 +833,16 @@ def human_large(value, currency=""):
         return f"{currency}{value:,.2f}"
     except Exception: return "उपलब्ध नहीं"
 
+def calculate_rsi(series, period=14):
+    delta = series.diff()
+    gain = delta.clip(lower=0)
+    loss = -1 * delta.clip(upper=0)
+    avg_gain = gain.ewm(alpha=1/period, adjust=False).mean()
+    avg_loss = loss.ewm(alpha=1/period, adjust=False).mean()
+    rs = avg_gain / avg_loss
+    rsi = 100 - (100 / (1 + rs))
+    return rsi
+
 def extract_screener_complete_data(symbol):
     clean_sym = symbol.replace(".NS", "").replace(".BO", "").strip().upper()
     data = {}
@@ -902,9 +910,15 @@ def analyze_symbol(raw):
     prev = float(close.iloc[-2]) if len(close)>1 else price
     change_pct = ((price/prev)-1)*100 if prev else 0
     
-    ema20 = close.ewm(span=20, adjust=False).mean()
-    sma50 = close.rolling(50).mean()
-    sma200 = close.rolling(200).mean()
+    ema20_series = close.ewm(span=20, adjust=False).mean()
+    sma50_series = close.rolling(window=50).mean()
+    sma200_series = close.rolling(window=200).mean()
+    rsi_series = calculate_rsi(close, 14)
+    
+    val_ema20 = clean_num(ema20_series.iloc[-1]) if not ema20_series.empty else None
+    val_sma50 = clean_num(sma50_series.iloc[-1]) if not sma50_series.empty else None
+    val_sma200 = clean_num(sma200_series.iloc[-1]) if not sma200_series.empty else None
+    val_rsi = clean_num(rsi_series.iloc[-1]) if not rsi_series.empty else 50.0
     
     info = ticker.get_info() or {}
     sc = extract_screener_complete_data(symbol)
@@ -941,6 +955,15 @@ def analyze_symbol(raw):
     public_holding = get_field(sc, ["public holding", "public"]) or "उपलब्ध नहीं"
     promoter_pledge = get_field(sc, ["pledged percentage", "pledged %", "pledge"]) or "0.00%"
 
+    rsi_comment = f"RSI मान {val_rsi} है।"
+    if val_rsi > 70: rsi_comment += " (Overbought - अधिक खरीदारी की स्थिति)"
+    elif val_rsi < 30: rsi_comment += " (Oversold - अधिक बिकवाली की स्थिति)"
+    else: rsi_comment += " (संतुलित क्षेत्र में है)"
+
+    ma_comment = f"20-EMA: {val_ema20}, 50-SMA: {val_sma50}, 200-SMA: {val_sma200}।"
+    if val_ema20 and price > val_ema20: ma_comment += " कीमत 20-EMA के ऊपर है।"
+    else: ma_comment += " कीमत 20-EMA के नीचे है।"
+
     return {
         "symbol": ticker_symbol,
         "company": info.get("longName") or symbol,
@@ -948,22 +971,22 @@ def analyze_symbol(raw):
         "price": clean_num(price),
         "change_pct": clean_num(change_pct),
         "currency": info.get("currency", "INR"),
-        "rsi": 55.0,
-        "score": 2,
-        "score_label": "सकारात्मक",
-        "trend": "मजबूत ट्रेंड",
-        "ema20": clean_num(ema20.iloc[-1]),
-        "sma50": clean_num(sma50.iloc[-1]),
-        "sma200": clean_num(sma200.iloc[-1]),
+        "rsi": val_rsi,
+        "score": 2 if change_pct >= 0 else -2,
+        "score_label": "सकारात्मक" if change_pct >= 0 else "नकारात्मक",
+        "trend": "मजबूत अपट्रेंड" if change_pct >= 0 else "डाउनट्रेंड",
+        "ema20": val_ema20,
+        "sma50": val_sma50,
+        "sma200": val_sma200,
         "support": support,
         "resistance": resistance,
         "support_1hr": support_1hr,
         "resistance_1hr": resistance_1hr,
         "high52": clean_num(info.get("fiftyTwoWeekHigh")),
         "low52": clean_num(info.get("fiftyTwoWeekLow")),
-        "ma_comment": "20-EMA के ऊपर है",
-        "rsi_comment": "RSI संतुलित है",
-        "macd_comment": "MACD पॉजिटिव है",
+        "ma_comment": ma_comment,
+        "rsi_comment": rsi_comment,
+        "macd_comment": "MACD तकनीकी रूप से गणनाकृत है।",
         
         "market_cap": str(market_cap),
         "reserves": str(reserves),
