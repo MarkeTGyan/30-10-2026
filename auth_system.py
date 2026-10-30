@@ -37,6 +37,9 @@ class User(db.Model):
     locked_until = db.Column(db.DateTime)
     must_change_password = db.Column(db.Boolean, nullable=False, default=False)
     password_changed_at = db.Column(db.DateTime)
+    recovery_code_hash = db.Column(db.String(255))
+    failed_recovery_attempts = db.Column(db.Integer, nullable=False, default=0)
+    recovery_locked_until = db.Column(db.DateTime)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -65,6 +68,14 @@ class AuditLog(db.Model):
     action = db.Column(db.String(50), nullable=False)
     details = db.Column(db.String(500))
     created_at = db.Column(db.DateTime, nullable=False, default=utcnow, index=True)
+
+
+def issue_recovery_code(user):
+    code = "MG-" + secrets.token_urlsafe(24)
+    user.recovery_code_hash = generate_password_hash(code)
+    user.failed_recovery_attempts = 0
+    user.recovery_locked_until = None
+    return code
 
 
 def get_user():
@@ -149,6 +160,8 @@ LOGIN_PAGE = STYLE + """
 <label>Password</label><input name="password" type="password" required autocomplete="current-password">
 <button type="submit">Secure Login</button>
 </form>
+<p><a href="{{url_for('auth.forgot_password')}}">Forgot Password? User Recovery</a></p>
+<p><a href="{{url_for('auth.admin_recover')}}">Admin Password Recovery</a></p>
 <p>नया अकाउंट? <a href="{{url_for('auth.register')}}">Register करें</a></p>
 <p class="small">Registration के बाद Admin Approval आवश्यक है। अधिकतम 5 गलत प्रयासों के बाद 15 मिनट का अस्थायी लॉक लगेगा।</p>
 </div></div>
@@ -165,6 +178,48 @@ REGISTER_PAGE = STYLE + """
 <label>Confirm Password</label><input name="confirm" type="password" minlength="10" required autocomplete="new-password">
 <button type="submit">Register</button>
 </form><p><a href="{{url_for('auth.login')}}">Login पर वापस जाएँ</a></p>
+</div></div>
+"""
+
+RECOVERY_PAGE = STYLE + """
+<div class="wrap"><div class="card" style="max-width:500px;margin:8vh auto">
+<h1>User Password Recovery</h1>
+{% for m in get_flashed_messages() %}<div class="msg">{{m}}</div>{% endfor %}
+<p>अपना Username, सुरक्षित रखा Recovery Code और नया Password दर्ज करें।</p>
+<form method="post">
+<input type="hidden" name="csrf_token" value="{{token}}">
+<label>Username</label><input name="username" required maxlength="80">
+<label>Recovery Code</label><input name="recovery_code" required autocomplete="off">
+<label>New Password (कम-से-कम 10 अक्षर)</label><input name="new_password" type="password" minlength="10" required>
+<label>Confirm New Password</label><input name="confirm_password" type="password" minlength="10" required>
+<button type="submit">Reset Password</button>
+</form><p><a href="{{url_for('auth.login')}}">Login पर वापस जाएँ</a></p>
+</div></div>
+"""
+
+ADMIN_RECOVERY_PAGE = STYLE + """
+<div class="wrap"><div class="card" style="max-width:520px;margin:8vh auto">
+<h1>Admin Master Recovery</h1>
+<p>यह सुविधा केवल Render Environment Variable <b>ADMIN_RECOVERY_KEY</b> की Master Key से काम करेगी।</p>
+{% for m in get_flashed_messages() %}<div class="msg">{{m}}</div>{% endfor %}
+<form method="post">
+<input type="hidden" name="csrf_token" value="{{token}}">
+<label>Admin Username</label><input name="username" required maxlength="80">
+<label>Master Recovery Key</label><input name="master_key" type="password" required autocomplete="off">
+<label>New Admin Password (कम-से-कम 12 अक्षर)</label><input name="new_password" type="password" minlength="12" required>
+<label>Confirm New Password</label><input name="confirm_password" type="password" minlength="12" required>
+<button type="submit">Recover Admin Account</button>
+</form><p><a href="{{url_for('auth.login')}}">Login पर वापस जाएँ</a></p>
+</div></div>
+"""
+
+RECOVERY_RESULT_PAGE = STYLE + """
+<div class="wrap"><div class="card" style="max-width:650px;margin:8vh auto">
+<h1>{{heading}}</h1>
+<div class="msg"><b>आपका नया Recovery Code:</b><br>
+<code style="font-size:18px;word-break:break-all">{{recovery_code}}</code></div>
+<p><b>इसे अभी कॉपी करके सुरक्षित ऑफलाइन जगह पर लिख लें।</b> यह Code दोबारा पूरा नहीं दिखाया जाएगा। इसे किसी अन्य व्यक्ति से साझा न करें।</p>
+<p><a class="btn" href="{{url_for('auth.login')}}">Login पेज पर जाएँ</a></p>
 </div></div>
 """
 
@@ -224,6 +279,10 @@ ADMIN_PAGE = STYLE + """
 {% if u.is_hidden %}<button class="purple" name="action" value="unhide">Unhide</button>{% else %}<button class="purple" name="action" value="hide">Hide</button>{% endif %}
 <button class="orange" name="action" value="unlock">Unlock</button>
 <button class="red" name="action" value="delete" onclick="return confirm('यूजर को स्थायी रूप से हटाएँ?')">Delete</button>
+</form>
+<form method="post" action="{{url_for('auth.admin_issue_recovery', user_id=u.id)}}" style="display:inline">
+<input type="hidden" name="csrf_token" value="{{token}}">
+<button class="purple" onclick="return confirm('इस User के लिए नया Recovery Code बनाएँ? पुराना Code बंद हो जाएगा।')">Issue Recovery Code</button>
 </form>
 <form method="post" action="{{url_for('auth.admin_reset_password', user_id=u.id)}}">
 <input type="hidden" name="csrf_token" value="{{token}}">
@@ -320,12 +379,110 @@ def register():
         else:
             user = User(username=username, status="pending", role="user")
             user.set_password(password)
+            recovery_code = issue_recovery_code(user)
             db.session.add(user)
             db.session.commit()
-            flash("Registration सफल। Admin Approval के बाद Login कर सकेंगे।")
-            return redirect(url_for("auth.login"))
+            return render_template_string(
+                RECOVERY_RESULT_PAGE,
+                heading="Registration सफल — Recovery Code सुरक्षित रखें",
+                recovery_code=recovery_code
+            )
 
     return render_template_string(REGISTER_PAGE, token=csrf_token())
+
+
+@auth_bp.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "POST":
+        check_csrf()
+        username = request.form.get("username", "").strip()
+        recovery_code = request.form.get("recovery_code", "").strip()
+        new_password = request.form.get("new_password", "")
+        confirm_password = request.form.get("confirm_password", "")
+        user = User.query.filter_by(username=username, role="user").first()
+        now = utcnow()
+
+        if not user:
+            flash("Recovery विवरण सही नहीं हैं या Recovery उपलब्ध नहीं है।")
+        elif user.recovery_locked_until and user.recovery_locked_until.replace(tzinfo=timezone.utc) > now:
+            flash("बहुत अधिक Recovery प्रयास हुए हैं। 15 मिनट बाद पुनः प्रयास करें।")
+        elif not user.recovery_code_hash or not check_password_hash(user.recovery_code_hash, recovery_code):
+            user.failed_recovery_attempts = (user.failed_recovery_attempts or 0) + 1
+            if user.failed_recovery_attempts >= MAX_LOGIN_ATTEMPTS:
+                user.recovery_locked_until = now + timedelta(minutes=LOCK_MINUTES)
+                user.failed_recovery_attempts = 0
+            db.session.commit()
+            flash("Recovery विवरण सही नहीं हैं या Recovery उपलब्ध नहीं है।")
+        elif len(new_password) < 10:
+            flash("नया Password कम-से-कम 10 अक्षर का होना चाहिए।")
+        elif new_password != confirm_password:
+            flash("दोनों नए Password मेल नहीं खाते।")
+        else:
+            user.set_password(new_password)
+            user.recovery_code_hash = None
+            user.failed_recovery_attempts = 0
+            user.recovery_locked_until = None
+            user.failed_login_attempts = 0
+            user.locked_until = None
+            new_code = issue_recovery_code(user)
+            db.session.add(AuditLog(
+                admin_id=None, admin_username="SELF_RECOVERY",
+                target_username=user.username, action="user_password_recovered",
+                details="Password reset using one-time recovery code",
+                created_at=utcnow()
+            ))
+            db.session.commit()
+            return render_template_string(
+                RECOVERY_RESULT_PAGE,
+                heading="Password Reset सफल — नया Recovery Code सुरक्षित रखें",
+                recovery_code=new_code
+            )
+
+    return render_template_string(RECOVERY_PAGE, token=csrf_token())
+
+
+@auth_bp.route("/admin-recover", methods=["GET", "POST"])
+def admin_recover():
+    if request.method == "POST":
+        check_csrf()
+        username = request.form.get("username", "").strip()
+        supplied_key = request.form.get("master_key", "")
+        new_password = request.form.get("new_password", "")
+        confirm_password = request.form.get("confirm_password", "")
+        configured_key = os.environ.get("ADMIN_RECOVERY_KEY", "")
+        admin_user = User.query.filter_by(username=username, role="admin").first()
+
+        key_valid = (
+            len(configured_key) >= 32
+            and bool(supplied_key)
+            and hmac.compare_digest(supplied_key, configured_key)
+        )
+        if not admin_user or not key_valid:
+            flash("Admin Recovery विवरण सही नहीं हैं या Recovery Key कॉन्फ़िगर नहीं है।")
+        elif len(new_password) < 12:
+            flash("नया Admin Password कम-से-कम 12 अक्षर का होना चाहिए।")
+        elif new_password != confirm_password:
+            flash("दोनों नए Password मेल नहीं खाते।")
+        else:
+            admin_user.set_password(new_password)
+            admin_user.must_change_password = False
+            admin_user.failed_login_attempts = 0
+            admin_user.locked_until = None
+            new_code = issue_recovery_code(admin_user)
+            db.session.add(AuditLog(
+                admin_id=admin_user.id, admin_username=admin_user.username,
+                target_username=admin_user.username, action="admin_master_recovery",
+                details="Admin password reset using environment master recovery key",
+                created_at=utcnow()
+            ))
+            db.session.commit()
+            return render_template_string(
+                RECOVERY_RESULT_PAGE,
+                heading="Admin Password Recovery सफल",
+                recovery_code=new_code
+            )
+
+    return render_template_string(ADMIN_RECOVERY_PAGE, token=csrf_token())
 
 
 @auth_bp.route("/logout", methods=["GET", "POST"])
@@ -460,6 +617,26 @@ def admin_reset_password(user_id):
     return redirect(url_for("auth.admin"))
 
 
+@auth_bp.post("/admin/user/<int:user_id>/issue-recovery")
+@admin_required
+def admin_issue_recovery(user_id):
+    check_csrf()
+    admin_user = get_user()
+    user = db.session.get(User, user_id)
+    if not user or user.role == "admin":
+        flash("इस User के लिए Recovery Code जारी नहीं किया जा सकता।")
+        return redirect(url_for("auth.admin"))
+
+    code = issue_recovery_code(user)
+    write_audit(admin_user, "admin_issued_recovery_code", user, "New one-time recovery code issued")
+    db.session.commit()
+    return render_template_string(
+        RECOVERY_RESULT_PAGE,
+        heading="User के लिए नया Recovery Code जारी हुआ",
+        recovery_code=code
+    )
+
+
 @auth_bp.get("/admin/user/<int:user_id>/login-history")
 @admin_required
 def login_history(user_id):
@@ -489,7 +666,10 @@ def add_missing_user_columns(app):
             "failed_login_attempts": "INTEGER NOT NULL DEFAULT 0",
             "locked_until": "TIMESTAMP NULL",
             "must_change_password": "BOOLEAN NOT NULL DEFAULT FALSE",
-            "password_changed_at": "TIMESTAMP NULL"
+            "password_changed_at": "TIMESTAMP NULL",
+            "recovery_code_hash": "VARCHAR(255) NULL",
+            "failed_recovery_attempts": "INTEGER NOT NULL DEFAULT 0",
+            "recovery_locked_until": "TIMESTAMP NULL"
         }
         with db.engine.begin() as connection:
             for name, definition in additions.items():
@@ -525,7 +705,7 @@ def init_auth(app: Flask):
     @app.before_request
     def login_gate():
         endpoint = request.endpoint or ""
-        if endpoint in ("auth.login", "auth.register", "health") or endpoint.startswith("static"):
+        if endpoint in ("auth.login", "auth.register", "auth.forgot_password", "auth.admin_recover", "health") or endpoint.startswith("static"):
             return None
 
         user = get_user()
