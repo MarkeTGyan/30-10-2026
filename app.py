@@ -6,6 +6,7 @@ import random
 import re
 import json
 import threading
+from auth_system import init_auth
 from zoneinfo import ZoneInfo
 from datetime import datetime, time as dtime, timedelta
 from flask import Flask, request, jsonify, render_template_string
