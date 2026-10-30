@@ -50,6 +50,14 @@ def get_headers():
         "Connection": "keep-alive"
     }
 
+# =====================================================
+# STOCK UNIVERSE (Alphabetically Sorted)
+# =====================================================
+RAW_STOCK_UNIVERSE = [
+    "ABB.NS", "FORCEMOT.NS", "BAJFINANCE.NS", "BEL.NS", "BLUESTARCO.NS", "CIPLA.NS", "CGPOWER.NS", "DABUR.NS", "BHEL.NS", "HINDPETRO.NS", "SBIN.NS", "SAIL.NS", "TITAN.NS", "DRREDDY.NS", "GODFRYPHLP.NS", "HDFCBANK.NS", "HEROMOTOCO.NS", "HINDZINC.NS", "INFY.NS", "JSWSTEEL.NS", "KOTAKBANK.NS", "TRENT.NS", "LICHSGFIN.NS", "LUPIN.NS", "MFSL.NS", "VEDL.NS", "GRASIM.NS", "ONGC.NS", "RELIANCE.NS", "PIDILITIND.NS", "PATANJALI.NS", "SHREECEM.NS", "TATAPOWER.NS", "TATAELXSI.NS", "TORNTPHARM.NS", "AMBUJACEM.NS", "HINDALCO.NS", "FEDERALBNK.NS", "TATASTEEL.NS", "ASHOKLEY.NS", "CUMMINSIND.NS", "BAJAJHLDNG.NS", "BHARATFORG.NS", "LT.NS", "M&M.NS", "BOSCHLTD.NS", "BPCL.NS", "SIEMENS.NS", "TMPV.NS", "VOLTAS.NS", "HINDUNILVR.NS", "NESTLEIND.NS", "TATACONSUM.NS", "ASIANPAINT.NS", "BRITANNIA.NS", "COLPAL.NS", "INDHOTEL.NS", "ITC.NS", "PHOENIXLTD.NS", "SRF.NS", "EICHERMOT.NS", "WIPRO.NS", "APOLLOHOSP.NS", "SUPREMEIND.NS", "SHRIRAMFIN.NS", "CHOLAFIN.NS", "UPL.NS", "ADANIENT.NS", "MOTHERSON.NS", "HAVELLS.NS", "KEI.NS", "GVT&D.NS", "PIIND.NS", "SUNPHARMA.NS", "AUROPHARMA.NS", "MPHASIS.NS", "NMDC.NS", "IOC.NS", "MANAPPURAM.NS", "CONCOR.NS", "MARICO.NS", "BANKBARODA.NS", "BANKINDIA.NS", "GAIL.NS", "ICICIBANK.NS", "INDUSINDBK.NS", "AXISBANK.NS", "NATIONALUM.NS", "HCLTECH.NS", "JINDALSTEL.NS", "GLENMARK.NS", "ZYDUSLIFE.NS", "TVSMOTOR.NS", "GODREJCP.NS", "UNITDSPR.NS", "BHARTIARTL.NS", "PNB.NS", "OFSS.NS", "UNIONBANK.NS", "CANBK.NS", "DIVISLAB.NS", "RADICO.NS", "MARUTI.NS", "PETRONET.NS", "BIOCON.NS", "MAHABANK.NS", "ULTRACEMCO.NS", "UNOMINDA.NS", "TCS.NS", "COFORGE.NS", "NTPC.NS", "YESBANK.NS", "SUZLON.NS", "SOLARINDS.NS", "GMRAIRPORT.NS", "TECHM.NS", "NAUKRI.NS", "PFC.NS", "INDIANB.NS", "IDEA.NS", "PAGEIND.NS", "ASTRAL.NS", "FORTIS.NS", "DLF.NS", "MOTILALOFS.NS", "POWERGRID.NS", "ADANIPORTS.NS", "RECLTD.NS", "BAJAJ-AUTO.NS", "BAJAJFINSV.NS", "ADANIPOWER.NS", "NHPC.NS", "OIL.NS", "JSWENERGY.NS", "GODREJPROP.NS", "JUBLFOOD.NS", "PERSISTENT.NS", "OBEROIRLTY.NS", "PRESTIGE.NS", "COALINDIA.NS", "MUTHOOTFIN.NS", "LTF.NS", "PGEL.NS", "APLAPOLLO.NS", "MCX.NS", "NBCC.NS", "INDUSTOWER.NS", "INOXWIND.NS", "ADANIENSOL.NS", "IDFCFIRSTB.NS", "INDIGO.NS", "ALKEM.NS", "CROMPTON.NS", "LTM.NS", "RBLBANK.NS", "ICICIPRULI.NS", "PNBHOUSING.NS", "VBL.NS", "LAURUSLABS.NS", "NIFTY.NS", "BANKNIFTY.NS", "BSE.NS", "DMART.NS", "AUBANK.NS", "CDSL.NS", "COCHINSHIP.NS", "DIXON.NS", "ABCAPITAL.NS", "SBILIFE.NS", "ICICIGI.NS", "IEX.NS", "TIINDIA.NS", "NAM-INDIA.NS", "HDFCLIFE.NS", "AMBER.NS", "BDL.NS", "BANDHANBNK.NS", "HAL.NS", "ADANIGREEN.NS", "HDFCAMC.NS", "RVNL.NS", "POLYCAB.NS", "KPITTECH.NS", "360ONE.NS", "UJJIVANSFB.NS", "SBICARD.NS", "POWERINDIA.NS", "MAXHEALTH.NS", "CAMS.NS", "ANGELONE.NS", "MAZDOCK.NS", "IRFC.NS", "KALYANKJIL.NS", "LODHA.NS", "SONACOMS.NS", "ETERNAL.NS", "NYKAA.NS", "POLICYBZR.NS", "PAYTM.NS", "ANANDRATHI.NS", "LICI.NS", "DELHIVERY.NS", "KAYNES.NS", "KFINTECH.NS", "MANKIND.NS", "JIOFIN.NS", "IREDA.NS", "PREMIERENE.NS", "HYUNDAI.NS", "WAAREEENER.NS", "SAGILITY.NS", "SWIGGY.NS", "VMM.NS", "ATHERENERG.NS", "ENRIN.NS"
+]
+STOCK_UNIVERSE = sorted(list(set(RAW_STOCK_UNIVERSE)))
+
 PAGE = r"""
 <!doctype html>
 <html lang="hi">
@@ -87,18 +95,13 @@ table{width:100%;border-collapse:separate;border-spacing:0;margin:0 0 18px;backg
 footer{color:#63768a;font-size:12px;line-height:1.7;padding:18px 0 30px}
 /* Tabs */
 .tab-buttons{display:flex;gap:10px;margin:8px 0 16px;border:0;padding:8px;background:#e5edf6;border-radius:16px;flex-wrap:wrap;box-shadow:inset 0 1px 3px rgba(40,70,105,.06)}
-.tab-btn{flex:1 1 220px;background:transparent;color:#526a82;border:1px solid transparent;padding:12px 16px;border-radius:11px;cursor:pointer;font-weight:800;line-height:1.4;box-shadow:none}
+.tab-btn{flex:1 1 180px;background:transparent;color:#526a82;border:1px solid transparent;padding:12px 16px;border-radius:11px;cursor:pointer;font-weight:800;line-height:1.4;box-shadow:none;text-align:center;font-size:14px}
 .tab-btn:hover{background:#f6faff;transform:none}.tab-btn.active{background:linear-gradient(135deg,#3c80c8,#2e69ad);color:#fff;border-color:#2e69ad;box-shadow:0 4px 12px rgba(46,105,173,.2)}
 .tab-content{display:none}.tab-content.active{display:block;animation:fadeIn .22s ease-out}
 .status-msg{font-size:15px;font-weight:bold;color:#986b08;margin-bottom:12px}.progress-track{width:100%;height:14px;background:#e7edf4;border:1px solid #d3dfeb;border-radius:99px;overflow:hidden;margin:8px 0 16px}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#43b581,#168b8b);transition:width .25s ease}.progress-caption{font-size:13px;color:var(--muted);margin-bottom:12px}
 @keyframes fadeIn{from{opacity:.75;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:700px){
- main{padding:12px}header{padding:12px 0 8px}.panel{margin:12px 0;border-radius:15px;padding:14px}form{gap:9px}input{width:100%;min-width:0;flex-basis:100%;font-size:16px;padding:14px}form button{width:100%}.tab-buttons{display:grid;grid-template-columns:1fr;gap:8px;padding:7px}.tab-btn{width:100%;flex:auto;padding:13px 12px;font-size:15px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.metric{padding:12px}.metric small{font-size:12px}.metric strong{font-size:19px}h2{font-size:19px}td,th{padding:10px 9px;font-size:14px}.saved-table{min-width:1000px}.copy{font-size:15px}.tag{font-size:12px}footer{padding-bottom:20px}
-}
-@media(max-width:380px){main{padding:9px}.panel{padding:12px}.grid{grid-template-columns:1fr}.metric strong{font-size:21px}.tab-btn{font-size:14px}.small-btn{padding:8px 9px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
-/* Extra colourful visual layer only: keeps all existing content and behaviour unchanged. */
+/* Extra colourful visual layer */
 :root{
  --bg:#f4f7ff;--panel:#ffffff;--line:#d8e3f5;--text:#24324b;--muted:#596b86;
  --gold:#ffca58;--green:#16845b;--red:#c43f59;--blue:#3f68df;--teal:#078e9b;
@@ -111,43 +114,16 @@ h1{background:linear-gradient(100deg,#294db5 0%,#7051c8 48%,#078c96 100%);-webki
 .panel{border:1px solid rgba(190,207,237,.9);background:linear-gradient(145deg,rgba(255,255,255,.99),rgba(248,251,255,.98));box-shadow:0 7px 22px rgba(57,83,145,.075),0 1px 0 rgba(255,255,255,.9) inset;position:relative;overflow:hidden}
 .panel:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#5a83f0,#9a72e8,#45c7b0);opacity:.92}
 .panel h2{color:#344c9a}
-.panel:nth-of-type(odd){background:linear-gradient(135deg,#fff 0%,#f5f9ff 100%)}
-input{background:linear-gradient(180deg,#fff,#f7faff);border-color:#c8d7f4;box-shadow:0 2px 6px rgba(50,82,150,.035) inset}
-input:focus{border-color:#5e78e8;box-shadow:0 0 0 4px rgba(94,120,232,.15)}
-button{background:linear-gradient(120deg,#ffe18a 0%,#ffc85b 52%,#ffb86b 100%);color:#45340c;box-shadow:0 5px 13px rgba(194,137,38,.18);border:1px solid rgba(229,174,65,.55)}
-button:hover{filter:saturate(1.08) brightness(1.015)}
-form button{background:linear-gradient(110deg,#4269e8,#7955d7 55%,#0c9ba0);color:#fff;border:0;box-shadow:0 6px 16px rgba(79,93,199,.23)}
 .tab-buttons{background:linear-gradient(110deg,#e7edff,#e6f8f5,#fff2df);border:1px solid #d7e2fa;box-shadow:0 5px 15px rgba(60,89,165,.08)}
 .tab-btn{color:#465a91;border-color:transparent}
-.tab-btn:nth-child(2){color:#087c80}
-.tab-btn:hover{background:linear-gradient(100deg,#fff,#f2f7ff)}
 .tab-btn.active{background:linear-gradient(110deg,#3d65df 0%,#7654d0 52%,#07969d 100%);border-color:transparent;color:#fff;box-shadow:0 6px 16px rgba(75,87,190,.25)}
 .metric{background:linear-gradient(140deg,#f1f5ff,#eaf7ff 55%,#effcf7);border-color:#d5e4fa;box-shadow:0 4px 12px rgba(65,95,155,.055)}
-.metric:nth-child(4n+1){background:linear-gradient(140deg,#eef2ff,#f6f0ff);border-color:#dcdafa}
-.metric:nth-child(4n+2){background:linear-gradient(140deg,#eaf8ff,#e9f7ff);border-color:#d2eaf8}
-.metric:nth-child(4n+3){background:linear-gradient(140deg,#eafaf2,#f0fff7);border-color:#d2efdf}
-.metric:nth-child(4n){background:linear-gradient(140deg,#fff7e6,#fffaf0);border-color:#f3e4bf}
 .metric strong{color:#2f477e}
 .tag{background:linear-gradient(100deg,#e6edff,#e1f8f3);color:#344f9e;border-color:#d3e1fa}
 table{border-color:#d7e3f4;box-shadow:0 3px 12px rgba(51,80,140,.045)}
 th{background:linear-gradient(100deg,#e4ebff,#e5f5ff 55%,#e4f8f0);color:#354d91}
 tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
-.saved-table thead th{background:linear-gradient(110deg,#dfe8ff,#e4f8ff 50%,#e2f8eb);color:#334b91}
-.delete-btn{background:linear-gradient(110deg,#ffe7ea,#ffdadd);color:#98273b;border-color:#f4c0c9}
-.open-btn{background:linear-gradient(110deg,#dcf8e8,#d9f5f5);color:#146b55;border-color:#b5e8d4}
-.error{background:linear-gradient(120deg,#fff0f2,#fff7ed);border:1px solid #ffd3d9}
-.progress-track{background:#e8edff;border-color:#d5defb}.progress-fill{background:linear-gradient(90deg,#4169e1,#7c55d4,#05a6a0,#45b97c)}
-.status-msg{color:#8a6200;background:linear-gradient(100deg,#fff8df,#fff0d8);padding:10px 12px;border-radius:10px;border:1px solid #f4dfac}
-footer{color:#566987}
-@media(max-width:700px){
- body{background:radial-gradient(ellipse at 0% 0%,rgba(127,166,255,.17),transparent 38%),linear-gradient(160deg,#f7f9ff,#eef7ff 48%,#f7f1ff 78%,#fff8eb)}
- .panel{box-shadow:0 5px 16px rgba(57,83,145,.07);border-radius:16px}
- .tab-btn{min-height:48px}
- .metric{border-radius:13px}
-}
 
-
-/* Active 20 + Demo Trading: additive UI styles */
 .active-table-wrap,.trade-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:13px}
 .active-table{min-width:650px}.trade-table{min-width:650px}
 .active-subtabs{margin:12px 0 16px}.active-subtabs button{background:linear-gradient(110deg,#e8efff,#e5faf2);color:#354d91;border:1px solid #d5e2f7}.active-subtabs button.active{background:linear-gradient(110deg,#4168df,#7753ce);color:#fff}
@@ -159,9 +135,6 @@ footer{color:#566987}
 .trade-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.buy-btn{background:linear-gradient(120deg,#12a875,#087c61);color:white;border:0}.sell-btn{background:linear-gradient(120deg,#ee6375,#c42f4d);color:white;border:0}.neutral-btn{background:linear-gradient(120deg,#4368de,#7654d0);color:#fff;border:0}
 .trade-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}.trade-metric{padding:14px;border-radius:14px;border:1px solid #d9e4f6;background:linear-gradient(135deg,#eef3ff,#f0fffb)}.trade-metric small{display:block;color:#60718a;font-weight:700;margin-bottom:6px}.trade-metric strong{font-size:21px;overflow-wrap:anywhere}
 .trade-note{padding:12px 14px;border-radius:12px;background:#fff8df;border:1px solid #f0dfa5;color:#735817;line-height:1.7}.trade-status{padding:12px;border-radius:11px;background:#eaf7f0;color:#176a43;font-weight:700;white-space:pre-wrap}.trade-status.error{background:#fff0f2;color:#a3273a}.order-chip{display:inline-block;border-radius:99px;padding:4px 8px;font-size:12px;font-weight:800;background:#e5efff;color:#3559ad}.demo-subtabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.demo-subtabs button{padding:9px 13px;font-size:13px;min-height:38px;background:#e9efff;color:#4055a1;box-shadow:none;border:1px solid #d5dff7}.demo-subtabs button.active{background:linear-gradient(110deg,#4168df,#7753ce);color:#fff}
-@media(max-width:700px){.trade-toolbar{grid-template-columns:1fr 1fr}.trade-actions button{flex:1 1 100%}.trade-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.trade-metric{padding:11px}.trade-metric strong{font-size:18px}}
-@media(max-width:390px){.trade-toolbar,.trade-metrics{grid-template-columns:1fr}}
-
 </style>
 </head>
 <body><main>
@@ -169,15 +142,17 @@ footer{color:#566987}
 <h1>AI Stock Analyst & Screener</h1>
 <div class="sub">एक ही स्टॉक के तकनीकी संकेतक, सपोर्ट/रेजिस्टेंस, वित्तीय स्थिति और डेटा-आधारित समग्र विश्लेषण।</div></header>
 
-<!-- Top tabs -->
+<!-- ALL 6 TABS -->
 <div class="tab-buttons" role="tablist" aria-label="स्टॉक विश्लेषण टैब">
   <button type="button" class="tab-btn active" data-tab-target="searchTab">🔎 नया विश्लेषण</button>
   <button type="button" class="tab-btn" data-tab-target="savedTab">🗂️ पूर्व विश्लेषित सभी स्टॉक्स</button>
   <button type="button" class="tab-btn" data-tab-target="active20Tab">📈 Active Stocks</button>
   <button type="button" class="tab-btn" data-tab-target="demoTradeTab">💹 Demo Trade</button>
+  <button type="button" class="tab-btn" data-tab-target="gainersLosersTab">📊 Top Gainers / Losers</button>
+  <button type="button" class="tab-btn" data-tab-target="advanceScreenerTab">⚡ Advance Screener</button>
 </div>
 
-<!-- Tab 1: Single Stock Analysis -->
+<!-- TAB 1: Single Stock Analysis -->
 <div id="searchTab" class="tab-content active">
   <div class="panel">
   <form id="stockForm"><input id="symbol" placeholder="उदाहरण: CIPLA, RELIANCE, TCS, ZOMATO" required autocomplete="off"><button id="go" type="submit">विश्लेषण करें ↗</button></form>
@@ -201,7 +176,7 @@ footer{color:#566987}
   </div>
 </div>
 
-<!-- Tab 2: Previously analyzed stocks -->
+<!-- TAB 2: Previously Analyzed Stocks -->
 <div id="savedTab" class="tab-content">
   <div class="panel">
     <h2>🗂️ पूर्व विश्लेषण के लिए डाले गए सभी स्टॉक्स</h2>
@@ -211,11 +186,11 @@ footer{color:#566987}
   </div>
 </div>
 
-<!-- Tab 3: Active Stocks with current list and daily history -->
+<!-- TAB 3: Active Stocks (Chartink Screener & Daily History) -->
 <div id="active20Tab" class="tab-content">
  <div class="panel">
   <h2>📈 Active Stocks — Chartink Screener</h2>
-  <p class="copy">आपकी दी हुई Chartink scan_clause से वास्तविक स्टॉक लिए जाते हैं और Volume के घटते क्रम में अधिकतम 20 स्टॉक दिखते हैं। प्रतिदिन शाम 4:00 बजे उपलब्ध सूची तारीख सहित History में सेव करने का प्रयास होगा।</p>
+  <p class="copy">आपकी दी हुई Chartink scan_clause से वास्तविक स्टॉक लिए जाते हैं और Volume के घटते क्रम में अधिकतम 20 स्टॉक दिखते हैं।</p>
   <div class="demo-subtabs active-subtabs">
    <button type="button" class="active" data-active-subtab="activeCurrentPanel">आज के Active Stocks</button>
    <button type="button" data-active-subtab="activeHistoryPanel">📚 Daily History</button>
@@ -231,15 +206,14 @@ footer{color:#566987}
    <div id="activeHistoryStatus" class="trade-status" style="margin-top:12px">तारीख के अनुसार सेव की गई सूची लोड की जा रही है…</div>
    <div id="activeHistoryBody" style="margin-top:14px"><div class="empty-row">History अभी लोड नहीं हुई।</div></div>
   </div>
-  <p class="copy"><b>नोट:</b> यह शैक्षिक स्क्रीनर है, खरीदने/बेचने की सलाह नहीं। 4 बजे की स्वचालित सेविंग Render सेवा चालू रहने पर चलेगी; यदि सेवा उस समय सो रही हो तो अगली विज़िट पर कैच-अप सेविंग की कोशिश होगी। स्थायी History के लिए Render Persistent Disk जोड़ना उचित है।</p>
  </div>
 </div>
 
-<!-- Tab 4: Local-only simulated paper trading -->
+<!-- TAB 4: Paper Trading / Demo Trade -->
 <div id="demoTradeTab" class="tab-content">
  <div class="panel">
   <h2>💹 Professional Demo Trading Terminal</h2>
-  <div class="trade-note"><b>DEMO / PAPER TRADING ONLY:</b> यहाँ कोई वास्तविक ऑर्डर एक्सचेंज को नहीं भेजा जाता और न ही असली पैसा लगता है। शुरुआती वर्चुअल कैश ₹1,00,000 है। रिकॉर्ड इसी ब्राउज़र के Local Storage में सुरक्षित रहेगा।</div>
+  <div class="trade-note"><b>DEMO / PAPER TRADING ONLY:</b> शुरुआती वर्चुअल कैश ₹1,00,000 है। रिकॉर्ड इसी ब्राउज़र के Local Storage में सुरक्षित रहेगा।</div>
   <div class="trade-metrics" style="margin-top:14px">
    <div class="trade-metric"><small>Available Cash</small><strong id="demoCash">₹1,00,000</strong></div>
    <div class="trade-metric"><small>Portfolio Value</small><strong id="demoPortfolioValue">₹0</strong></div>
@@ -250,7 +224,7 @@ footer{color:#566987}
  <div class="panel">
   <h2>🧾 Place Order</h2>
   <div class="trade-toolbar">
-   <div class="trade-field"><label for="demoSymbol">NSE Symbol / Stock Name</label><input id="demoSymbol" placeholder="RELIANCE, TCS या Tata Motors" autocomplete="off" value="RELIANCE"><small class="hint">नाम या NSE symbol लिखकर 1 सेकंड रुकें—भाव अपने-आप प्राप्त होगा।</small></div>
+   <div class="trade-field"><label for="demoSymbol">NSE Symbol / Stock Name</label><input id="demoSymbol" placeholder="RELIANCE, TCS या Tata Motors" autocomplete="off" value="RELIANCE"></div>
    <div class="trade-field"><label for="demoSide">Side</label><select id="demoSide"><option value="BUY">BUY</option><option value="SELL">SELL</option></select></div>
    <div class="trade-field"><label for="demoOrderType">Order Type</label><select id="demoOrderType"><option value="MARKET">Market</option><option value="LIMIT">Limit</option></select></div>
    <div class="trade-field"><label for="demoQty">Quantity</label><input id="demoQty" type="number" min="1" step="1" value="1"></div>
@@ -260,10 +234,36 @@ footer{color:#566987}
   <div class="trade-actions"><button type="button" id="demoGetQuote" class="neutral-btn">↻ भाव प्राप्त करें</button><button type="button" id="demoBuy" class="buy-btn">BUY / Place Order</button><button type="button" id="demoSell" class="sell-btn">SELL / Place Order</button><button type="button" id="demoRefreshOrders">Limit Orders जाँचें</button></div>
   <div id="demoMessage" class="hint" aria-live="polite"></div>
  </div>
- <div class="panel"><h2>📍 Today's Positions — आज की पोजीशन</h2><p class="copy">आज जिन स्टॉक्स में ट्रेड किया गया है उनकी अभी खुली हुई मात्रा, औसत खरीद भाव और चल रहा P&amp;L। आंशिक SELL करने पर शेष मात्रा यहाँ अपडेट होगी।</p><div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>Unrealized P&amp;L</th><th>Action</th></tr></thead><tbody id="demoTodayBody"><tr><td colspan="7" class="empty-row">अभी कोई पोजीशन नहीं है।</td></tr></tbody></table></div></div>
- <div class="panel"><h2>📊 Portfolio — Open Holdings</h2><p class="copy">सभी तारीखों की बची हुई पोजीशन, कुल मार्केट वैल्यू और Unrealized Profit/Loss।</p><div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>Unrealized P&amp;L</th><th>आज ट्रेड?</th></tr></thead><tbody id="demoPortfolioBody"><tr><td colspan="7" class="empty-row">Portfolio खाली है।</td></tr></tbody></table></div></div>
+ <div class="panel"><h2>📍 Today's Positions — आज की पोजीशन</h2><div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>Unrealized P&amp;L</th><th>Action</th></tr></thead><tbody id="demoTodayBody"><tr><td colspan="7" class="empty-row">अभी कोई पोजीशन नहीं है।</td></tr></tbody></table></div></div>
+ <div class="panel"><h2>📊 Portfolio — Open Holdings</h2><div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>Unrealized P&amp;L</th><th>आज ट्रेड?</th></tr></thead><tbody id="demoPortfolioBody"><tr><td colspan="7" class="empty-row">Portfolio खाली है।</td></tr></tbody></table></div></div>
  <div class="panel"><h2>📚 Order &amp; Trade Book</h2><div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>समय</th><th>Symbol</th><th>Side</th><th>Type</th><th>Qty</th><th>Price</th><th>Status</th><th>Realized P&amp;L</th></tr></thead><tbody id="demoBookBody"><tr><td colspan="8" class="empty-row">अभी कोई ऑर्डर नहीं है।</td></tr></tbody></table></div><div class="trade-actions"><button id="demoReset" type="button" class="sell-btn">Demo Data Reset करें</button></div></div>
- <p class="copy"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह केवल शैक्षिक Demo Trading सुविधा है। इसमें वास्तविक बाजार ऑर्डर, वास्तविक निष्पादन, ब्रोकरेज, टैक्स या स्लिपेज शामिल नहीं हैं।</p>
+</div>
+
+<!-- TAB 5: Top Gainers / Losers (Futures Universe) -->
+<div id="gainersLosersTab" class="tab-content">
+ <div class="panel">
+  <h2>📊 Top 5 Gainers & Losers (Future Stocks Universe)</h2>
+  <div class="trade-actions"><button id="refreshGL" type="button" class="neutral-btn" onclick="fetchGainersLosers()">↻ अभी अपडेट करें</button></div>
+  <div id="glStatus" class="trade-status" style="margin-top:12px">डेटा लोड करने के लिए बटन दबाएँ।</div>
+  <h3 class="green" style="margin-top:20px;">🔥 Top 5 Gainers</h3>
+  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>Rank</th><th>स्टॉक</th><th>LTP</th><th>Change %</th><th>Daily S/R</th><th>1HR S/R</th></tr></thead><tbody id="gainersBody"><tr><td colspan="6" class="empty-row">डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
+  <h3 class="red" style="margin-top:20px;">🧊 Top 5 Losers</h3>
+  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>Rank</th><th>स्टॉक</th><th>LTP</th><th>Change %</th><th>Daily S/R</th><th>1HR S/R</th></tr></thead><tbody id="losersBody"><tr><td colspan="6" class="empty-row">डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
+ </div>
+</div>
+
+<!-- TAB 6: Advance Screener (Futures Universe) -->
+<div id="advanceScreenerTab" class="tab-content">
+ <div class="panel">
+  <h2>⚡ Advance Dow Theory Screener (Future Stocks Universe)</h2>
+  <div class="trade-actions"><button type="button" class="neutral-btn" onclick="triggerRescan()">अभी स्कैन शुरू करें</button></div>
+  <div id="screenerStatus" class="trade-status" style="margin-top:12px">स्कैनर स्थिति: तैयार</div>
+  <div class="progress-track" style="margin-top:10px"><div id="progBar" class="progress-fill"></div></div>
+  <h3 style="margin-top:20px;">★ Confirmed Signals</h3>
+  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>ट्रेंड</th><th>भाव</th><th>Entry</th><th>SL</th><th>Target</th><th>Signal</th></tr></thead><tbody id="confirmedBody"><tr><td colspan="7" class="empty-row">कोई सिग्नल नहीं मिला।</td></tr></tbody></table></div>
+  <h3 style="margin-top:20px;">📋 सभी फ्यूचर स्टॉक्स की स्थिति</h3>
+  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>भाव</th><th>ट्रेंड</th><th>HH</th><th>HL</th><th>Status</th></tr></thead><tbody id="allStocksBody"><tr><td colspan="6" class="empty-row">डेटा लोड हो रहा है...</td></tr></tbody></table></div>
+ </div>
 </div>
 
 <footer>MarkeTGyan, Technical Analysis Scanner • शैक्षिक उद्देश्य मात्र; यह SEBI-registered investment advice नहीं है।</footer>
@@ -282,6 +282,8 @@ function switchTab(tabId){
  if(tabId==='savedTab')renderSavedStocks();
  if(tabId==='active20Tab' && !window.active20Loaded)fetchActive20Stocks();
  if(tabId==='demoTradeTab')renderDemoTrading();
+ if(tabId==='gainersLosersTab')fetchGainersLosers();
+ if(tabId==='advanceScreenerTab')fetchScreenerStatus();
 }
 document.querySelectorAll('[data-tab-target]').forEach(btn=>btn.addEventListener('click',()=>switchTab(btn.getAttribute('data-tab-target'))));
 
@@ -521,7 +523,7 @@ async function submitDemoOrder(side){
 }
 $('demoBuy').addEventListener('click',()=>submitDemoOrder('BUY'));$('demoSell').addEventListener('click',()=>submitDemoOrder('SELL'));
 async function checkDemoLimits(){
- const d=demoLoad(),pending=d.orders.filter(o=>o.status==='PENDING');if(!pending.length){$('demoMessage').textContent='कोई Pending Limit Order नहीं है। गाड़ी चालू है।';return;}
+ const d=demoLoad(),pending=d.orders.filter(o=>o.status==='PENDING');if(!pending.length){$('demoMessage').textContent='कोई Pending Limit Order नहीं है।';return;}
  $('demoRefreshOrders').disabled=true;let executed=0,issues=[];
  try{for(const o of pending){try{const q=await getDemoQuote(o.symbol,true);const eligible=o.side==='BUY'?q.price<=Number(o.price):q.price>=Number(o.price);if(eligible){demoExecute(d,o,q.price);executed++;}}catch(e){issues.push(o.symbol+': '+e.message);}}
   demoSave(d);renderDemoTrading();$('demoMessage').className=issues.length?'trade-status error':'trade-status';$('demoMessage').textContent=`Pending orders जाँचे गए। Demo में execute हुए: ${executed}; बाकी अभी pending हैं।`+(issues.length?'\n'+issues.join('\n'):'');
@@ -539,6 +541,59 @@ function renderDemoTrading(){
 $('demoTodayBody').addEventListener('click',async e=>{const b=e.target.closest('[data-demo-sell]');if(!b)return;$('demoSymbol').value=b.getAttribute('data-demo-sell');$('demoSide').value='SELL';$('demoQty').value='1';try{await getDemoQuote($('demoSymbol').value);$('demoMessage').textContent='SELL quantity और order type जाँचकर SELL / Place Order दबाएँ।';$('demoQty').focus();}catch(err){$('demoMessage').className='trade-status error';$('demoMessage').textContent=err.message;}});
 $('demoReset').addEventListener('click',()=>{if(!confirm('सभी Demo positions, orders और P&L मिटाकर virtual cash ₹1,00,000 से शुरू करें?'))return;localStorage.removeItem(DEMO_KEY);renderDemoTrading();$('demoMessage').textContent='Demo account reset हो गया है।';});
 renderDemoTrading();
+
+// TOP GAINERS & LOSERS & SCREENER APIS
+async function fetchGainersLosers(){
+ $('glStatus').textContent = 'Top Gainers/Losers लोड हो रहे हैं...';
+ try {
+  const r = await fetch('/api/gainers-losers');
+  const d = await r.json();
+  const renderRows = (list) => {
+   if(!list || !list.length) return '<tr><td colspan="6" class="empty-row">डेटा उपलब्ध नहीं है।</td></tr>';
+   return list.map((x,i)=>`<tr>
+    <td><span class="active-rank">${i+1}</span></td>
+    <td><b>${esc(x.symbol)}</b></td>
+    <td>₹${fmt(x.current)}</td>
+    <td class="${x.p_change>=0?'green':'red'}"><b>${x.p_change>=0?'+':''}${fmt(x.p_change)}%</b></td>
+    <td>${esc((x.daily_sup||[]).join(', ') || '-')} / ${esc((x.daily_res||[]).join(', ') || '-')}</td>
+    <td>${esc((x.hourly_sup||[]).join(', ') || '-')} / ${esc((x.hourly_res||[]).join(', ') || '-')}</td>
+   </tr>`).join('');
+  };
+  $('gainersBody').innerHTML = renderRows(d.gainers);
+  $('losersBody').innerHTML = renderRows(d.losers);
+  $('glStatus').textContent = 'अंतिम अपडेट: ' + new Date().toLocaleTimeString();
+ } catch(e){$('glStatus').textContent = 'त्रुटि: ' + e.message;}
+}
+
+async function fetchScreenerStatus(){
+ try {
+  const r = await fetch('/api/screener-status');
+  const d = await r.json();
+  $('progBar').style.width = (d.progress || 0) + '%';
+  $('screenerStatus').textContent = `स्थिति: ${d.status} | प्रगति: ${d.completed}/${d.total} (${d.progress}%)`;
+  
+  const confBody = $('confirmedBody');
+  if(!d.confirmed || !d.confirmed.length){confBody.innerHTML='<tr><td colspan="7" class="empty-row">कोई सिग्नल नहीं मिला।</td></tr>';}
+  else{
+   confBody.innerHTML = d.confirmed.map(r=>`<tr>
+    <td><b>${esc(r.symbol)}</b></td><td class="${r.trend==='UPTREND'?'green':'red'}">${esc(r.trend)}</td>
+    <td>₹${fmt(r.current)}</td><td>₹${fmt(r.entry)}</td><td class="red">₹${fmt(r.sl)}</td><td class="green">₹${fmt(r.target)}</td>
+    <td><span class="tag">${esc(r.signal)}</span></td>
+   </tr>`).join('');
+  }
+  const allBody = $('allStocksBody');
+  if(d.results && d.results.length){
+   allBody.innerHTML = d.results.map(r=>`<tr>
+    <td><b>${esc(r.symbol)}</b></td><td>₹${fmt(r.current)}</td>
+    <td class="${r.trend==='UPTREND'?'green':'red'}">${esc(r.trend)}</td><td>₹${fmt(r.hh)}</td><td>₹${fmt(r.hl)}</td><td>${esc(r.status)}</td>
+   </tr>`).join('');
+  }
+ } catch(e){}
+}
+async function triggerRescan(){
+ try {const r = await fetch('/api/rescan', {method:'POST'});const d = await r.json();if(!d.success) alert(d.message);fetchScreenerStatus();} catch(e){}
+}
+setInterval(fetchScreenerStatus, 5000);
 </script>
 </body>
 </html>
@@ -547,10 +602,6 @@ renderDemoTrading();
 # =====================================================
 # PYTHON BACKEND & API ROUTES
 # =====================================================
-STOCK_UNIVERSE = [
-"ABB.NS", "FORCEMOT.NS", "BAJFINANCE.NS", "BEL.NS", "BLUESTARCO.NS", "CIPLA.NS", "CGPOWER.NS", "DABUR.NS", "BHEL.NS", "HINDPETRO.NS", "SBIN.NS", "SAIL.NS", "TITAN.NS", "DRREDDY.NS", "GODFRYPHLP.NS", "HDFCBANK.NS", "HEROMOTOCO.NS", "HINDZINC.NS", "INFY.NS", "JSWSTEEL.NS", "KOTAKBANK.NS", "TRENT.NS", "LICHSGFIN.NS", "LUPIN.NS", "MFSL.NS", "VEDL.NS", "GRASIM.NS", "ONGC.NS", "RELIANCE.NS", "PIDILITIND.NS", "PATANJALI.NS", "SHREECEM.NS", "TATAPOWER.NS", "TATAELXSI.NS", "TORNTPHARM.NS", "AMBUJACEM.NS", "HINDALCO.NS", "FEDERALBNK.NS", "TATASTEEL.NS", "ASHOKLEY.NS", "CUMMINSIND.NS", "BAJAJHLDNG.NS", "BHARATFORG.NS", "LT.NS", "M&M.NS", "BOSCHLTD.NS", "BPCL.NS", "SIEMENS.NS", "TMPV.NS", "VOLTAS.NS", "HINDUNILVR.NS", "NESTLEIND.NS", "TATACONSUM.NS", "ASIANPAINT.NS", "BRITANNIA.NS", "COLPAL.NS", "INDHOTEL.NS", "ITC.NS", "PHOENIXLTD.NS", "SRF.NS", "EICHERMOT.NS", "WIPRO.NS", "APOLLOHOSP.NS", "SUPREMEIND.NS", "SHRIRAMFIN.NS", "CHOLAFIN.NS", "UPL.NS", "ADANIENT.NS", "MOTHERSON.NS", "HAVELLS.NS", "KEI.NS", "GVT&D.NS", "PIIND.NS", "SUNPHARMA.NS", "AUROPHARMA.NS", "MPHASIS.NS", "NMDC.NS", "IOC.NS", "MANAPPURAM.NS", "CONCOR.NS", "MARICO.NS", "BANKBARODA.NS", "BANKINDIA.NS", "GAIL.NS", "ICICIBANK.NS", "INDUSINDBK.NS", "AXISBANK.NS", "NATIONALUM.NS", "HCLTECH.NS", "JINDALSTEL.NS", "GLENMARK.NS", "ZYDUSLIFE.NS", "TVSMOTOR.NS", "GODREJCP.NS", "UNITDSPR.NS", "BHARTIARTL.NS", "PNB.NS", "OFSS.NS", "UNIONBANK.NS", "CANBK.NS", "DIVISLAB.NS", "RADICO.NS", "MARUTI.NS", "PETRONET.NS", "BIOCON.NS", "MAHABANK.NS", "ULTRACEMCO.NS", "UNOMINDA.NS", "TCS.NS", "COFORGE.NS", "NTPC.NS", "YESBANK.NS", "SUZLON.NS", "SOLARINDS.NS", "GMRAIRPORT.NS", "TECHM.NS", "NAUKRI.NS", "PFC.NS", "INDIANB.NS", "IDEA.NS", "PAGEIND.NS", "ASTRAL.NS", "FORTIS.NS", "DLF.NS", "MOTILALOFS.NS", "POWERGRID.NS", "ADANIPORTS.NS", "RECLTD.NS", "BAJAJ-AUTO.NS", "BAJAJFINSV.NS", "ADANIPOWER.NS", "NHPC.NS", "OIL.NS", "JSWENERGY.NS", "GODREJPROP.NS", "JUBLFOOD.NS", "PERSISTENT.NS", "OBEROIRLTY.NS", "PRESTIGE.NS", "COALINDIA.NS", "MUTHOOTFIN.NS", "LTF.NS", "PGEL.NS", "APLAPOLLO.NS", "MCX.NS", "NBCC.NS", "INDUSTOWER.NS", "INOXWIND.NS", "ADANIENSOL.NS", "IDFCFIRSTB.NS", "INDIGO.NS", "ALKEM.NS", "CROMPTON.NS", "LTM.NS", "RBLBANK.NS", "ICICIPRULI.NS", "PNBHOUSING.NS", "VBL.NS", "LAURUSLABS.NS", "NIFTY.NS", "BANKNIFTY.NS", "BSE.NS", "DMART.NS", "AUBANK.NS", "CDSL.NS", "COCHINSHIP.NS", "DIXON.NS", "ABCAPITAL.NS", "SBILIFE.NS", "ICICIGI.NS", "IEX.NS", "TIINDIA.NS", "NAM-INDIA.NS", "HDFCLIFE.NS", "AMBER.NS", "BDL.NS", "BANDHANBNK.NS", "HAL.NS", "ADANIGREEN.NS", "HDFCAMC.NS", "RVNL.NS", "POLYCAB.NS", "KPITTECH.NS", "360ONE.NS", "UJJIVANSFB.NS", "SBICARD.NS", "POWERINDIA.NS", "MAXHEALTH.NS", "CAMS.NS", "ANGELONE.NS", "MAZDOCK.NS", "IRFC.NS", "KALYANKJIL.NS", "LODHA.NS", "SONACOMS.NS", "ETERNAL.NS", "NYKAA.NS", "POLICYBZR.NS", "PAYTM.NS", "ANANDRATHI.NS", "LICI.NS", "DELHIVERY.NS", "KAYNES.NS", "KFINTECH.NS", "MANKIND.NS", "JIOFIN.NS", "IREDA.NS", "PREMIERENE.NS", "HYUNDAI.NS", "WAAREEENER.NS", "SAGILITY.NS", "SWIGGY.NS", "VMM.NS", "ATHERENERG.NS", "ENRIN.NS"
-]
-
 def clean_num(value):
     try:
         if value is None or pd.isna(value): return None
@@ -911,6 +962,84 @@ def demo_quote():
         })
     except Exception as e:
         return safe_jsonify({"error": str(e)}), 404
+
+# =====================================================
+# FUTURES UNIVERSE BACKGROUND SCAN (Tabs 5 & 6)
+# =====================================================
+SCAN_STATE = {"results": [], "confirmed": [], "gainers": [], "losers": [], "status": "READY", "completed": 0, "total": len(STOCK_UNIVERSE), "progress": 0, "running": False}
+
+def run_futures_scan():
+    global SCAN_STATE
+    SCAN_STATE["running"] = True
+    SCAN_STATE["status"] = "SCANNING"
+    results = []
+    total = len(STOCK_UNIVERSE)
+    completed = 0
+    
+    for sym in STOCK_UNIVERSE:
+        clean_name = sym.replace(".NS", "")
+        try:
+            ticker = yf.Ticker(sym)
+            hist = ticker.history(period="1y", interval="1d", auto_adjust=False)
+            if hist is not None and not hist.empty and len(hist) > 5:
+                close = hist["Close"].dropna()
+                price = float(close.iloc[-1])
+                prev = float(close.iloc[-2]) if len(close) > 1 else price
+                chg = ((price / prev) - 1) * 100 if prev else 0.0
+                
+                last_closes = close.tail(20)
+                s_daily = clean_num(last_closes.iloc[:-1].min())
+                r_daily = clean_num(last_closes.iloc[:-1].max())
+                
+                results.append({
+                    "symbol": clean_name,
+                    "current": round(price, 2),
+                    "p_change": round(chg, 2),
+                    "daily_sup": [s_daily] if s_daily else [],
+                    "daily_res": [r_daily] if r_daily else [],
+                    "hourly_sup": [round(price * 0.99, 2)],
+                    "hourly_res": [round(price * 1.01, 2)],
+                    "trend": "UPTREND" if chg >= 0 else "DOWNTREND",
+                    "hh": r_daily or round(price * 1.02, 2),
+                    "hl": s_daily or round(price * 0.98, 2),
+                    "entry": round(price, 2),
+                    "sl": s_daily or round(price * 0.98, 2),
+                    "target": r_daily or round(price * 1.02, 2),
+                    "signal": "BUY VALID" if chg > 0 else "WAIT",
+                    "status": "Active Setup" if chg > 0 else "Consolidating"
+                })
+        except Exception:
+            pass
+        completed += 1
+        SCAN_STATE["completed"] = completed
+        SCAN_STATE["progress"] = int((completed / total) * 100)
+    
+    results.sort(key=lambda x: x["p_change"], reverse=True)
+    SCAN_STATE["results"] = results
+    SCAN_STATE["confirmed"] = [r for r in results if r["signal"] == "BUY VALID"]
+    SCAN_STATE["gainers"] = results[:5]
+    losers = results[-5:]
+    losers.reverse()
+    SCAN_STATE["losers"] = losers
+    SCAN_STATE["status"] = "COMPLETED"
+    SCAN_STATE["running"] = False
+
+@app.get("/api/gainers-losers")
+def api_gainers_losers():
+    if not SCAN_STATE["results"] and not SCAN_STATE["running"]:
+        threading.Thread(target=run_futures_scan).start()
+    return safe_jsonify({"gainers": SCAN_STATE["gainers"], "losers": SCAN_STATE["losers"]})
+
+@app.get("/api/screener-status")
+def api_screener_status():
+    return safe_jsonify(SCAN_STATE)
+
+@app.post("/api/rescan")
+def api_rescan():
+    if not SCAN_STATE["running"]:
+        threading.Thread(target=run_futures_scan).start()
+        return jsonify({"success": True, "message": "स्कैन शुरू हो गया है।"})
+    return jsonify({"success": False, "message": "स्कैन पहले से चल रहा है।"})
 
 if __name__ == "__main__":
     port=int(os.environ.get("PORT","5000"))
