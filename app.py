@@ -93,10 +93,11 @@ h2{font-size:clamp(19px,2.3vw,23px);line-height:1.35;margin:0 0 14px}h3{margin:0
 table{width:100%;border-collapse:separate;border-spacing:0;margin:0 0 18px;background:#fff;border:1px solid #dce6f0;border-radius:12px;overflow:hidden}td,th{text-align:left;border-bottom:1px solid #e5edf5;padding:12px 11px;vertical-align:top;line-height:1.55}th{color:#365674;background:#eef5fc;font-weight:800}tr:last-child td,tr:last-child th{border-bottom:0}tbody tr:nth-child(even){background:#f8fbfe}tbody tr:hover{background:#f0f7ff}
 .error{color:#b52d3a;white-space:pre-wrap;background:var(--soft-red);padding:12px;border-radius:10px}.hidden{display:none}.saved-table-wrap{overflow-x:auto;border-radius:12px;-webkit-overflow-scrolling:touch}.saved-table{min-width:1050px}.saved-actions{display:flex;gap:7px;flex-wrap:wrap}.small-btn{padding:8px 11px;font-size:13px;border-radius:9px;min-height:36px;box-shadow:none;white-space:nowrap}.delete-btn{background:#ffe2e4;color:#9d2631;border:1px solid #f6c4c8}.open-btn{background:#dff5e8;color:#176a43;border:1px solid #b9e6cc}.empty-row{text-align:center;color:var(--muted);padding:22px!important;background:#f8fbfe}
 footer{color:#63768a;font-size:12px;line-height:1.7;padding:18px 0 30px}
-/* Tabs */
-.tab-buttons{display:flex;gap:10px;margin:8px 0 16px;border:0;padding:8px;background:#e5edf6;border-radius:16px;flex-wrap:wrap;box-shadow:inset 0 1px 3px rgba(40,70,105,.06)}
-.tab-btn{flex:1 1 180px;background:transparent;color:#526a82;border:1px solid transparent;padding:12px 16px;border-radius:11px;cursor:pointer;font-weight:800;line-height:1.4;box-shadow:none;text-align:center;font-size:14px}
-.tab-btn:hover{background:#f6faff;transform:none}.tab-btn.active{background:linear-gradient(135deg,#3c80c8,#2e69ad);color:#fff;border-color:#2e69ad;box-shadow:0 4px 12px rgba(46,105,173,.2)}
+
+/* TABS CONTAINER: SCROLLABLE HORIZONTALLY ON MOBILE, COMPACT FOR ALL SCREENS */
+.tab-buttons{display:flex;gap:6px;margin:8px 0 16px;border:0;padding:6px;background:#e5edf6;border-radius:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;box-shadow:inset 0 1px 3px rgba(40,70,105,.06);white-space:nowrap}
+.tab-btn{flex:0 0 auto;background:transparent;color:#526a82;border:1px solid transparent;padding:8px 12px;border-radius:9px;cursor:pointer;font-weight:800;line-height:1.3;box-shadow:none;text-align:center;font-size:13px;min-height:38px}
+.tab-btn:hover{background:#f6faff;transform:none}.tab-btn.active{background:linear-gradient(135deg,#3c80c8,#2e69ad);color:#fff;border-color:#2e69ad;box-shadow:0 3px 10px rgba(46,105,173,.2)}
 .tab-content{display:none}.tab-content.active{display:block;animation:fadeIn .22s ease-out}
 .status-msg{font-size:15px;font-weight:bold;color:#986b08;margin-bottom:12px}.progress-track{width:100%;height:14px;background:#e7edf4;border:1px solid #d3dfeb;border-radius:99px;overflow:hidden;margin:8px 0 16px}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#43b581,#168b8b);transition:width .25s ease}.progress-caption{font-size:13px;color:var(--muted);margin-bottom:12px}
 @keyframes fadeIn{from{opacity:.75;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
@@ -116,7 +117,7 @@ h1{background:linear-gradient(100deg,#294db5 0%,#7051c8 48%,#078c96 100%);-webki
 .panel h2{color:#344c9a}
 .tab-buttons{background:linear-gradient(110deg,#e7edff,#e6f8f5,#fff2df);border:1px solid #d7e2fa;box-shadow:0 5px 15px rgba(60,89,165,.08)}
 .tab-btn{color:#465a91;border-color:transparent}
-.tab-btn.active{background:linear-gradient(110deg,#3d65df 0%,#7654d0 52%,#07969d 100%);border-color:transparent;color:#fff;box-shadow:0 6px 16px rgba(75,87,190,.25)}
+.tab-btn.active{background:linear-gradient(110deg,#3d65df 0%,#7654d0 52%,#07969d 100%);border-color:transparent;color:#fff;box-shadow:0 4px 12px rgba(75,87,190,.25)}
 .metric{background:linear-gradient(140deg,#f1f5ff,#eaf7ff 55%,#effcf7);border-color:#d5e4fa;box-shadow:0 4px 12px rgba(65,95,155,.055)}
 .metric strong{color:#2f477e}
 .tag{background:linear-gradient(100deg,#e6edff,#e1f8f3);color:#344f9e;border-color:#d3e1fa}
@@ -142,13 +143,13 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
 <h1>AI Stock Analyst & Screener</h1>
 <div class="sub">एक ही स्टॉक के तकनीकी संकेतक, सपोर्ट/रेजिस्टेंस, वित्तीय स्थिति और डेटा-आधारित समग्र विश्लेषण।</div></header>
 
-<!-- ALL 6 TABS -->
+<!-- ALL 6 COMPACT TABS IN ONE LINE WITH HORIZONTAL SCROLL ON MOBILE -->
 <div class="tab-buttons" role="tablist" aria-label="स्टॉक विश्लेषण टैब">
   <button type="button" class="tab-btn active" data-tab-target="searchTab">🔎 नया विश्लेषण</button>
-  <button type="button" class="tab-btn" data-tab-target="savedTab">🗂️ पूर्व विश्लेषित सभी स्टॉक्स</button>
+  <button type="button" class="tab-btn" data-tab-target="savedTab">🗂️ सेव्ड स्टॉक्स</button>
   <button type="button" class="tab-btn" data-tab-target="active20Tab">📈 Active Stocks</button>
   <button type="button" class="tab-btn" data-tab-target="demoTradeTab">💹 Demo Trade</button>
-  <button type="button" class="tab-btn" data-tab-target="gainersLosersTab">📊 Top Gainers / Losers</button>
+  <button type="button" class="tab-btn" data-tab-target="gainersLosersTab">📊 Gainers/Losers</button>
   <button type="button" class="tab-btn" data-tab-target="advanceScreenerTab">⚡ Advance Screener</button>
 </div>
 
@@ -156,7 +157,7 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
 <div id="searchTab" class="tab-content active">
   <div class="panel">
   <form id="stockForm"><input id="symbol" placeholder="उदाहरण: CIPLA, RELIANCE, TCS, ZOMATO" required autocomplete="off"><button id="go" type="submit">विश्लेषण करें ↗</button></form>
-  <div class="hint">भारतीय शेयर के लिए NSE symbol लिखें (जैसे CIPLA)। सफल विश्लेषण के बाद स्टॉक अपने-आप “पूर्व विश्लेषित सभी स्टॉक्स” टैब में सेव होगा।</div>
+  <div class="hint">भारतीय शेयर के लिए NSE symbol लिखें (जैसे CIPLA)। सफल विश्लेषण के बाद स्टॉक अपने-आप “सेव्ड स्टॉक्स” टैब में सेव होगा।</div>
   </div>
   <div id="status" class="panel hidden"></div>
   <div id="results" class="hidden">
@@ -213,7 +214,7 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
 <div id="demoTradeTab" class="tab-content">
  <div class="panel">
   <h2>💹 Professional Demo Trading Terminal</h2>
-  <div class="trade-note"><b>DEMO / PAPER TRADING ONLY:</b> शुरुआती वर्चुअल कैश ₹1,00,000 है। रिकॉर्ड इसी ब्राउज़र के Local Storage में सुरक्षित रहेगा।</div>
+  <div class="trade-note"><b>DEMO / PAPER TRADING ONLY:</b> शुरुआती वर्चुअल कैश ₹1,00,000 है। रिकॉर्ड इसी ब्राउज़र के Local Storage में सुरक्षित रहेगा। भाव और P&L हर 3 सेकंड में स्वतः लाइव अपडेट होते हैं।</div>
   <div class="trade-metrics" style="margin-top:14px">
    <div class="trade-metric"><small>Available Cash</small><strong id="demoCash">₹1,00,000</strong></div>
    <div class="trade-metric"><small>Portfolio Value</small><strong id="demoPortfolioValue">₹0</strong></div>
@@ -523,13 +524,32 @@ async function submitDemoOrder(side){
 }
 $('demoBuy').addEventListener('click',()=>submitDemoOrder('BUY'));$('demoSell').addEventListener('click',()=>submitDemoOrder('SELL'));
 async function checkDemoLimits(){
- const d=demoLoad(),pending=d.orders.filter(o=>o.status==='PENDING');if(!pending.length){$('demoMessage').textContent='कोई Pending Limit Order नहीं है।';return;}
+ const d=demoLoad(),pending=d.orders.filter(o=>o.status==='PENDING');if(!pending.length){$('demoMessage').textContent='कोई Pending Limit Order नहीं है। गाड़ी चालू है।';return;}
  $('demoRefreshOrders').disabled=true;let executed=0,issues=[];
  try{for(const o of pending){try{const q=await getDemoQuote(o.symbol,true);const eligible=o.side==='BUY'?q.price<=Number(o.price):q.price>=Number(o.price);if(eligible){demoExecute(d,o,q.price);executed++;}}catch(e){issues.push(o.symbol+': '+e.message);}}
   demoSave(d);renderDemoTrading();$('demoMessage').className=issues.length?'trade-status error':'trade-status';$('demoMessage').textContent=`Pending orders जाँचे गए। Demo में execute हुए: ${executed}; बाकी अभी pending हैं।`+(issues.length?'\n'+issues.join('\n'):'');
  }finally{$('demoRefreshOrders').disabled=false;}
 }
 $('demoRefreshOrders').addEventListener('click',checkDemoLimits);
+
+// LIVE BACKGROUND UPDATER FOR OPEN POSITIONS & PORTFOLIO P&L
+async function updateOpenPositionsLive(){
+ const d=demoLoad();
+ const symbols=Object.keys(d.positions);
+ if(!symbols.length) return;
+ for(const sym of symbols){
+  try{
+   const r=await fetch('/api/demo/quote?symbol='+encodeURIComponent(sym));
+   const res=await r.json();
+   if(res && Number(res.price)>0){
+    demoQuotes[sym]=Number(res.price);
+   }
+  }catch(e){}
+ }
+ renderDemoTrading();
+}
+setInterval(updateOpenPositionsLive, 3000);
+
 function demoRenderPositionRows(positions,todayOnly){const syms=Object.keys(positions).filter(s=>!todayOnly||demoDateKey(positions[s].lastTradeDate)===demoDateKey());if(!syms.length)return `<tr><td colspan="7" class="empty-row">${todayOnly?'आज कोई खुली पोजीशन नहीं है।':'Portfolio में कोई खुली holding नहीं है।'}</td></tr>`;
  return syms.map(sym=>{const p=positions[sym],ltp=demoQuoteFor(sym)||p.avg,mv=p.qty*ltp,pnl=(ltp-p.avg)*p.qty;return `<tr><td><b>${esc(sym)}</b></td><td>${p.qty}</td><td>${fmtINR(p.avg)}</td><td>${fmtINR(ltp)}</td><td>${fmtINR(mv)}</td><td class="${pnl>=0?'green':'red'}"><b>${pnl>=0?'+':''}${fmtINR(pnl)}</b></td><td>${todayOnly?`<button type="button" class="small-btn sell-btn" data-demo-sell="${esc(sym)}">SELL</button>`:(demoDateKey(p.lastTradeDate)===demoDateKey()?'हाँ':'—')}</td></tr>`}).join('');}
 function renderDemoTrading(){
