@@ -60,6 +60,13 @@ class LoginEvent(db.Model):
     session_key = db.Column(db.String(100), index=True)
 
 
+class AdminRecoveryAttempt(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ip_address = db.Column(db.String(64), unique=True, nullable=False)
+    failed_attempts = db.Column(db.Integer, nullable=False, default=0)
+    locked_until = db.Column(db.DateTime)
+
+
 class AuditLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     admin_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
@@ -451,6 +458,13 @@ def admin_recover():
         confirm_password = request.form.get("confirm_password", "")
         configured_key = os.environ.get("ADMIN_RECOVERY_KEY", "")
         admin_user = User.query.filter_by(username=username, role="admin").first()
+        ip = client_ip() or "unknown"
+        attempt = AdminRecoveryAttempt.query.filter_by(ip_address=ip).first()
+        now = utcnow()
+
+        if attempt and attempt.locked_until and attempt.locked_until.replace(tzinfo=timezone.utc) > now:
+            flash("बहुत अधिक Admin Recovery प्रयास हुए हैं। 15 मिनट बाद पुनः प्रयास करें।")
+            return render_template_string(ADMIN_RECOVERY_PAGE, token=csrf_token())
 
         key_valid = (
             len(configured_key) >= 32
@@ -458,12 +472,23 @@ def admin_recover():
             and hmac.compare_digest(supplied_key, configured_key)
         )
         if not admin_user or not key_valid:
+            if not attempt:
+                attempt = AdminRecoveryAttempt(ip_address=ip, failed_attempts=0)
+                db.session.add(attempt)
+            attempt.failed_attempts += 1
+            if attempt.failed_attempts >= MAX_LOGIN_ATTEMPTS:
+                attempt.failed_attempts = 0
+                attempt.locked_until = now + timedelta(minutes=LOCK_MINUTES)
+            db.session.commit()
             flash("Admin Recovery विवरण सही नहीं हैं या Recovery Key कॉन्फ़िगर नहीं है।")
         elif len(new_password) < 12:
             flash("नया Admin Password कम-से-कम 12 अक्षर का होना चाहिए।")
         elif new_password != confirm_password:
             flash("दोनों नए Password मेल नहीं खाते।")
         else:
+            if attempt:
+                attempt.failed_attempts = 0
+                attempt.locked_until = None
             admin_user.set_password(new_password)
             admin_user.must_change_password = False
             admin_user.failed_login_attempts = 0
