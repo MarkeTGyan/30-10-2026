@@ -3,3 +3,5 @@ gunicorn>=22,<24
 yfinance>=0.2.54
 pandas>=2.1
 numpy>=1.26
+Flask-SQLAlchemy>=3.1,<4
+psycopg[binary]>=3.2,<4
