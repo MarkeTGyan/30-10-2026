@@ -158,20 +158,67 @@ th{background:#f8fafc}.small{font-size:12px;color:#64748b}.actions form{display:
 """
 
 LOGIN_PAGE = STYLE + """
-<div class="wrap"><div class="card" style="max-width:470px;margin:8vh auto">
-<h1>MarkeTGyan</h1><p>Stock Analysis Agent</p>
-{% for m in get_flashed_messages() %}<div class="msg">{{m}}</div>{% endfor %}
-<form method="post">
-<input type="hidden" name="csrf_token" value="{{token}}">
-<label>Username</label><input name="username" required autocomplete="username" maxlength="80">
-<label>Password</label><input name="password" type="password" required autocomplete="current-password">
-<button type="submit">Secure Login</button>
-</form>
-<p><a href="{{url_for('auth.forgot_password')}}">Forgot Password? User Recovery</a></p>
-<p><a href="{{url_for('auth.admin_recover')}}">Admin Password Recovery</a></p>
-<p>नया अकाउंट? <a href="{{url_for('auth.register')}}">Register करें</a></p>
-<p class="small">Registration के बाद Admin Approval आवश्यक है। अधिकतम 5 गलत प्रयासों के बाद 15 मिनट का अस्थायी लॉक लगेगा।</p>
-</div></div>
+<style>
+body{background:radial-gradient(circle at 12% 15%,rgba(34,211,238,.22),transparent 30%),radial-gradient(circle at 88% 85%,rgba(59,130,246,.28),transparent 32%),linear-gradient(135deg,#071426 0%,#102b4e 52%,#071426 100%);min-height:100vh;color:#eaf4ff}
+.wrap{max-width:1060px;margin:0 auto;padding:38px 18px;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login-shell{width:100%;display:grid;grid-template-columns:1.05fr .95fr;overflow:hidden;border:1px solid rgba(148,190,230,.25);border-radius:25px;background:rgba(8,25,47,.78);box-shadow:0 28px 80px rgba(0,0,0,.42);backdrop-filter:blur(14px)}
+.login-brand{padding:54px 46px;background:linear-gradient(145deg,rgba(17,68,111,.92),rgba(9,31,58,.94));display:flex;flex-direction:column;justify-content:center;position:relative}
+.login-brand:after{content:"";position:absolute;width:240px;height:240px;border:1px solid rgba(103,232,249,.18);border-radius:50%;right:-90px;top:-90px;box-shadow:0 0 0 28px rgba(103,232,249,.035),0 0 0 58px rgba(103,232,249,.025)}
+.mg-mark{width:62px;height:62px;border-radius:18px;background:linear-gradient(135deg,#f8d477,#c58b25);color:#10243d;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;box-shadow:0 10px 30px rgba(245,190,76,.24);margin-bottom:26px}
+.brand-kicker{color:#7ee7f2;text-transform:uppercase;letter-spacing:3px;font-size:11px;font-weight:800}
+.login-brand h1{font-size:36px;line-height:1.15;color:#fff;margin:12px 0}
+.brand-tagline{font-size:17px;color:#d7e9fa;line-height:1.7}
+.brand-points{margin-top:30px;display:grid;gap:15px;color:#e4f2ff;font-size:14px}
+.brand-point{display:flex;gap:12px;align-items:center}
+.brand-check{width:25px;height:25px;flex:0 0 25px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(45,212,191,.15);color:#5eead4;font-weight:900}
+.login-panel{padding:52px 48px;background:linear-gradient(160deg,rgba(255,255,255,.99),rgba(239,247,255,.98));color:#142b45;display:flex;flex-direction:column;justify-content:center}
+.login-panel h2{font-size:29px;color:#102b4a;margin:0 0 8px}
+.login-intro{color:#64748b;margin:0 0 25px;font-size:14px}
+.login-panel label{display:block;color:#334b66;font-weight:700;font-size:13px;margin:15px 0 7px}
+.login-panel input[type=text],.login-panel input[type=password]{box-sizing:border-box;width:100%;height:48px;padding:0 14px;border:1px solid #cbd9e8;border-radius:10px;background:#fff;color:#122b47;font-size:15px;outline:none}
+.login-panel input:focus{border-color:#1599bd;box-shadow:0 0 0 3px rgba(21,153,189,.13)}
+.login-submit{width:100%;height:49px;margin:23px 0 12px;border:0;border-radius:10px;background:linear-gradient(100deg,#1266a4,#087f9d);color:#fff;font-size:15px;font-weight:800;letter-spacing:.3px;box-shadow:0 9px 20px rgba(8,110,155,.22)}
+.login-submit:hover{filter:brightness(1.08)}
+.login-links{display:grid;gap:11px;margin-top:12px;font-size:13px}
+.login-links a{color:#08789c;text-decoration:none;font-weight:700}
+.login-links a:hover{text-decoration:underline}
+.login-register{padding-top:15px;margin-top:15px;border-top:1px solid #dbe6f0;color:#52677f}
+.login-security{margin-top:22px;padding:12px 13px;border-radius:10px;background:#e8f3fa;color:#456078;font-size:11px;line-height:1.6}
+.login-panel .msg{background:#fff4d8;color:#805b12;border:1px solid #f2d58a}
+@media(max-width:760px){.wrap{padding:18px 12px}.login-shell{grid-template-columns:1fr;border-radius:18px}.login-brand{padding:28px 25px}.login-brand h1{font-size:29px}.brand-points{grid-template-columns:1fr 1fr;gap:10px}.login-panel{padding:32px 25px}.login-brand:after{display:none}}
+</style>
+<div class="wrap">
+  <div class="login-shell">
+    <section class="login-brand">
+      <div class="mg-mark">MG</div>
+      <div class="brand-kicker">MarkeTGyan Professional Terminal</div>
+      <h1>Trade with Knowledge &amp; Discipline</h1>
+      <p class="brand-tagline">Stock Analysis Agent<br>सीखिए • समझिए • फिर ट्रेड कीजिए</p>
+      <div class="brand-points">
+        <div class="brand-point"><span class="brand-check">✓</span><span>Multi-timeframe market analysis</span></div>
+        <div class="brand-point"><span class="brand-check">✓</span><span>Secure member access</span></div>
+        <div class="brand-point"><span class="brand-check">✓</span><span>Research with discipline</span></div>
+      </div>
+    </section>
+    <section class="login-panel">
+      <h2>Welcome Back</h2>
+      <p class="login-intro">अपने सुरक्षित अकाउंट में लॉगिन करें</p>
+      {% for m in get_flashed_messages() %}<div class="msg">{{m}}</div>{% endfor %}
+      <form method="post">
+        <input type="hidden" name="csrf_token" value="{{token}}">
+        <label>Username</label><input name="username" type="text" required autocomplete="username" maxlength="80" placeholder="अपना Username लिखें">
+        <label>Password</label><input name="password" type="password" required autocomplete="current-password" placeholder="अपना Password लिखें">
+        <button class="login-submit" type="submit">SECURE LOGIN&nbsp; →</button>
+      </form>
+      <div class="login-links">
+        <a href="{{url_for('auth.forgot_password')}}">Forgot Password? — User Recovery</a>
+        <a href="{{url_for('auth.admin_recover')}}">Admin Password Recovery</a>
+      </div>
+      <div class="login-register">नया अकाउंट? <a href="{{url_for('auth.register')}}">Register करें</a></div>
+      <div class="login-security">🔒 सुरक्षित प्रवेश • Registration के बाद Admin Approval आवश्यक है। 5 गलत प्रयासों के बाद 15 मिनट का अस्थायी लॉक लागू होगा।</div>
+    </section>
+  </div>
+</div>
 """
 
 REGISTER_PAGE = STYLE + """
