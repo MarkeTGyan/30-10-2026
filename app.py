@@ -62,175 +62,166 @@ PAGE = r"""
 <!doctype html>
 <html lang="hi">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>MarkeTGyan, Technical Analysis Scanner</title>
 <style>
 :root{
- --bg:#f2f6fb;--panel:#ffffff;--line:#d9e4ef;--text:#26364a;--muted:#5c6f84;
- --gold:#f4c95d;--green:#18794e;--red:#c2414b;--blue:#3977c3;--teal:#168b8b;
- --soft-blue:#eaf3ff;--soft-green:#e7f6ee;--soft-red:#fff0f0;--soft-gold:#fff7df;
+ --bg:#f4f7fc;--panel:#ffffff;--line:#d8e2f0;--text:#1e293b;--muted:#64748b;
+ --gold:#f59e0b;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--teal:#0d9488;
+ --soft-blue:#eff6ff;--soft-green:#ecfdf5;--soft-red:#fef2f2;--soft-gold:#fffbeb;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{margin:0;background:linear-gradient(145deg,#f5f8fc 0%,#edf4fb 48%,#f8f7f0 100%);font-family:Arial,"Noto Sans Devanagari",sans-serif;color:var(--text);font-size:16px;line-height:1.55}
-main{max-width:1200px;margin:0 auto;padding:clamp(12px,2.5vw,28px)}
-header{padding:clamp(14px,3vw,30px) 0 16px}
-h1{font-size:clamp(26px,4.3vw,42px);line-height:1.2;letter-spacing:-.4px;margin:12px 0 10px;color:#203c60}
-.sub{color:var(--muted);line-height:1.7}
-.panel{background:rgba(255,255,255,.96);border:1px solid #dce6f0;border-radius:18px;padding:clamp(14px,2.2vw,22px);margin:16px 0;box-shadow:0 5px 18px rgba(45,76,112,.07)}
-.panel h2{color:#284d77}
+body{margin:0;background:linear-gradient(135deg,#f8fafc 0%,#eef2f6 100%);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Noto Sans Devanagari",sans-serif;color:var(--text);font-size:15px;line-height:1.6}
+main{width:100%;max-width:1300px;margin:0 auto;padding:clamp(8px, 2vw, 24px)}
+
+/* PROFESSIONAL HEADER */
+header{background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;padding:clamp(16px, 3vw, 28px) clamp(16px, 3vw, 32px);border-radius:16px;margin-bottom:16px;box-shadow:0 10px 25px -5px rgba(15,23,42,0.15)}
+header .tag{display:inline-block;padding:4px 12px;background:rgba(255,255,255,0.1);color:#38bdf8;border-radius:99px;font-size:12px;font-weight:700;margin-bottom:8px;letter-spacing:0.5px}
+h1{font-size:clamp(22px, 4vw, 36px);line-height:1.2;margin:4px 0 8px;color:#fff;font-weight:800}
+.sub{color:#94a3b8;font-size:clamp(13px, 1.5vw, 15px);line-height:1.5}
+
+/* PANELS & CARDS */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:clamp(12px, 2vw, 22px);margin:14px 0;box-shadow:0 4px 12px rgba(0,0,0,0.03)}
+.panel h2{color:#1e293b;font-size:clamp(17px, 2vw, 20px);margin:0 0 12px;display:flex;align-items:center;gap:8px;font-weight:700}
+.panel h3{font-size:16px;font-weight:700;margin:12px 0 8px}
+
+/* FORM & INPUTS */
 form{display:flex;gap:10px;flex-wrap:wrap}
-input,select{flex:1;min-width:min(210px,100%);background:#fbfdff;color:#26364a;border:1.5px solid #c6d6e7;border-radius:12px;padding:15px;font-size:17px;min-height:50px;outline:none;transition:border-color .2s,box-shadow .2s}
-input:focus,select:focus{border-color:#4b8ed8;box-shadow:0 0 0 3px rgba(75,142,216,.15)}
-button{border:0;border-radius:12px;padding:13px 19px;background:linear-gradient(135deg,#f9d976,#f0bd46);color:#28364a;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 3px 8px rgba(150,117,34,.13);transition:transform .15s,filter .15s;min-height:46px}
-button:hover{filter:brightness(.98);transform:translateY(-1px)}button:active{transform:translateY(0)}button:focus-visible{outline:3px solid #4b8ed8;outline-offset:2px}button:disabled{opacity:.65;cursor:wait;transform:none}
-.hint{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:12px}
-.metric{background:linear-gradient(145deg,#f7fbff,#edf5fc);border:1px solid #dce8f3;border-radius:14px;padding:15px;min-width:0}
-.metric small{display:block;color:#5c7086;margin-bottom:7px;font-size:14px}.metric strong{font-size:clamp(20px,2.6vw,25px);overflow-wrap:anywhere;color:#263e5b}
-.green{color:var(--green)!important}.red{color:var(--red)!important}.gold{color:#986b08!important}
-h2{font-size:clamp(19px,2.3vw,23px);line-height:1.35;margin:0 0 14px}h3{margin:0 0 8px}.section{margin-top:22px}.copy{line-height:1.8;color:#40536a}.tag{display:inline-block;padding:6px 11px;border-radius:999px;background:#e6f1ff;color:#285f9d;font-size:13px;font-weight:800;border:1px solid #d2e5fb}
-table{width:100%;border-collapse:separate;border-spacing:0;margin:0 0 12px;background:#fff;border:1px solid #dce6f0;border-radius:12px;overflow:hidden}td,th{text-align:left;border-bottom:1px solid #e5edf5;padding:12px 11px;vertical-align:top;line-height:1.55}th{color:#365674;background:#eef5fc;font-weight:800}tr:last-child td,tr:last-child th{border-bottom:0}tbody tr:nth-child(even){background:#f8fbfe}tbody tr:hover{background:#f0f7ff}
-.error{color:#b52d3a;white-space:pre-wrap;background:var(--soft-red);padding:12px;border-radius:10px}.hidden{display:none}.saved-table-wrap{overflow-x:auto;border-radius:12px;-webkit-overflow-scrolling:touch}.saved-table{min-width:1050px}.saved-actions{display:flex;gap:7px;flex-wrap:wrap}.small-btn{padding:8px 11px;font-size:13px;border-radius:9px;min-height:36px;box-shadow:none;white-space:nowrap}.delete-btn{background:#ffe2e4;color:#9d2631;border:1px solid #f6c4c8}.open-btn{background:#dff5e8;color:#176a43;border:1px solid #b9e6cc}.empty-row{text-align:center;color:var(--muted);padding:22px!important;background:#f8fbfe}
-footer{color:#63768a;font-size:12px;line-height:1.7;padding:18px 0 30px}
+input,select{flex:1;min-width:min(200px, 100%);background:#f8fafc;color:var(--text);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;font-size:15px;outline:none;transition:all .2s}
+input:focus,select:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(59,130,246,0.12)}
+button{border:0;border-radius:10px;padding:12px 20px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 4px 12px rgba(37,99,235,0.2);transition:all .2s;white-space:nowrap}
+button:hover{filter:brightness(1.05);transform:translateY(-1px)}button:active{transform:translateY(0)}button:disabled{opacity:.6;cursor:wait;transform:none}
 
-/* STYLISH SEBI DISCLAIMER BOX */
-.sebi-disclaimer {
-  background: linear-gradient(135deg, #fffbf0, #fff5d6);
-  border: 1px solid #e6d39c;
-  border-left: 4px solid #d49f13;
-  padding: 12px 16px;
-  border-radius: 10px;
-  font-size: 13px;
-  color: #5c4708;
-  line-height: 1.6;
-  margin: 10px 0 18px 0;
-  box-shadow: 0 2px 6px rgba(212, 159, 19, 0.08);
-}
-.sebi-disclaimer b {
-  color: #8c6305;
-}
+/* METRICS GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:10px}
+.metric{background:var(--soft-blue);border:1px solid #dbeafe;border-radius:12px;padding:12px 14px}
+.metric small{display:block;color:var(--muted);font-size:12px;font-weight:600;margin-bottom:4px}
+.metric strong{font-size:clamp(16px, 2vw, 21px);color:#1e3a8a;font-weight:800;overflow-wrap:anywhere}
 
-/* TABS CONTAINER: SCROLLABLE HORIZONTALLY ON MOBILE, COMPACT FOR ALL SCREENS */
-.tab-buttons{display:flex;gap:6px;margin:8px 0 16px;border:0;padding:6px;background:#e5edf6;border-radius:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;box-shadow:inset 0 1px 3px rgba(40,70,105,.06);white-space:nowrap}
-.tab-btn{flex:0 0 auto;background:transparent;color:#526a82;border:1px solid transparent;padding:8px 12px;border-radius:9px;cursor:pointer;font-weight:800;line-height:1.3;box-shadow:none;text-align:center;font-size:13px;min-height:38px}
-.tab-btn:hover{background:#f6faff;transform:none}.tab-btn.active{background:linear-gradient(135deg,#3c80c8,#2e69ad);color:#fff;border-color:#2e69ad;box-shadow:0 3px 10px rgba(46,105,173,.2)}
-.tab-content{display:none}.tab-content.active{display:block;animation:fadeIn .22s ease-out}
-.status-msg{font-size:15px;font-weight:bold;color:#986b08;margin-bottom:12px}.progress-track{width:100%;height:14px;background:#e7edf4;border:1px solid #d3dfeb;border-radius:99px;overflow:hidden;margin:8px 0 16px}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#43b581,#168b8b);transition:width .25s ease}.progress-caption{font-size:13px;color:var(--muted);margin-bottom:12px}
-@keyframes fadeIn{from{opacity:.75;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+/* UTILITY CLASSES */
+.green{color:var(--green)!important}.red{color:var(--red)!important}.gold{color:var(--gold)!important}
+.hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+.copy{line-height:1.7;color:#334155;font-size:14px}
+.tag{display:inline-block;padding:3px 8px;border-radius:6px;background:var(--soft-blue);color:#1d4ed8;font-size:12px;font-weight:700}
+.error{color:#991b1b;white-space:pre-wrap;background:var(--soft-red);padding:12px;border-radius:8px;font-size:14px}
+.hidden{display:none}
 
-/* Extra colourful visual layer */
-:root{
- --bg:#f4f7ff;--panel:#ffffff;--line:#d8e3f5;--text:#24324b;--muted:#596b86;
- --gold:#ffca58;--green:#16845b;--red:#c43f59;--blue:#3f68df;--teal:#078e9b;
- --soft-blue:#e9efff;--soft-green:#e5f8ed;--soft-red:#fff0f2;--soft-gold:#fff6dc;
-}
-body{background:radial-gradient(ellipse at 8% 0%,rgba(127,166,255,.20),transparent 33%),radial-gradient(ellipse at 96% 18%,rgba(255,190,122,.18),transparent 28%),linear-gradient(145deg,#f8faff 0%,#eef5ff 44%,#f8f2ff 75%,#fff9ed 100%)}
-header{position:relative}
-header .tag{background:linear-gradient(110deg,#e3eaff,#e2f8f3,#fff0d2);border:1px solid #d5e2ff;color:#3b4fa0;box-shadow:0 5px 16px rgba(75,103,186,.10)}
-h1{background:linear-gradient(100deg,#294db5 0%,#7051c8 48%,#078c96 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.panel{border:1px solid rgba(190,207,237,.9);background:linear-gradient(145deg,rgba(255,255,255,.99),rgba(248,251,255,.98));box-shadow:0 7px 22px rgba(57,83,145,.075),0 1px 0 rgba(255,255,255,.9) inset;position:relative;overflow:hidden}
-.panel:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#5a83f0,#9a72e8,#45c7b0);opacity:.92}
-.panel h2{color:#344c9a}
-.tab-buttons{background:linear-gradient(110deg,#e7edff,#e6f8f5,#fff2df);border:1px solid #d7e2fa;box-shadow:0 5px 15px rgba(60,89,165,.08)}
-.tab-btn{color:#465a91;border-color:transparent}
-.tab-btn.active{background:linear-gradient(110deg,#3d65df 0%,#7654d0 52%,#07969d 100%);border-color:transparent;color:#fff;box-shadow:0 4px 12px rgba(75,87,190,.25)}
-.metric{background:linear-gradient(140deg,#f1f5ff,#eaf7ff 55%,#effcf7);border-color:#d5e4fa;box-shadow:0 4px 12px rgba(65,95,155,.055)}
-.metric strong{color:#2f477e}
-.tag{background:linear-gradient(100deg,#e6edff,#e1f8f3);color:#344f9e;border-color:#d3e1fa}
-table{border-color:#d7e3f4;box-shadow:0 3px 12px rgba(51,80,140,.045)}
-th{background:linear-gradient(100deg,#e4ebff,#e5f5ff 55%,#e4f8f0);color:#354d91}
-tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
+/* PROFESSIONAL TABLES */
+.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;border:1px solid var(--line);margin:8px 0}
+table{width:100%;border-collapse:collapse;white-space:nowrap;background:#fff}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #f1f5f9;font-size:14px}
+th{background:#f8fafc;color:#475569;font-weight:700;position:sticky;top:0;z-index:1}
+tbody tr:hover{background:#f8fafc}
+tbody tr:last-child td{border-bottom:0}
 
-.active-table-wrap,.trade-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:13px}
-.active-table{min-width:650px}.trade-table{min-width:650px}
-.active-subtabs{margin:12px 0 16px}.active-subtabs button{background:linear-gradient(110deg,#e8efff,#e5faf2);color:#354d91;border:1px solid #d5e2f7}.active-subtabs button.active{background:linear-gradient(110deg,#4168df,#7753ce);color:#fff}
-.history-day{border:1px solid #dce5f5;border-radius:14px;padding:12px;margin:12px 0;background:linear-gradient(135deg,#fff,#f5f8ff)}.history-day h3{margin:0 0 8px;color:#354d91}.history-meta{font-size:13px;color:#64748b;margin-bottom:10px}
-.active-rank{display:inline-grid;place-items:center;min-width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#e2eaff,#e5fff4);color:#344d9a;font-weight:900}
-.trade-toolbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;align-items:end}
-.trade-field label{display:block;font-size:13px;font-weight:800;color:#435b91;margin-bottom:6px}
-.trade-field input,.trade-field select{width:100%;min-width:0;flex:auto;background:#fff;border:1.5px solid #cbd8ef;border-radius:11px;padding:12px;font-size:16px;min-height:46px;color:#24324b}
-.trade-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.buy-btn{background:linear-gradient(120deg,#12a875,#087c61);color:white;border:0}.sell-btn{background:linear-gradient(120deg,#ee6375,#c42f4d);color:white;border:0}.neutral-btn{background:linear-gradient(120deg,#4368de,#7654d0);color:#fff;border:0}
-.trade-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}.trade-metric{padding:14px;border-radius:14px;border:1px solid #d9e4f6;background:linear-gradient(135deg,#eef3ff,#f0fffb)}.trade-metric small{display:block;color:#60718a;font-weight:700;margin-bottom:6px}.trade-metric strong{font-size:21px;overflow-wrap:anywhere}
-.trade-note{padding:12px 14px;border-radius:12px;background:#fff8df;border:1px solid #f0dfa5;color:#735817;line-height:1.7}.trade-status{padding:12px;border-radius:11px;background:#eaf7f0;color:#176a43;font-weight:700;white-space:pre-wrap}.trade-status.error{background:#fff0f2;color:#a3273a}.order-chip{display:inline-block;border-radius:99px;padding:4px 8px;font-size:12px;font-weight:800;background:#e5efff;color:#3559ad}.demo-subtabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.demo-subtabs button{padding:9px 13px;font-size:13px;min-height:38px;background:#e9efff;color:#4055a1;box-shadow:none;border:1px solid #d5dff7}.demo-subtabs button.active{background:linear-gradient(110deg,#4168df,#7753ce);color:#fff}
+/* TABS CONTAINER - DESKTOP & MOBILE RESPONSIVE */
+.tab-buttons{display:flex;gap:6px;padding:6px;background:#e2e8f0;border-radius:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;box-shadow:inset 0 1px 2px rgba(0,0,0,0.05);white-space:nowrap}
+.tab-btn{flex:0 0 auto;background:transparent;color:#475569;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;transition:all .2s;box-shadow:none}
+.tab-btn:hover{color:#1e293b;background:rgba(255,255,255,0.5)}
+.tab-btn.active{background:#fff;color:#2563eb;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.tab-content{display:none}.tab-content.active{display:block;animation:fadeIn .2s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* SEBI DISCLAIMER */
+.sebi-disclaimer{background:var(--soft-gold);border:1px solid #fde68a;border-left:4px solid var(--gold);padding:10px 14px;border-radius:8px;font-size:12px;color:#78350f;line-height:1.5;margin:12px 0}
+.sebi-disclaimer b{color:#92400e}
+
+/* TRADE TERMINAL SPECIFIC */
+.trade-toolbar{display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:10px;align-items:end}
+.trade-field label{display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:4px}
+.trade-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.buy-btn{background:linear-gradient(135deg,#10b981,#059669)!important}
+.sell-btn{background:linear-gradient(135deg,#ef4444,#dc2626)!important}
+.neutral-btn{background:linear-gradient(135deg,#6366f1,#4f46e5)!important}
+.trade-status{padding:10px;border-radius:8px;background:var(--soft-green);color:#065f46;font-weight:600;font-size:13px;word-break:break-all}
+.trade-status.error{background:var(--soft-red);color:#991b1b}
+.order-chip{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;background:var(--soft-blue);color:#1d4ed8}
+
+/* ACTIVE RANK BADGE */
+.active-rank{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--soft-blue);color:#2563eb;font-weight:800;font-size:12px}
 </style>
 </head>
-<body><main>
-<header><div class="tag">MarkeTGyan, Technical Analysis Scanner</div>
-<h1>AI Stock Analyst & Screener</h1>
-<div class="sub">एक ही स्टॉक के तकनीकी संकेतक, सपोर्ट/रेजिस्टेंस, वित्तीय स्थिति और डेटा-आधारित समग्र विश्लेषण।</div></header>
+<body>
+<main>
+<header>
+  <div class="tag">MarkeTGyan Professional Terminal</div>
+  <h1>AI Stock Analyst & Screener</h1>
+  <div class="sub">उन्नत तकनीकी विश्लेषण, सपोर्ट/रेजिस्टेंस, ऑटोमेटेड स्कैनर और वर्चुअल ट्रेडिंग टर्मिनल।</div>
+</header>
 
-<!-- ALL 6 COMPACT TABS IN ONE LINE WITH HORIZONTAL SCROLL ON MOBILE -->
-<div class="tab-buttons" role="tablist" aria-label="स्टॉक विश्लेषण टैब">
-  <button type="button" class="tab-btn active" data-tab-target="searchTab">🔎 नया विश्लेषण</button>
+<!-- RESPONSIVE TABS -->
+<div class="tab-buttons" role="tablist">
+  <button type="button" class="tab-btn active" data-tab-target="searchTab">🔎 विश्लेषण</button>
   <button type="button" class="tab-btn" data-tab-target="savedTab">🗂️ सेव्ड स्टॉक्स</button>
   <button type="button" class="tab-btn" data-tab-target="active20Tab">📈 Active Stocks</button>
   <button type="button" class="tab-btn" data-tab-target="demoTradeTab">💹 Demo Trade</button>
   <button type="button" class="tab-btn" data-tab-target="gainersLosersTab">📊 Gainers/Losers</button>
-  <button type="button" class="tab-btn" data-tab-target="advanceScreenerTab">⚡ Advance Screener</button>
+  <button type="button" class="tab-btn" data-tab-target="advanceScreenerTab">⚡ Screener</button>
 </div>
 
 <!-- TAB 1: Single Stock Analysis -->
 <div id="searchTab" class="tab-content active">
   <div class="panel">
-  <form id="stockForm"><input id="symbol" placeholder="उदाहरण: CIPLA, RELIANCE, TCS, ZOMATO" required autocomplete="off"><button id="go" type="submit">विश्लेषण करें ↗</button></form>
-  <div class="hint">भारतीय शेयर के लिए NSE symbol लिखें (जैसे CIPLA)। सफल विश्लेषण के बाद स्टॉक अपने-आप “सेव्ड स्टॉक्स” टैब में सेव होगा।</div>
+    <form id="stockForm"><input id="symbol" placeholder="NSE Symbol (जैसे: CIPLA, RELIANCE, TCS)" required autocomplete="off"><button id="go" type="submit">विश्लेषण करें ↗</button></form>
+    <div class="hint">भारतीय शेयरों के लिए सही NSE Symbol दर्ज करें। खोजे गए स्टॉक्स ऑटोमैटिकली "सेव्ड स्टॉक्स" में सुरक्षित हो जाते हैं।</div>
   </div>
   <div id="status" class="panel hidden"></div>
   <div id="results" class="hidden">
-  <div class="panel"><div id="company"></div><div id="metrics" class="grid"></div></div>
-  <div class="panel"><h2>🧭 Trend और Momentum</h2><div id="trend" class="copy"></div></div>
-  
-  <div class="panel">
-    <h2>📊 Daily Support/Resistance</h2>
-    <div id="dailyLevels"></div>
-    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह तालिका केवल शैक्षिक उद्देश्य के लिए उपलब्ध ऐतिहासिक डेटा से बने संभावित स्तर दिखाती है; यह खरीदने/बेचने की व्यक्तिगत सलाह नहीं है।</div>
-  </div>
-  
-  <div class="panel">
-    <h2>📋 डेली S/R आधारित Entry, Stop Loss और Target योजना</h2>
-    <div id="dailyTradePlan"></div>
-    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह तालिका केवल शैक्षिक उद्देश्य के लिए उपलब्ध ऐतिहासिक डेटा से बने संभावित स्तर दिखाती है; यह खरीदने/बेचने की व्यक्तिगत सलाह नहीं है। ट्रेड से पहले स्वयं पुष्टि करें और जोखिम समझें।</div>
-  </div>
-  
-  <div class="panel">
-    <h2>⏱️ 1HR Support/Resistance</h2>
-    <div id="hourlyLevels"></div>
-    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह तालिका केवल शैक्षिक उद्देश्य के लिए उपलब्ध ऐतिहासिक डेटा से बने संभावित स्तर दिखाती है; यह खरीदने/बेचने की व्यक्तिगत सलाह नहीं है।</div>
-  </div>
-  
-  <div class="panel">
-    <h2>📋 1 घंटे के S/R आधारित Entry, Stop Loss और Target योजना</h2>
-    <div id="hourlyTradePlan"></div>
-    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह तालिका केवल शैक्षिक उद्देश्य के लिए उपलब्ध ऐतिहासिक डेटा से बने संभावित स्तर दिखाती है; यह खरीदने/बेचने की व्यक्तिगत सलाह नहीं है। ट्रेड से पहले स्वयं पुष्टि करें और जोखिम समझें।</div>
-  </div>
+    <div class="panel"><div id="company"></div><div id="metrics" class="grid" style="margin-top:12px"></div></div>
+    <div class="panel"><h2>🧭 Trend और Momentum</h2><div id="trend" class="copy"></div></div>
+    
+    <div class="panel">
+      <h2>📊 Daily Support/Resistance</h2>
+      <div id="dailyLevels" class="table-wrap"></div>
+      <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत सलाहकार नहीं है। स्तर केवल शैक्षिक अध्ययन के लिए हैं।</div>
+    </div>
+    
+    <div class="panel">
+      <h2>📋 डेली S/R आधारित Entry, Stop Loss और Target योजना</h2>
+      <div id="dailyTradePlan" class="table-wrap"></div>
+      <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत सलाहकार नहीं है। ट्रेड से पहले स्वयं जोखिम समझें।</div>
+    </div>
+    
+    <div class="panel">
+      <h2>⏱️ 1HR Support/Resistance</h2>
+      <div id="hourlyLevels" class="table-wrap"></div>
+      <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत सलाहकार नहीं है।</div>
+    </div>
+    
+    <div class="panel">
+      <h2>📋 1 घंटे के S/R आधारित Entry, Stop Loss और Target योजना</h2>
+      <div id="hourlyTradePlan" class="table-wrap"></div>
+      <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत सलाहकार नहीं है।</div>
+    </div>
 
-  <div class="panel">
-    <h2>🏢 कंपनी की वित्तीय स्थिति (Financials)</h2>
-    <div id="fundamentals"></div>
-    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। वित्तीय आँकड़े केवल शैक्षिक और विश्लेषणात्मक संदर्भ के लिए हैं।</div>
-  </div>
-  
-  <div class="panel">
-    <h2>📊 Shareholding Pattern</h2>
-    <div id="shareholding"></div>
-    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। शेयरहोल्डिंग डेटा सार्वजनिक स्रोतों पर आधारित है।</div>
-  </div>
-  
-  <div class="panel"><h2>🧠 AI- जैसा निष्कर्ष</h2><div id="verdict" class="copy"></div></div>
-  <div class="panel"><h2>⚠️ Risk Checklist</h2><div id="risks" class="copy"></div></div>
-  <div class="panel"><h2>📝 उपलब्ध डेटा के आधार पर समग्र विश्लेषण नोट</h2><div id="analysisNote" class="copy"></div></div>
+    <div class="panel">
+      <h2>🏢 कंपनी की वित्तीय स्थिति (Financials)</h2>
+      <div id="fundamentals" class="table-wrap"></div>
+      <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> वित्तीय आँकड़े सार्वजनिक स्रोतों से हैं।</div>
+    </div>
+    
+    <div class="panel">
+      <h2>📊 Shareholding Pattern</h2>
+      <div id="shareholding" class="table-wrap"></div>
+      <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> शेयरहोल्डिंग डेटा केवल संदर्भ हेतु है।</div>
+    </div>
+    
+    <div class="panel"><h2>🧠 AI- जैसा निष्कर्ष</h2><div id="verdict" class="copy"></div></div>
+    <div class="panel"><h2>⚠️ Risk Checklist</h2><div id="risks" class="copy"></div></div>
+    <div class="panel"><h2>📝 समग्र विश्लेषण नोट</h2><div id="analysisNote" class="copy"></div></div>
   </div>
 </div>
 
 <!-- TAB 2: Previously Analyzed Stocks -->
 <div id="savedTab" class="tab-content">
   <div class="panel">
-    <h2>🗂️ पूर्व विश्लेषण के लिए डाले गए सभी स्टॉक्स</h2>
-    <p class="copy">यहाँ उन स्टॉक्स का रिकॉर्ड दिखाई देगा जिनका विश्लेषण सफलतापूर्वक किया गया है। नवीनतम विश्लेषण ऊपर दिखेगा। किसी स्टॉक को दोबारा देखने के लिए <b>फिर देखें</b> और रिकॉर्ड हटाने के लिए <b>Delete</b> दबाएँ।</p>
+    <h2>🗂️ सहेजे गए स्टॉक्स (Saved Stocks)</h2>
+    <p class="copy">आपके द्वारा पूर्व में विश्लेषण किए गए स्टॉक्स की सूची।</p>
     <div id="savedStockMessage" class="hint"></div>
-    <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>कंपनी / स्टॉक</th><th>अंतिम भाव</th><th>दैनिक बदलाव</th><th>Daily Support</th><th>Daily Resistance</th><th>1HR Support</th><th>1HR Resistance</th><th>ट्रेंड</th><th>विश्लेषण समय</th><th>विकल्प</th></tr></thead><tbody id="savedStocksBody"><tr><td colspan="10" class="empty-row">अभी कोई स्टॉक सेव नहीं है।</td></tr></tbody></table></div>
-    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह सहेजा गया रिकॉर्ड केवल व्यक्तिगत शैक्षिक समीक्षा के लिए है।</div>
+    <div class="table-wrap"><table class="saved-table"><thead><tr><th>कंपनी / स्टॉक</th><th>अंतिम भाव</th><th>बदलाव %</th><th>Daily S/R</th><th>1HR S/R</th><th>ट्रेंड</th><th>समय</th><th>विकल्प</th></tr></thead><tbody id="savedStocksBody"><tr><td colspan="8" class="empty-row" style="text-align:center;padding:20px;color:var(--muted)">कोई स्टॉक सेव नहीं है।</td></tr></tbody></table></div>
+    <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> व्यक्तिगत समीक्षा हेतु रिकॉर्ड।</div>
   </div>
 </div>
 
@@ -238,32 +229,31 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
 <div id="active20Tab" class="tab-content">
  <div class="panel">
   <h2>📈 Active Stocks Screener</h2>
-  <p class="copy">बाजार के वास्तविक तकनीकी मानदंडों के आधार पर सक्रिय स्टॉक लिए जाते हैं।</p>
-  <div class="demo-subtabs active-subtabs">
-   <button type="button" class="active" data-active-subtab="activeCurrentPanel">आज के Active Stocks</button>
-   <button type="button" data-active-subtab="activeHistoryPanel">📚 Active Stocks History</button>
+  <p class="copy">बाजार के मानदंडों के आधार पर सक्रिय स्टॉक्स।</p>
+  <div class="demo-subtabs tab-buttons" style="margin:10px 0">
+   <button type="button" class="tab-btn active" data-active-subtab="activeCurrentPanel">आज के Active Stocks</button>
+   <button type="button" class="tab-btn" data-active-subtab="activeHistoryPanel">📚 History</button>
   </div>
   <div id="activeCurrentPanel">
-   <div class="trade-actions"><button id="refreshActive20" type="button" class="neutral-btn">↻ अभी सूची अपडेट करें</button></div>
-   <div id="active20Status" class="trade-status" style="margin-top:12px">सूची लोड करने के लिए अपडेट बटन दबाएँ।</div>
-   <div id="active20Time" class="hint"></div>
-   <div class="active-table-wrap" style="margin-top:14px"><table class="active-table"><thead><tr><th>Rank</th><th>स्टॉक / कंपनी</th><th>Close ₹</th><th>Change %</th><th>Volume</th></tr></thead><tbody id="active20Body"><tr><td colspan="5" class="empty-row">अभी डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
-   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह स्क्रीनर परिणाम केवल शैक्षिक अध्ययन के लिए हैं।</div>
+   <div class="trade-actions"><button id="refreshActive20" type="button" class="neutral-btn">↻ सूची अपडेट करें</button></div>
+   <div id="active20Status" class="trade-status" style="margin-top:10px">सूची लोड करने के लिए बटन दबाएँ।</div>
+   <div id="active20Time" class="hint" style="margin-top:6px"></div>
+   <div class="table-wrap" style="margin-top:10px"><table class="active-table"><thead><tr><th>Rank</th><th>स्टॉक</th><th>Close ₹</th><th>Change %</th><th>Volume</th></tr></thead><tbody id="active20Body"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted)">डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
+   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> स्क्रीनर परिणाम शैक्षिक अध्ययन के लिए हैं।</div>
   </div>
   <div id="activeHistoryPanel" style="display:none">
-   <div class="trade-toolbar" style="margin-bottom:14px;">
-    <div class="trade-field"><label for="historyFromDate">From Date</label><input type="date" id="historyFromDate"></div>
-    <div class="trade-field"><label for="historyToDate">To Date</label><input type="date" id="historyToDate"></div>
-    <div class="trade-field"><label for="historyStockSearch">Stock Filter (Symbol/Name)</label><input type="text" id="historyStockSearch" placeholder="जैसे RELIANCE, TCS"></div>
+   <div class="trade-toolbar" style="margin-bottom:10px;">
+    <div class="trade-field"><label>From Date</label><input type="date" id="historyFromDate"></div>
+    <div class="trade-field"><label>To Date</label><input type="date" id="historyToDate"></div>
+    <div class="trade-field"><label>Stock Filter</label><input type="text" id="historyStockSearch" placeholder="जैसे RELIANCE"></div>
     <div class="trade-actions">
-      <button id="filterHistoryBtn" type="button" class="neutral-btn">🔍 Filter करें</button>
-      <button id="clearHistoryFilterBtn" type="button" class="sell-btn">❌ Filter Clear</button>
-      <button id="refreshActiveHistory" type="button" class="neutral-btn">↻ History अपडेट करें</button>
+      <button id="filterHistoryBtn" type="button" class="neutral-btn">🔍 Filter</button>
+      <button id="clearHistoryFilterBtn" type="button" class="sell-btn">❌ Clear</button>
+      <button id="refreshActiveHistory" type="button" class="neutral-btn">↻ Refresh</button>
     </div>
    </div>
-   <div id="activeHistoryStatus" class="trade-status" style="margin-top:12px">तारीख के अनुसार सेव की गई सूची लोड की जा रही है…</div>
-   <div id="activeHistoryBody" style="margin-top:14px"><div class="empty-row">History अभी लोड नहीं हुई।</div></div>
-   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। ऐतिहासिक सूची केवल पिछले डेटा के अवलोकन हेतु है।</div>
+   <div id="activeHistoryStatus" class="trade-status" style="margin-top:10px">तारीख के अनुसार लोड हो रहा है…</div>
+   <div id="activeHistoryBody" style="margin-top:10px"><div style="text-align:center;padding:20px;color:var(--muted)">History उपलब्ध नहीं है।</div></div>
   </div>
  </div>
 </div>
@@ -272,88 +262,87 @@ tbody tr:nth-child(even){background:#f4f8ff}tbody tr:hover{background:#edf5ff}
 <div id="demoTradeTab" class="tab-content">
  <div class="panel">
   <h2>💹 Professional Demo Trading Terminal</h2>
-  <div class="trade-note"><b>DEMO / PAPER TRADING ONLY:</b> शुरुआती वर्चुअल कैश ₹1,00,000 है। बाजार का समय प्रातः 9:15 से दोपहर 3:30 (IST) है। इस समय के बाहर AMO/PMO आर्डर लिए जा सकते हैं। भाव हर 3 सेकंड में स्वतः अपडेट होते हैं।</div>
-  <div class="trade-metrics" style="margin-top:14px">
-   <div class="trade-metric"><small>Available Cash</small><strong id="demoCash">₹1,00,000</strong></div>
-   <div class="trade-metric"><small>Portfolio Value</small><strong id="demoPortfolioValue">₹0</strong></div>
-   <div class="trade-metric"><small>Unrealized P&L</small><strong id="demoUnrealized">₹0</strong></div>
-   <div class="trade-metric"><small>Realized P&L</small><strong id="demoRealized">₹0</strong></div>
+  <div class="sebi-disclaimer" style="margin:4px 0 12px 0"><b>वर्चुअल ट्रेडिंग:</b> शुरुआती कैश ₹1,00,000। बाजार समय 9:15 से 3:30 IST। बाहर के समय AMO/PMO आर्डर मान्य हैं। भाव हर 3 सेकंड में अपडेट होते हैं।</div>
+  <div class="grid" style="margin-top:12px">
+   <div class="metric"><small>Available Cash</small><strong id="demoCash">₹1,00,000</strong></div>
+   <div class="metric"><small>Portfolio Value</small><strong id="demoPortfolioValue">₹0</strong></div>
+   <div class="metric"><small>Unrealized P&L</small><strong id="demoUnrealized">₹0</strong></div>
+   <div class="metric"><small>Realized P&L</small><strong id="demoRealized">₹0</strong></div>
   </div>
  </div>
  <div class="panel">
   <h2>🧾 Place Order</h2>
   <div class="trade-toolbar">
-   <div class="trade-field"><label for="demoSymbol">NSE Symbol / Stock Name</label><input id="demoSymbol" placeholder="RELIANCE, TCS या Tata Motors" autocomplete="off" value="RELIANCE"></div>
-   <div class="trade-field"><label for="demoSide">Side</label><select id="demoSide"><option value="BUY">BUY</option><option value="SELL">SELL</option></select></div>
-   <div class="trade-field"><label for="demoOrderType">Order Type</label><select id="demoOrderType"><option value="MARKET">Market</option><option value="LIMIT">Limit</option><option value="AMO">AMO (After Market)</option><option value="PMO">PMO (Post Market)</option></select></div>
-   <div class="trade-field"><label for="demoQty">Quantity</label><input id="demoQty" type="number" min="1" step="1" value="1"></div>
-   <div class="trade-field"><label for="demoLimitPrice">Limit Price (₹)</label><input id="demoLimitPrice" type="number" min="0.01" step="0.05" placeholder="Limit/AMO/PMO मूल्य"></div>
-   <div class="trade-field"><label>Live Quote</label><div id="demoQuote" class="trade-status">भाव प्राप्त नहीं हुआ</div></div>
+   <div class="trade-field"><label>Symbol</label><input id="demoSymbol" placeholder="RELIANCE" value="RELIANCE" autocomplete="off"></div>
+   <div class="trade-field"><label>Side</label><select id="demoSide"><option value="BUY">BUY</option><option value="SELL">SELL</option></select></div>
+   <div class="trade-field"><label>Order Type</label><select id="demoOrderType"><option value="MARKET">Market</option><option value="LIMIT">Limit</option><option value="AMO">AMO (After Market)</option><option value="PMO">PMO (Post Market)</option></select></div>
+   <div class="trade-field"><label>Quantity</label><input id="demoQty" type="number" min="1" value="1"></div>
+   <div class="trade-field"><label>Limit Price (₹)</label><input id="demoLimitPrice" type="number" step="0.05" placeholder="मूल्य"></div>
+   <div class="trade-field"><label>Live Quote</label><div id="demoQuote" class="trade-status" style="background:#f8fafc;color:#1e293b">भाव प्रतीक्षारत</div></div>
   </div>
-  <div class="trade-actions"><button type="button" id="demoGetQuote" class="neutral-btn">↻ भाव प्राप्त करें</button><button type="button" id="demoBuy" class="buy-btn">BUY / Place Order</button><button type="button" id="demoSell" class="sell-btn">SELL / Place Order</button><button type="button" id="demoRefreshOrders">Pending Orders जाँचें</button></div>
-  <div id="demoMessage" class="hint" aria-live="polite"></div>
+  <div class="trade-actions">
+    <button type="button" id="demoGetQuote" class="neutral-btn">↻ भाव देखें</button>
+    <button type="button" id="demoBuy" class="buy-btn">BUY Order</button>
+    <button type="button" id="demoSell" class="sell-btn">SELL Order</button>
+    <button type="button" id="demoRefreshOrders" class="neutral-btn">Pending Orders जाँचें</button>
+  </div>
+  <div id="demoMessage" class="hint" style="margin-top:10px" aria-live="polite"></div>
  </div>
  
  <div class="panel">
-   <h2>📍 Today's Positions — आज की पोजीशन</h2>
-   <div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>Unrealized P&amp;L</th><th>Action</th></tr></thead><tbody id="demoTodayBody"><tr><td colspan="7" class="empty-row">अभी कोई पोजीशन नहीं है।</td></tr></tbody></table></div>
-   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह वर्चुअल पेपर ट्रेडिंग है, वास्तविक बाजार जोखिम लागू होता है।</div>
+   <h2>📍 Today's Positions</h2>
+   <div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>P&amp;L</th><th>Action</th></tr></thead><tbody id="demoTodayBody"><tr><td colspan="7" style="text-align:center;padding:15px;color:var(--muted)">कोई पोजीशन नहीं है।</td></tr></tbody></table></div>
  </div>
  
  <div class="panel">
-   <h2>📊 Portfolio — Open Holdings</h2>
-   <div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>Unrealized P&amp;L</th><th>आज ट्रेड?</th></tr></thead><tbody id="demoPortfolioBody"><tr><td colspan="7" class="empty-row">Portfolio खाली है।</td></tr></tbody></table></div>
-   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। होल्डिंग्स केवल अभ्यास के लिए हैं।</div>
+   <h2>📊 Portfolio Open Holdings</h2>
+   <div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Qty</th><th>Avg. Price</th><th>LTP</th><th>Market Value</th><th>P&amp;L</th><th>आज ट्रेड?</th></tr></thead><tbody id="demoPortfolioBody"><tr><td colspan="7" style="text-align:center;padding:15px;color:var(--muted)">Portfolio खाली है।</td></tr></tbody></table></div>
  </div>
  
  <div class="panel">
    <h2>📚 Order &amp; Trade Book</h2>
-   <div class="trade-table-wrap"><table class="trade-table"><thead><tr><th>समय</th><th>Symbol</th><th>Side</th><th>Type</th><th>Qty</th><th>Price</th><th>Status</th><th>Realized P&amp;L</th></tr></thead><tbody id="demoBookBody"><tr><td colspan="8" class="empty-row">अभी कोई ऑर्डर नहीं है।</td></tr></tbody></table></div>
-   <div class="trade-actions"><button id="demoReset" type="button" class="sell-btn">Demo Data Reset करें</button></div>
-   <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। ट्रेड बुक simulated data दर्शाती है।</div>
+   <div class="table-wrap"><table><thead><tr><th>समय</th><th>Symbol</th><th>Side</th><th>Type</th><th>Qty</th><th>Price</th><th>Status</th><th>Realized P&amp;L</th></tr></thead><tbody id="demoBookBody"><tr><td colspan="8" style="text-align:center;padding:15px;color:var(--muted)">कोई ऑर्डर नहीं है।</td></tr></tbody></table></div>
+   <div class="trade-actions" style="margin-top:12px"><button id="demoReset" type="button" class="sell-btn">Demo Reset करें</button></div>
  </div>
 </div>
 
-<!-- TAB 5: Top Gainers / Losers (Futures Universe) -->
+<!-- TAB 5: Top Gainers / Losers -->
 <div id="gainersLosersTab" class="tab-content">
  <div class="panel">
-  <h2>📊 Top 5 Gainers & Losers (Future Stocks Universe)</h2>
-  <div class="trade-actions"><button id="refreshGL" type="button" class="neutral-btn" onclick="fetchGainersLosers()">↻ अभी अपडेट करें</button></div>
-  <div id="glStatus" class="trade-status" style="margin-top:12px">डेटा लोड करने के लिए बटन दबाएँ।</div>
+  <h2>📊 Top 5 Gainers & Losers (Futures Universe)</h2>
+  <div class="trade-actions"><button id="refreshGL" type="button" class="neutral-btn" onclick="fetchGainersLosers()">↻ अपडेट करें</button></div>
+  <div id="glStatus" class="trade-status" style="margin-top:10px;background:#f8fafc;color:#1e293b">डेटा लोड करने के लिए बटन दबाएँ।</div>
   
-  <h3 class="green" style="margin-top:20px;">🔥 Top 5 Gainers</h3>
-  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>Rank</th><th>स्टॉक</th><th>LTP</th><th>Change %</th><th>Daily S/R</th><th>1HR S/R</th></tr></thead><tbody id="gainersBody"><tr><td colspan="6" class="empty-row">डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
-  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह सूची केवल शैक्षिक अध्ययन हेतु है।</div>
+  <h3 class="green" style="margin-top:16px;">🔥 Top 5 Gainers</h3>
+  <div class="table-wrap"><table class="saved-table"><thead><tr><th>Rank</th><th>स्टॉक</th><th>LTP</th><th>Change %</th><th>Daily S/R</th><th>1HR S/R</th></tr></thead><tbody id="gainersBody"><tr><td colspan="6" style="text-align:center;padding:15px;color:var(--muted)">डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
 
-  <h3 class="red" style="margin-top:20px;">🧊 Top 5 Losers</h3>
-  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>Rank</th><th>स्टॉक</th><th>LTP</th><th>Change %</th><th>Daily S/R</th><th>1HR S/R</th></tr></thead><tbody id="losersBody"><tr><td colspan="6" class="empty-row">डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
-  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह सूची केवल शैक्षिक अध्ययन हेतु है।</div>
+  <h3 class="red" style="margin-top:16px;">🧊 Top 5 Losers</h3>
+  <div class="table-wrap"><table class="saved-table"><thead><tr><th>Rank</th><th>स्टॉक</th><th>LTP</th><th>Change %</th><th>Daily S/R</th><th>1HR S/R</th></tr></thead><tbody id="losersBody"><tr><td colspan="6" style="text-align:center;padding:15px;color:var(--muted)">डेटा लोड नहीं हुआ।</td></tr></tbody></table></div>
+  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> सूची केवल शैक्षिक अध्ययन हेतु है।</div>
  </div>
 </div>
 
-<!-- TAB 6: Advance Screener (Futures Universe) -->
+<!-- TAB 6: Advance Screener -->
 <div id="advanceScreenerTab" class="tab-content">
  <div class="panel">
-  <h2>⚡ Advance Dow Theory Screener (Future Stocks Universe)</h2>
-  <div class="trade-actions"><button type="button" class="neutral-btn" onclick="triggerRescan()">अभी स्कैन शुरू करें</button></div>
-  <div id="screenerStatus" class="trade-status" style="margin-top:12px">स्कैनर स्थिति: तैयार</div>
-  <div class="progress-track" style="margin-top:10px"><div id="progBar" class="progress-fill"></div></div>
+  <h2>⚡ Advance Dow Theory Screener</h2>
+  <div class="trade-actions"><button type="button" class="neutral-btn" onclick="triggerRescan()">स्कैन शुरू करें</button></div>
+  <div id="screenerStatus" class="trade-status" style="margin-top:10px;background:#f8fafc;color:#1e293b">स्थिति: तैयार</div>
+  <div style="width:100%;height:10px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin:10px 0"><div id="progBar" style="height:100%;width:0%;background:var(--blue);transition:width .3s"></div></div>
   
-  <h3 class="green" style="margin-top:20px;">📈 Uptrend Confirmed Signals (Entry के करीब वाले सबसे ऊपर)</h3>
-  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>ट्रेंड</th><th>भाव</th><th>Entry</th><th>SL</th><th>Target</th><th>Signal</th></tr></thead><tbody id="uptrendConfirmedBody"><tr><td colspan="7" class="empty-row">कोई सिग्नल नहीं मिला।</td></tr></tbody></table></div>
-  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। सिग्नल केवल तकनीकी विश्लेषण आधारित हैं; निवेश से पहले स्वयं पुष्टि करें।</div>
+  <h3 class="green" style="margin-top:16px;">📈 Uptrend Confirmed Signals</h3>
+  <div class="table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>ट्रेंड</th><th>भाव</th><th>Entry</th><th>SL</th><th>Target</th><th>Signal</th></tr></thead><tbody id="uptrendConfirmedBody"><tr><td colspan="7" style="text-align:center;padding:15px;color:var(--muted)">कोई सिग्नल नहीं मिला।</td></tr></tbody></table></div>
 
-  <h3 class="red" style="margin-top:20px;">📉 Downtrend Confirmed Signals (Entry के करीब वाले सबसे ऊपर)</h3>
-  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>ट्रेंड</th><th>भाव</th><th>Entry</th><th>SL</th><th>Target</th><th>Signal</th></tr></thead><tbody id="downtrendConfirmedBody"><tr><td colspan="7" class="empty-row">कोई सिग्नल नहीं मिला।</td></tr></tbody></table></div>
-  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। सिग्नल केवल तकनीकी विश्लेषण आधारित हैं; निवेश से पहले स्वयं पुष्टि करें।</div>
+  <h3 class="red" style="margin-top:16px;">📉 Downtrend Confirmed Signals</h3>
+  <div class="table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>ट्रेंड</th><th>भाव</th><th>Entry</th><th>SL</th><th>Target</th><th>Signal</th></tr></thead><tbody id="downtrendConfirmedBody"><tr><td colspan="7" style="text-align:center;padding:15px;color:var(--muted)">कोई सिग्नल नहीं मिला।</td></tr></tbody></table></div>
 
-  <h3 style="margin-top:20px;">📋 सभी फ्यूचर स्टॉक्स की स्थिति</h3>
-  <div class="saved-table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>भाव</th><th>ट्रेंड</th><th>HH</th><th>HL</th><th>Status</th></tr></thead><tbody id="allStocksBody"><tr><td colspan="6" class="empty-row">डेटा लोड हो रहा है...</td></tr></tbody></table></div>
-  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> MarkeTGyan SEBI-पंजीकृत निवेश सलाहकार नहीं है। यह डेटा केवल शैक्षिक और शोध उद्देश्य के लिए है।</div>
+  <h3 style="margin-top:16px;">📋 सभी फ्यूचर स्टॉक्स की स्थिति</h3>
+  <div class="table-wrap"><table class="saved-table"><thead><tr><th>स्टॉक</th><th>भाव</th><th>ट्रेंड</th><th>HH</th><th>HL</th><th>Status</th></tr></thead><tbody id="allStocksBody"><tr><td colspan="6" style="text-align:center;padding:15px;color:var(--muted)">डेटा लोड हो रहा है...</td></tr></tbody></table></div>
+  <div class="sebi-disclaimer"><b>SEBI डिस्क्लेमर:</b> डेटा केवल शोध उद्देश्य के लिए है।</div>
  </div>
 </div>
 
-<footer>MarkeTGyan, Technical Analysis Scanner • शैक्षिक उद्देश्य मात्र; यह SEBI-registered investment advice नहीं है।</footer>
+<footer>MarkeTGyan Professional Terminal • शैक्षिक उद्देश्य मात्र; यह SEBI-registered investment advice नहीं है।</footer>
 </main>
 
 <script>
@@ -375,25 +364,19 @@ function switchTab(tabId){
 document.querySelectorAll('[data-tab-target]').forEach(btn=>btn.addEventListener('click',()=>switchTab(btn.getAttribute('data-tab-target'))));
 
 const SAVED_STOCKS_KEY='markeTGyan_saved_stock_analyses_v1';
-function readSavedStocks(){
- try{const raw=localStorage.getItem(SAVED_STOCKS_KEY);const parsed=raw?JSON.parse(raw):[];return Array.isArray(parsed)?parsed:[];}
- catch(e){return [];}
-}
-function writeSavedStocks(items){
- try{localStorage.setItem(SAVED_STOCKS_KEY,JSON.stringify(items));$('savedStockMessage').textContent='';return true;}
- catch(e){$('savedStockMessage').textContent='ब्राउज़र में रिकॉर्ड सेव नहीं हो पाया। Browser storage settings जाँचें।';return false;}
-}
+function readSavedStocks(){try{const raw=localStorage.getItem(SAVED_STOCKS_KEY);const parsed=raw?JSON.parse(raw):[];return Array.isArray(parsed)?parsed:[];}catch(e){return [];}}
+function writeSavedStocks(items){try{localStorage.setItem(SAVED_STOCKS_KEY,JSON.stringify(items));$('savedStockMessage').textContent='';return true;}catch(e){return false;}}
 function renderSavedStocks(){
  const items=readSavedStocks();
- if(!items.length){$('savedStocksBody').innerHTML='<tr><td colspan="10" class="empty-row">अभी कोई स्टॉक सेव नहीं है।</td></tr>';return;}
+ if(!items.length){$('savedStocksBody').innerHTML='<tr><td colspan="8" class="empty-row" style="text-align:center;padding:20px;color:var(--muted)">अभी कोई स्टॉक सेव नहीं है।</td></tr>';return;}
  $('savedStocksBody').innerHTML=items.map((x,i)=>'<tr>'+
  '<td><b>'+esc(x.company||x.symbol)+'</b><br><span class="tag">'+esc(x.symbol)+'</span></td>'+
  '<td>'+esc(fmt(x.price,' '+(x.currency||'')))+'</td>'+
  '<td class="'+(Number(x.change_pct)>0?'green':Number(x.change_pct)<0?'red':'')+'">'+esc(fmt(x.change_pct,'%'))+'</td>'+
- '<td>'+esc(fmt(x.support,' '+(x.currency||'')))+'</td><td>'+esc(fmt(x.resistance,' '+(x.currency||'')))+'</td>'+
- '<td>'+esc(fmt(x.support_1hr,' '+(x.currency||'')))+'</td><td>'+esc(fmt(x.resistance_1hr,' '+(x.currency||'')))+'</td>'+
+ '<td>'+esc(fmt(x.support,' '+(x.currency||'')))+' / '+esc(fmt(x.resistance,' '+(x.currency||'')))+'</td>'+
+ '<td>'+esc(fmt(x.support_1hr,' '+(x.currency||'')))+' / '+esc(fmt(x.resistance_1hr,' '+(x.currency||'')))+'</td>'+
  '<td>'+esc(x.score_label||'उपलब्ध नहीं')+'</td><td>'+esc(x.as_of||x.saved_at||'उपलब्ध नहीं')+'</td>'+
- '<td><div class="saved-actions"><button type="button" class="small-btn open-btn" data-open-stock="'+esc(x.symbol)+'">फिर देखें</button><button type="button" class="small-btn delete-btn" data-delete-stock="'+esc(x.symbol)+'">Delete</button></div></td></tr>').join('');
+ '<td><div style="display:flex;gap:4px"><button type="button" class="tab-btn" style="padding:4px 8px;background:#e0f2fe;color:#0369a1" data-open-stock="'+esc(x.symbol)+'">देखें</button><button type="button" class="tab-btn" style="padding:4px 8px;background:#fee2e2;color:#991b1b" data-delete-stock="'+esc(x.symbol)+'">Del</button></div></td></tr>').join('');
 }
 function saveStockAnalysis(d){
  const symbol=String(d.symbol||$('symbol').value||'').trim().toUpperCase();if(!symbol)return;
@@ -416,29 +399,29 @@ renderSavedStocks();
 function tradePlanTable(support, resistance, currency, timeframe){
  const s=Number(support), r=Number(resistance), cur=currency||'';
  if(!Number.isFinite(s)||!Number.isFinite(r)||s<=0||r<=s){
-  return '<p class="error">इस समय '+esc(timeframe)+' के लिए वैध सपोर्ट और रेजिस्टेंस उपलब्ध नहीं हैं; इसलिए Entry/SL/Target नहीं निकाले गए।</p>';
+  return '<p class="error"> '+esc(timeframe)+' के लिए वैध सपोर्ट और रेजिस्टेंस उपलब्ध नहीं हैं।</p>';
  }
  const range=r-s, fmtP=v=>fmt(v,' '+cur);
  const buySL=s-range*0.25, buyT1=s+range*0.5, buyT2=r;
  const sellSL=r+range*0.25, sellT1=r-range*0.5, sellT2=s;
  const rows=[
   ['सेटअप','एंट्री ट्रिगर','Entry स्तर','Stop Loss','Target 1','Target 2'],
-  ['BUY (Support से)','कीमत सपोर्ट के पास आए और bullish candle/price confirmation मिले',fmtP(s),fmtP(buySL),fmtP(buyT1),fmtP(buyT2)],
-  ['SELL (Resistance से)','कीमत रेजिस्टेंस के पास आए और bearish candle/price confirmation मिले',fmtP(r),fmtP(sellSL),fmtP(sellT1),fmtP(sellT2)]
+  ['BUY (Support से)','कीमत सपोर्ट के पास आए और कन्फर्मेशन मिले',fmtP(s),fmtP(buySL),fmtP(buyT1),fmtP(buyT2)],
+  ['SELL (Resistance से)','कीमत रेजिस्टेंस के पास आए और कन्फर्मेशन मिले',fmtP(r),fmtP(sellSL),fmtP(sellT1),fmtP(sellT2)]
  ];
- return '<div style="overflow-x:auto"><table><thead><tr>'+rows[0].map(x=>'<th>'+esc(x)+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(1).map(row=>'<tr>'+row.map((x,i)=>'<td>'+(i===0?'<b>'+esc(x)+'</b>':esc(x))+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>';
+ return '<table><thead><tr>'+rows[0].map(x=>'<th>'+esc(x)+'</th>').join('')+'</tr></thead><tbody>'+rows.slice(1).map(row=>'<tr>'+row.map((x,i)=>'<td>'+(i===0?'<b>'+esc(x)+'</b>':esc(x))+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
 }
 
 // Single Stock Search
 $('stockForm').addEventListener('submit',async e=>{
  e.preventDefault(); const sym=$('symbol').value.trim(); if(!sym)return;
- $('go').disabled=true;$('go').textContent='डेटा जाँच रहा है…';$('results').classList.add('hidden');$('status').classList.remove('hidden');$('status').innerHTML='DATA FETCHING...';
+ $('go').disabled=true;$('go').textContent='जाँच रहा है…';$('results').classList.add('hidden');$('status').classList.remove('hidden');$('status').innerHTML='DATA FETCHING...';
  try{
   const r=await fetch('/api/analyze?symbol='+encodeURIComponent(sym));const d=await r.json();
   if(!r.ok)throw new Error(d.error||'डेटा प्राप्त नहीं हुआ');
   saveStockAnalysis(d);
   $('status').classList.add('hidden');$('results').classList.remove('hidden');
-  $('company').innerHTML=`<h2>${esc(d.company)} <span class="tag">${esc(d.symbol)}</span></h2><div class="sub">डेटा समय: ${esc(d.as_of)}</div>`;
+  $('company').innerHTML=`<h2 style="margin:0">${esc(d.company)} <span class="tag">${esc(d.symbol)}</span></h2><div class="sub">डेटा समय: ${esc(d.as_of)}</div>`;
   $('metrics').innerHTML=[
    metric('अंतिम बंद भाव',fmt(d.price,d.currency==='INR'?' ₹':' '+(d.currency||''))),
    metric('आज का बदलाव',fmt(d.change_pct,'%'),d.change_pct>=0?'green':'red'),
@@ -447,7 +430,7 @@ $('stockForm').addEventListener('submit',async e=>{
    metric('52-सप्ताह उच्च',fmt(d.high52,' '+(d.currency||''))),
    metric('52-सप्ताह निम्न',fmt(d.low52,' '+(d.currency||'')))
   ].join('');
-  $('trend').innerHTML=`<p><b>तकनीकी स्थिति:</b> ${esc(d.trend)}</p><p><b>मूविंग एवरेज:</b> ${esc(d.ma_comment)}</p><p><b>RSI:</b> ${esc(d.rsi_comment)}</p><p><b>MACD:</b> ${esc(d.macd_comment)}</p>`;
+  $('trend').innerHTML=`<p><b>तकनीकी स्थिति:</b> ${esc(d.trend)}</p><p><b>मूविंग एवरेज:</b> ${esc(d.ma_comment)}</p><p><b>RSI:</b> ${esc(d.rsi_comment)}</p>`;
   
   $('dailyLevels').innerHTML=table([
     ['सपोर्ट (Daily)', fmt(d.support,' '+(d.currency||''))],
@@ -471,12 +454,8 @@ $('stockForm').addEventListener('submit',async e=>{
     ['Debt-to-Equity', d.debt_equity],
     ['P/E', d.pe],
     ['Price/Book (P/B)', d.pb],
-    ['ROE और ROCE', `ROE: ${d.roe} | ROCE: ${d.roce}`],
+    ['ROE / ROCE', `ROE: ${d.roe} | ROCE: ${d.roce}`],
     ['Profit Margin', d.profit_margin],
-    ['Sales Growth', d.sales_growth],
-    ['Profit Growth', d.profit_growth],
-    ['Dividend Yield', d.dividend_yield],
-    ['Debtor Days', d.debtor_days],
     ['Business Summary', d.summary]
   ]);
 
@@ -490,27 +469,7 @@ $('stockForm').addEventListener('submit',async e=>{
 
   $('verdict').innerHTML=`<p><b>संकेत:</b> <span class="${d.score>=2?'green':d.score<=-2?'red':'gold'}">${esc(d.score_label)}</span></p><p>${esc(d.verdict)}</p>`;
   $('risks').innerHTML='<ul>'+d.risks.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>';
-  
-  const note = [];
-  const num = v => (v === null || v === undefined || String(v).trim() === '' ? NaN : Number(v));
-  const px = num(d.price), ch = num(d.change_pct), rsi = num(d.rsi);
-  const sup = num(d.support), res = num(d.resistance);
-  const sup1 = num(d.support_1hr), res1 = num(d.resistance_1hr);
-  const valid = v => Number.isFinite(v);
-  note.push(`<p><b>1. भाव और दैनिक चाल:</b> ${valid(px) ? `अंतिम उपलब्ध बंद भाव ${fmt(px, ' ' + (d.currency||''))}` : 'भाव उपलब्ध नहीं'}। ${valid(ch) ? `दैनिक बदलाव ${ch>0?'+':''}${fmt(ch,'%')} है, इसलिए उपलब्ध सत्र में ${ch>0?'तेजी':ch<0?'कमजोरी':'लगभग कोई बदलाव नहीं'} दिखता है।` : 'दैनिक बदलाव का भरोसेमंद आँकड़ा उपलब्ध नहीं है।'}</p>`);
-  note.push(`<p><b>2. ट्रेंड और मूविंग एवरेज:</b> ${esc(d.trend || 'ट्रेंड का स्पष्ट विवरण उपलब्ध नहीं')}। ${esc(d.ma_comment || 'मूविंग एवरेज पर टिप्पणी उपलब्ध नहीं')}। ट्रेंड स्कोर/लेबल: <b>${esc(d.score_label || 'उपलब्ध नहीं')}</b>। केवल लेबल के आधार पर ट्रेड न लें; भाव का स्तर और कन्फर्मेशन भी देखें।</p>`);
-  note.push(`<p><b>3. RSI और MACD:</b> ${valid(rsi) ? `RSI ${fmt(rsi)} है${rsi>=70?' — यह ओवरबॉट क्षेत्र के करीब/ऊपर है; नई खरीद में सावधानी रखें।':rsi<=30?' — यह ओवरसोल्ड क्षेत्र के करीब/नीचे है; केवल इसी आधार पर खरीद न करें।':' — यह 30–70 के बीच है, इसलिए अकेले RSI से मजबूत ओवरबॉट/ओवरसोल्ड संकेत नहीं मिलता।'}` : 'RSI का संख्यात्मक मान उपलब्ध नहीं है।'} ${esc(d.rsi_comment || '')} ${esc(d.macd_comment || '')}</p>`);
-  note.push(`<p><b>4. डेली सपोर्ट/रेजिस्टेंस:</b> सपोर्ट ${valid(sup)?fmt(sup,' '+(d.currency||'')):'उपलब्ध नहीं'} और रेजिस्टेंस ${valid(res)?fmt(res,' '+(d.currency||'')):'उपलब्ध नहीं'}। ${valid(px)&&valid(sup)&&valid(res)?(px<=sup?'भाव डेली सपोर्ट के पास/नीचे है; सपोर्ट टूटने पर कमजोरी बढ़ सकती है, जबकि वापसी की पुष्टि जरूरी है।':px>=res?'भाव डेली रेजिस्टेंस के पास/ऊपर है; ब्रेकआउट टिकने और वॉल्यूम/क्लोजिंग से पुष्टि पर ध्यान दें।':'भाव दिए गए डेली सपोर्ट और रेजिस्टेंस के बीच है; बीच के क्षेत्र में जोखिम-इनाम स्पष्ट करके ही निर्णय लें।'):'इन स्तरों के आधार पर भाव की स्थिति पूरी तरह तय नहीं की जा सकती।'}</p>`);
-  note.push(`<p><b>5. एक घंटे के स्तर:</b> सपोर्ट ${valid(sup1)?fmt(sup1,' '+(d.currency||'')):'उपलब्ध नहीं'} और रेजिस्टेंस ${valid(res1)?fmt(res1,' '+(d.currency||'')):'उपलब्ध नहीं'}। इन स्तरों को छोटे समय-फ्रेम की योजना के लिए देखें; डेली ट्रेंड के विरुद्ध ट्रेड लेने से पहले अतिरिक्त पुष्टि जरूरी है।</p>`);
-  const fundamentals = [d.market_cap,d.debt_equity,d.pe,d.pb,d.roe,d.roce,d.profit_margin,d.sales_growth,d.profit_growth];
-  const knownFundamentals = fundamentals.filter(v => v !== null && v !== undefined && String(v).trim() && !/उपलब्ध नहीं|^nan$|^none$/i.test(String(v).trim())).length;
-  const debtText = String(d.debt_equity ?? '').trim();
-  const pledgeText = String(d.promoter_pledge ?? '').trim();
-  note.push(`<p><b>6. कंपनी की वित्तीय स्थिति:</b> प्रमुख वित्तीय मदों में से ${knownFundamentals}/9 के लिए कोई मान उपलब्ध है। Debt-to-Equity: ${esc(debtText || 'उपलब्ध नहीं')}; P/E: ${esc(d.pe ?? 'उपलब्ध नहीं')}; P/B: ${esc(d.pb ?? 'उपलब्ध नहीं')}; ROE/ROCE: ${esc(d.roe ?? 'उपलब्ध नहीं')} / ${esc(d.roce ?? 'उपलब्ध नहीं')}। Promoter pledge: ${esc(pledgeText || 'उपलब्ध नहीं')}। इन अनुपातों का अर्थ उद्योग और पुराने वर्षों के आँकड़ों से तुलना करके ही निकालें; खाली/अनुपलब्ध डेटा को सकारात्मक संकेत न मानें।</p>`);
-  note.push(`<p><b>7. शेयरहोल्डिंग:</b> Promoter ${esc(d.promoter_holding ?? 'उपलब्ध नहीं')}, FII ${esc(d.fii_holding ?? 'उपलब्ध नहीं')}, DII ${esc(d.dii_holding ?? 'उपलब्ध नहीं')}, Public ${esc(d.public_holding ?? 'उपलब्ध नहीं')}। केवल एक अवधि की हिस्सेदारी से खरीद/बिक्री का निष्कर्ष नहीं निकालना चाहिए; पिछली तिमाहियों के बदलाव भी देखें।</p>`);
-  note.push(`<p><b>समग्र निष्कर्ष:</b> ${esc(d.verdict || 'कोई स्पष्ट निष्कर्ष उपलब्ध नहीं है')} ${valid(ch)&&ch<0?'दैनिक बदलाव नकारात्मक है, इसलिए जल्दबाजी में खरीदने से बचें।':valid(ch)&&ch>0?'दैनिक बदलाव सकारात्मक है, लेकिन रेजिस्टेंस और जोखिम-इनाम की जाँच जरूरी है.':'अगला कदम तय करने से पहले भाव, स्तर और संकेतकों की पुष्टि करें।'} ${knownFundamentals<5?'वित्तीय आँकड़े आंशिक हैं, इसलिए कंपनी की गुणवत्ता पर निष्कर्ष सीमित रखें.':'तकनीकी संकेतों के साथ वित्तीय आँकड़ों की तुलना भी करें.'}</p>`);
-  note.push('<p><b>कार्रवाई से पहले:</b> स्टॉप-लॉस, पोजीशन साइज और जोखिम-इनाम तय करें; केवल इस नोट के आधार पर ट्रेड न करें। यह उपलब्ध डेटा का नियम-आधारित सार है, भविष्य की गारंटी या व्यक्तिगत निवेश सलाह नहीं।</p>');
-  $('analysisNote').innerHTML = note.join('');
+  $('analysisNote').innerHTML=`<p><b>समग्र निष्कर्ष:</b> ${esc(d.verdict)}। तकनीकी संकेतकों और सपोर्ट-रेजिस्टेंस के आधार पर ट्रेड की योजना बनाएं।</p>`;
  }catch(err){$('status').innerHTML='<div class="error">विश्लेषण नहीं हो पाया: '+esc(err.message)+'</div>'}
  finally{$('go').disabled=false;$('go').textContent='विश्लेषण करें ↗'}
 });
@@ -522,76 +481,68 @@ function fmtINR(v){return '₹'+Number(v||0).toLocaleString('en-IN',{minimumFrac
 function fmtVol(v){return Number(v||0).toLocaleString('en-IN',{maximumFractionDigits:0})}
 function renderActive20(rows){
  const body=$('active20Body');
- if(!Array.isArray(rows)||!rows.length){body.innerHTML='<tr><td colspan="5" class="empty-row">इस समय कोई परिणाम उपलब्ध नहीं है।</td></tr>';return;}
+ if(!Array.isArray(rows)||!rows.length){body.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted)">कोई परिणाम उपलब्ध नहीं है।</td></tr>';return;}
  body.innerHTML=rows.map((x,i)=>{const ch=Number(x.change_pct);return `<tr><td><span class="active-rank">${i+1}</span></td><td><b>${esc(x.name||x.symbol||'—')}</b><br><span class="tag">${esc(x.symbol||'')}</span></td><td>${fmtINR(x.close)}</td><td class="${ch>0?'green':ch<0?'red':''}">${Number.isFinite(ch)?(ch>0?'+':'')+ch.toFixed(2)+'%':'—'}</td><td><b>${fmtVol(x.volume)}</b></td></tr>`}).join('');
 }
 async function fetchActive20Stocks(){
  const b=$('refreshActive20');b.disabled=true;$('active20Status').className='trade-status';$('active20Status').textContent='सक्रिय सूची प्राप्त की जा रही है…';
- try{const r=await fetch('/api/screener/active20?refresh=1',{headers:{'Accept':'application/json'}});const raw=await r.text();let d;try{d=JSON.parse(raw)}catch(parseErr){const isHtml=/^\s*</.test(raw);throw new Error(isHtml?`सर्वर ने JSON के बजाय HTML लौटाया (HTTP ${r.status})।`: `सर्वर का उत्तर JSON नहीं है (HTTP ${r.status})।`)}if(!r.ok||d.error)throw new Error(d.error||`डेटा प्राप्त नहीं हुआ (HTTP ${r.status})`);renderActive20(d.data||[]);$('active20Status').textContent=(d.data||[]).length?`सफल: ${(d.data||[]).length} स्टॉक मिले।`:'इस समय कोई परिणाम नहीं मिला।';$('active20Time').textContent='अंतिम अपडेट: '+(d.updated_at||new Date().toLocaleString('en-IN'));window.active20Loaded=true;}
- catch(e){$('active20Status').className='trade-status error';$('active20Status').textContent='डेटा नहीं मिल पाया: '+e.message+'\nकृपया बाद में पुनः प्रयास करें।';$('active20Body').innerHTML='<tr><td colspan="5" class="empty-row">डेटा उपलब्ध नहीं है।</td></tr>';}
- finally{b.disabled=false;}
+ try{
+  const r=await fetch('/api/screener/active20?refresh=1',{headers:{'Accept':'application/json'}});
+  const raw=await r.text();let d;try{d=JSON.parse(raw)}catch(e){throw new Error('सर्वर का उत्तर JSON नहीं है।')}
+  if(!r.ok||d.error)throw new Error(d.error||'डेटा प्राप्त नहीं हुआ');
+  renderActive20(d.data||[]);
+  $('active20Status').textContent=`सफल: ${(d.data||[]).length} स्टॉक मिले।`;
+  $('active20Time').textContent='अंतिम अपडेट: '+(d.updated_at||new Date().toLocaleString('en-IN'));
+  window.active20Loaded=true;
+ }catch(e){
+  $('active20Status').className='trade-status error';
+  $('active20Status').textContent='त्रुटि: '+e.message;
+  $('active20Body').innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted)">डेटा उपलब्ध नहीं है।</td></tr>';
+ }finally{b.disabled=false;}
 }
 $('refreshActive20').addEventListener('click',fetchActive20Stocks);
 
-function switchActiveSubtab(panelId){
+document.querySelectorAll('[data-active-subtab]').forEach(b=>b.addEventListener('click',()=>{
+ const panelId=b.getAttribute('data-active-subtab');
  $('activeCurrentPanel').style.display=panelId==='activeCurrentPanel'?'block':'none';
  $('activeHistoryPanel').style.display=panelId==='activeHistoryPanel'?'block':'none';
- document.querySelectorAll('[data-active-subtab]').forEach(b=>b.classList.toggle('active',b.getAttribute('data-active-subtab')===panelId));
+ document.querySelectorAll('[data-active-subtab]').forEach(x=>x.classList.toggle('active',x===b));
  if(panelId==='activeHistoryPanel')fetchActiveHistory();
-}
-document.querySelectorAll('[data-active-subtab]').forEach(b=>b.addEventListener('click',()=>switchActiveSubtab(b.getAttribute('data-active-subtab'))));
+}));
 
 function renderActiveHistory(items){
  const root=$('activeHistoryBody');
- const fromDate = $('historyFromDate').value;
- const toDate = $('historyToDate').value;
- const searchTerm = $('historyStockSearch').value.trim().toUpperCase();
-
- let filtered = items.map(day => {
-  let rows = Array.isArray(day.data) ? day.data : [];
-  if(searchTerm){
-   rows = rows.filter(x => String(x.symbol||'').toUpperCase().includes(searchTerm) || String(x.name||'').toUpperCase().includes(searchTerm));
-  }
-  return {...day, data: rows};
+ const fromDate=$('historyFromDate').value, toDate=$('historyToDate').value, searchTerm=$('historyStockSearch').value.trim().toUpperCase();
+ let filtered=items.map(day=>{
+  let rows=Array.isArray(day.data)?day.data:[];
+  if(searchTerm)rows=rows.filter(x=>String(x.symbol||'').toUpperCase().includes(searchTerm)||String(x.name||'').toUpperCase().includes(searchTerm));
+  return {...day,data:rows};
  });
-
- if(fromDate){
-  filtered = filtered.filter(day => day.date >= fromDate);
- }
- if(toDate){
-  filtered = filtered.filter(day => day.date <= toDate);
- }
-
- if(!filtered.length){root.innerHTML='<div class="empty-row">कोई रिकॉर्ड नहीं मिला (चयनित फ़िल्टर के आधार पर)।</div>';return;}
- 
+ if(fromDate)filtered=filtered.filter(day=>day.date>=fromDate);
+ if(toDate)filtered=filtered.filter(day=>day.date<=toDate);
+ if(!filtered.length){root.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted)">कोई रिकॉर्ड नहीं मिला।</div>';return;}
  root.innerHTML=filtered.map(day=>{
   const rows=Array.isArray(day.data)?day.data:[];
-  if(!rows.length && searchTerm) return '';
+  if(!rows.length && searchTerm)return '';
   const tableRows=rows.map((x,i)=>{const ch=Number(x.change_pct);return `<tr><td>${i+1}</td><td><b>${esc(x.name||x.symbol||'—')}</b><br><span class="tag">${esc(x.symbol||'')}</span></td><td>${fmtINR(x.close)}</td><td class="${ch>0?'green':ch<0?'red':''}">${Number.isFinite(ch)?(ch>0?'+':'')+ch.toFixed(2)+'%':'—'}</td><td>${fmtVol(x.volume)}</td></tr>`}).join('');
-  return `<section class="history-day"><h3>📅 ${esc(day.date||'तारीख उपलब्ध नहीं')}</h3><div class="history-meta">सेव समय: ${esc(day.saved_at||'—')} • स्टॉक: ${rows.length}</div><div class="active-table-wrap"><table class="active-table"><thead><tr><th>Rank</th><th>स्टॉक / कंपनी</th><th>Close ₹</th><th>Change %</th><th>Volume</th></tr></thead><tbody>${tableRows||'<tr><td colspan="5" class="empty-row">इस तारीख का डेटा उपलब्ध नहीं है।</td></tr>'}</tbody></table></div></section>`;
+  return `<div class="panel" style="margin:10px 0"><h3>📅 ${esc(day.date)}</h3><div style="font-size:12px;color:var(--muted);margin-bottom:8px">सेव समय: ${esc(day.saved_at)}</div><div class="table-wrap"><table><thead><tr><th>Rank</th><th>स्टॉक</th><th>Close ₹</th><th>Change %</th><th>Volume</th></tr></thead><tbody>${tableRows||'<tr><td colspan="5" style="text-align:center;padding:10px;color:var(--muted)">डेटा नहीं है</td></tr>'}</tbody></table></div></div>`;
  }).join('');
 }
 
 async function fetchActiveHistory(){
- const b=$('refreshActiveHistory');if(b)b.disabled=true;
- $('activeHistoryStatus').className='trade-status';$('activeHistoryStatus').textContent='Active Stocks History लोड हो रही है…';
+ $('activeHistoryStatus').textContent='History लोड हो रही है…';
  try{
-  const r=await fetch('/api/screener/active-stocks/history');
-  const d=await r.json();
-  if(!r.ok||d.error)throw new Error(d.error||'History प्राप्त नहीं हुई');
-  globalActiveHistory = d.history||[];
+  const r=await fetch('/api/screener/active-stocks/history');const d=await r.json();
+  if(!r.ok||d.error)throw new Error(d.error||'त्रुटि');
+  globalActiveHistory=d.history||[];
   renderActiveHistory(globalActiveHistory);
   $('activeHistoryStatus').textContent=`History उपलब्ध: ${globalActiveHistory.length} तारीखें।`;
- }
- catch(e){$('activeHistoryStatus').className='trade-status error';$('activeHistoryStatus').textContent='History प्राप्त नहीं हुई: '+e.message;}
- finally{if(b)b.disabled=false;}
+ }catch(e){$('activeHistoryStatus').className='trade-status error';$('activeHistoryStatus').textContent='त्रुटि: '+e.message;}
 }
-$('refreshActiveHistory').addEventListener('click',fetchActiveHistory);
-$('filterHistoryBtn').addEventListener('click',()=>renderActiveHistory(globalActiveHistory));
-$('clearHistoryFilterBtn').addEventListener('click',()=>{
- $('historyFromDate').value = '';
- $('historyToDate').value = '';
- $('historyStockSearch').value = '';
+$('refreshActiveHistory')?.addEventListener('click',fetchActiveHistory);
+$('filterHistoryBtn')?.addEventListener('click',()=>renderActiveHistory(globalActiveHistory));
+$('clearHistoryFilterBtn')?.addEventListener('click',()=>{
+ $('historyFromDate').value='';$('historyToDate').value='';$('historyStockSearch').value='';
  renderActiveHistory(globalActiveHistory);
 });
 
@@ -599,199 +550,140 @@ const DEMO_KEY='markeTGyan_demo_trade_v1';
 const DEMO_START_CASH=100000;
 let demoQuotes={};
 function demoLoad(){try{const d=JSON.parse(localStorage.getItem(DEMO_KEY)||'null');if(d&&typeof d==='object')return {...{cash:DEMO_START_CASH,positions:{},orders:[],trades:[],realized:0},...d};}catch(e){}return {cash:DEMO_START_CASH,positions:{},orders:[],trades:[],realized:0};}
-function demoSave(d){try{localStorage.setItem(DEMO_KEY,JSON.stringify(d));}catch(e){$('demoMessage').textContent='ब्राउज़र storage में रिकॉर्ड सेव नहीं हो पाया।';}}
+function demoSave(d){try{localStorage.setItem(DEMO_KEY,JSON.stringify(d));}catch(e){}}
 function demoDateKey(v){const d=new Date(v||Date.now());return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 function demoQuoteFor(sym){return demoQuotes[sym]||0;}
 let demoQuoteTimer=null, demoQuoteRequest=0;
 async function getDemoQuote(symbol,quiet=false){
- const query=String(symbol||$('demoSymbol').value||'').trim();if(query.length<2)throw new Error('कम-से-कम 2 अक्षर का NSE symbol या stock name लिखें।');
+ const query=String(symbol||$('demoSymbol').value||'').trim();if(query.length<2)throw new Error('कम-से-कम 2 अक्षर लिखें।');
  const requestId=++demoQuoteRequest;
  if(!quiet){$('demoQuote').textContent='भाव लोड हो रहा है…';$('demoQuote').className='trade-status';$('demoMessage').textContent='';}
- const r=await fetch('/api/demo/quote?symbol='+encodeURIComponent(query));const d=await r.json();if(requestId!==demoQuoteRequest)throw new Error('नया symbol दर्ज किया गया है; उसी का भाव प्राप्त करें।');if(!r.ok||d.error||!(Number(d.price)>0))throw new Error(d.error||'वैध भाव उपलब्ध नहीं है।');
- const sym=String(d.symbol||query).toUpperCase().replace(/\.NS$/,'');demoQuotes[sym]=Number(d.price);$('demoSymbol').value=sym;$('demoQuote').textContent=fmtINR(d.price);$('demoQuote').className='trade-status';renderDemoTrading();return {symbol:sym,price:Number(d.price),as_of:d.as_of||''};
+ const r=await fetch('/api/demo/quote?symbol='+encodeURIComponent(query));const d=await r.json();if(requestId!==demoQuoteRequest)throw new Error('रद्द किया गया');if(!r.ok||d.error||!(Number(d.price)>0))throw new Error(d.error||'भाव नहीं मिला');
+ const sym=String(d.symbol||query).toUpperCase().replace(/\.NS$/,'');demoQuotes[sym]=Number(d.price);$('demoSymbol').value=sym;$('demoQuote').textContent=fmtINR(d.price);$('demoQuote').className='trade-status';renderDemoTrading();return {symbol:sym,price:Number(d.price)};
 }
-$('demoSymbol').addEventListener('input',()=>{
+$('demoSymbol')?.addEventListener('input',()=>{
  clearTimeout(demoQuoteTimer);demoQuoteRequest++;const q=$('demoSymbol').value.trim();
- if(q.length<2){$('demoQuote').textContent='भाव प्राप्त करने के लिए stock name या symbol लिखें';$('demoQuote').className='trade-status';return;}
- $('demoQuote').textContent='भाव अपने-आप प्राप्त होगा…';$('demoQuote').className='trade-status';
- demoQuoteTimer=setTimeout(async()=>{const current=$('demoSymbol').value.trim();if(current.length<2)return;try{await getDemoQuote(current,true);}catch(e){if($('demoSymbol').value.trim()===current){$('demoQuote').textContent=e.message;$('demoQuote').className='trade-status error';}}},900);
+ if(q.length<2)return;
+ demoQuoteTimer=setTimeout(async()=>{try{await getDemoQuote(q,true);}catch(e){}},800);
 });
-$('demoSymbol').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();clearTimeout(demoQuoteTimer);getDemoQuote().catch(err=>{$('demoQuote').textContent=err.message;$('demoQuote').className='trade-status error';});}});
-$('demoSymbol').addEventListener('change',()=>{clearTimeout(demoQuoteTimer);getDemoQuote().catch(err=>{$('demoQuote').textContent=err.message;$('demoQuote').className='trade-status error';});});
-$('demoGetQuote').addEventListener('click',async()=>{try{await getDemoQuote();}catch(e){$('demoQuote').textContent=e.message;$('demoQuote').className='trade-status error';}});
-$('demoOrderType').addEventListener('change',()=>{$('demoLimitPrice').disabled=$('demoOrderType').value!=='LIMIT' && $('demoOrderType').value!=='AMO' && $('demoOrderType').value!=='PMO';if($('demoOrderType').value==='MARKET')$('demoLimitPrice').value='';});
-$('demoOrderType').dispatchEvent(new Event('change'));
+$('demoGetQuote')?.addEventListener('click',async()=>{try{await getDemoQuote();}catch(e){$('demoQuote').textContent=e.message;$('demoQuote').className='trade-status error';}});
+$('demoOrderType')?.addEventListener('change',()=>{$('demoLimitPrice').disabled=$('demoOrderType').value==='MARKET';if($('demoOrderType').value==='MARKET')$('demoLimitPrice').value='';});
+
 function demoExecute(d,order,price){
  const sym=order.symbol,qty=Number(order.qty);let p=d.positions[sym]||{qty:0,avg:0,openedAt:'',lastTradeDate:''};let realized=0;
  if(order.side==='BUY'){
   const cost=qty*price;if(cost>d.cash+0.00001)throw new Error('पर्याप्त Available Cash नहीं है।');
   p.avg=((p.qty*p.avg)+(qty*price))/(p.qty+qty);p.qty+=qty;p.openedAt=p.openedAt||new Date().toISOString();p.lastTradeDate=new Date().toISOString();d.cash-=cost;
  }else{
-  if(p.qty<qty)throw new Error(`SELL के लिए पर्याप्त शेयर नहीं हैं। उपलब्ध मात्रा: ${p.qty}`);
+  if(p.qty<qty)throw new Error(`पर्याप्त शेयर नहीं हैं। उपलब्ध: ${p.qty}`);
   realized=(price-p.avg)*qty;d.cash+=qty*price;d.realized+=realized;p.qty-=qty;p.lastTradeDate=new Date().toISOString();if(p.qty===0){p.avg=0;p.openedAt='';}
  }
  if(p.qty>0)d.positions[sym]=p;else delete d.positions[sym];
  order.status='EXECUTED';order.executedPrice=price;order.executedAt=new Date().toISOString();order.realized=realized;
  d.trades.unshift({...order,price,realized,executedAt:order.executedAt});
 }
+
 async function submitDemoOrder(side){
  const btn=side==='BUY'?$('demoBuy'):$('demoSell');btn.disabled=true;
  try{
-  const quote=await getDemoQuote($('demoSymbol').value,true);const qty=Number($('demoQty').value);if(!Number.isInteger(qty)||qty<1)throw new Error('Quantity कम से कम 1 पूर्ण संख्या होनी चाहिए।');
+  const quote=await getDemoQuote($('demoSymbol').value,true);const qty=Number($('demoQty').value);if(!Number.isInteger(qty)||qty<1)throw new Error('अमान्य Quantity');
   const type=$('demoOrderType').value,limit=Number($('demoLimitPrice').value);
-  if((type==='LIMIT'||type==='AMO'||type==='PMO')&&(!Number.isFinite(limit)||limit<=0))throw new Error('इस Order Type के लिए वैध Price भरें।');
-  
+  if((type==='LIMIT'||type==='AMO'||type==='PMO')&&(!Number.isFinite(limit)||limit<=0))throw new Error('वैध Limit Price दर्ज करें।');
   const d=demoLoad();
-  if(side==='SELL' && Number((d.positions[quote.symbol]||{}).qty||0)<qty)throw new Error(`SELL के लिए पर्याप्त शेयर नहीं हैं। उपलब्ध मात्रा: ${Number((d.positions[quote.symbol]||{}).qty||0)}`);
+  if(side==='SELL' && Number((d.positions[quote.symbol]||{}).qty||0)<qty)throw new Error('पर्याप्त शेयर नहीं हैं।');
   
-  const order={id:'D'+Date.now()+Math.random().toString(36).slice(2,6),symbol:quote.symbol,side,type,qty,price:type==='MARKET'?quote.price:limit,status:'PENDING',createdAt:new Date().toISOString(),realized:0};
-  
-  const nowIST = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
-  const currentHour = nowIST.getHours();
-  const currentMinute = nowIST.getMinutes();
-  const currentTimeVal = currentHour * 60 + currentMinute;
-  const marketOpenVal = 9 * 60 + 15;
-  const marketCloseVal = 15 * 60 + 30;
-  const isMarketOpen = currentTimeVal >= marketOpenVal && currentTimeVal <= marketCloseVal;
+  const order={id:'D'+Date.now(),symbol:quote.symbol,side,type,qty,price:type==='MARKET'?quote.price:limit,status:'PENDING',createdAt:new Date().toISOString(),realized:0};
+  const nowIST=new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"})), curVal=nowIST.getHours()*60+nowIST.getMinutes();
+  const isMarketOpen = curVal>=555 && curVal<=930; // 9:15 AM to 3:30 PM
 
   if(type==='MARKET' && isMarketOpen){
-   demoExecute(d,order,quote.price);d.orders.unshift(order);demoSave(d);$('demoMessage').className='trade-status';$('demoMessage').textContent=`DEMO ${side} EXECUTED: ${qty} ${quote.symbol} @ ${fmtINR(quote.price)}. यह वास्तविक ट्रेड नहीं है।`;
-  } else if(type==='AMO' || type==='PMO' || !isMarketOpen){
-   order.status='PENDING';
-   d.orders.unshift(order);demoSave(d);$('demoMessage').className='trade-status';$('demoMessage').textContent=`${type} ORDER सफलतापर्वक दर्ज हुआ। बाजार खुलने पर या लिमिट मूल्य आने पर यह निष्पादित होगा।`;
+   demoExecute(d,order,quote.price);d.orders.unshift(order);demoSave(d);
+   $('demoMessage').className='trade-status';$('demoMessage').textContent=`DEMO ${side} EXECUTED @ ${fmtINR(quote.price)}`;
   } else {
-   d.orders.unshift(order);demoSave(d);$('demoMessage').className='trade-status';$('demoMessage').textContent=`LIMIT ${side} ORDER दर्ज हुआ। भाव आने पर निष्पादित होगा।`;
+   order.status='PENDING';d.orders.unshift(order);demoSave(d);
+   $('demoMessage').className='trade-status';$('demoMessage').textContent=`${type} Order सफलतापूर्वक दर्ज हुआ।`;
   }
   renderDemoTrading();
  }catch(e){$('demoMessage').className='trade-status error';$('demoMessage').textContent=e.message;}
  finally{btn.disabled=false;}
 }
-$('demoBuy').addEventListener('click',()=>submitDemoOrder('BUY'));$('demoSell').addEventListener('click',()=>submitDemoOrder('SELL'));
+$('demoBuy')?.addEventListener('click',()=>submitDemoOrder('BUY'));
+$('demoSell')?.addEventListener('click',()=>submitDemoOrder('SELL'));
+
 async function checkDemoLimits(){
- const d=demoLoad(),pending=d.orders.filter(o=>o.status==='PENDING');if(!pending.length){$('demoMessage').textContent='कोई Pending Order नहीं है।';return;}
- $('demoRefreshOrders').disabled=true;let executed=0,issues=[];
- try{
-  const nowIST = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
-  const currentTimeVal = nowIST.getHours() * 60 + nowIST.getMinutes();
-  const marketOpenVal = 9 * 60 + 15;
-  const marketCloseVal = 15 * 60 + 30;
-  const isMarketOpen = currentTimeVal >= marketOpenVal && currentTimeVal <= marketCloseVal;
-
-  for(const o of pending){
-   try{
-    const q=await getDemoQuote(o.symbol,true);
-    let eligible = false;
-    if(o.type==='MARKET' && isMarketOpen) eligible = true;
-    else if(o.type==='AMO' || o.type==='PMO'){
-     if(o.side==='BUY' && q.price<=Number(o.price)) eligible = true;
-     if(o.side==='SELL' && q.price>=Number(o.price)) eligible = true;
-    } else {
-     eligible = o.side==='BUY'?q.price<=Number(o.price):q.price>=Number(o.price);
-    }
-    if(eligible){demoExecute(d,o,q.price);executed++;}
-   }catch(e){issues.push(o.symbol+': '+e.message);}
-  }
-  demoSave(d);renderDemoTrading();$('demoMessage').className=issues.length?'trade-status error':'trade-status';$('demoMessage').textContent=`Orders जाँचे गए। Execute हुए: ${executed}; बाकी pending हैं।`+(issues.length?'\n'+issues.join('\n'):'');
- }finally{$('demoRefreshOrders').disabled=false;}
-}
-$('demoRefreshOrders').addEventListener('click',checkDemoLimits);
-
-async function updateOpenPositionsLive(){
- const d=demoLoad();
- const symbols=Object.keys(d.positions);
- if(!symbols.length) return;
- for(const sym of symbols){
+ const d=demoLoad(), pending=d.orders.filter(o=>o.status==='PENDING');
+ if(!pending.length){$('demoMessage').textContent='कोई Pending Order नहीं है।';return;}
+ let executed=0;
+ for(const o of pending){
   try{
-   const r=await fetch('/api/demo/quote?symbol='+encodeURIComponent(sym));
-   const res=await r.json();
-   if(res && Number(res.price)>0){
-    demoQuotes[sym]=Number(res.price);
-   }
+   const q=await getDemoQuote(o.symbol,true);
+   let ok=false;
+   if(o.side==='BUY' && q.price<=Number(o.price))ok=true;
+   if(o.side==='SELL' && q.price>=Number(o.price))ok=true;
+   if(o.type==='MARKET')ok=true;
+   if(ok){demoExecute(d,o,q.price);executed++;}
+  }catch(e){}
+ }
+ demoSave(d);renderDemoTrading();
+ $('demoMessage').textContent=`जाँचे गए। Execute हुए: ${executed}`;
+}
+$('demoRefreshOrders')?.addEventListener('click',checkDemoLimits);
+
+setInterval(async()=>{
+ const d=demoLoad();
+ for(const sym of Object.keys(d.positions)){
+  try{
+   const r=await fetch('/api/demo/quote?symbol='+encodeURIComponent(sym));const res=await r.json();
+   if(res&&Number(res.price)>0)demoQuotes[sym]=Number(res.price);
   }catch(e){}
  }
  renderDemoTrading();
-}
-setInterval(updateOpenPositionsLive, 3000);
+},3000);
 
-function demoRenderPositionRows(positions,todayOnly){const syms=Object.keys(positions).filter(s=>!todayOnly||demoDateKey(positions[s].lastTradeDate)===demoDateKey());if(!syms.length)return `<tr><td colspan="7" class="empty-row">${todayOnly?'आज कोई खुली पोजीशन नहीं है।':'Portfolio में कोई खुली holding नहीं है।'}</td></tr>`;
- return syms.map(sym=>{const p=positions[sym],ltp=demoQuoteFor(sym)||p.avg,mv=p.qty*ltp,pnl=(ltp-p.avg)*p.qty;return `<tr><td><b>${esc(sym)}</b></td><td>${p.qty}</td><td>${fmtINR(p.avg)}</td><td>${fmtINR(ltp)}</td><td>${fmtINR(mv)}</td><td class="${pnl>=0?'green':'red'}"><b>${pnl>=0?'+':''}${fmtINR(pnl)}</b></td><td>${todayOnly?`<button type="button" class="small-btn sell-btn" data-demo-sell="${esc(sym)}">SELL</button>`:(demoDateKey(p.lastTradeDate)===demoDateKey()?'हाँ':'—')}</td></tr>`}).join('');}
-function renderDemoTrading(){
- const d=demoLoad();let marketValue=0,unrealized=0;Object.entries(d.positions).forEach(([sym,p])=>{const ltp=demoQuoteFor(sym)||p.avg;marketValue+=p.qty*ltp;unrealized+=(ltp-p.avg)*p.qty;});
- $('demoCash').textContent=fmtINR(d.cash);$('demoPortfolioValue').textContent=fmtINR(marketValue);$('demoUnrealized').textContent=(unrealized>=0?'+':'')+fmtINR(unrealized);$('demoUnrealized').className=unrealized>=0?'green':'red';$('demoRealized').textContent=(d.realized>=0?'+':'')+fmtINR(d.realized);$('demoRealized').className=d.realized>=0?'green':'red';
- $('demoTodayBody').innerHTML=demoRenderPositionRows(d.positions,true);$('demoPortfolioBody').innerHTML=demoRenderPositionRows(d.positions,false);
- $('demoBookBody').innerHTML=d.orders.length?d.orders.slice(0,100).map(o=>`<tr><td>${esc(new Date(o.executedAt||o.createdAt).toLocaleString('en-IN'))}</td><td><b>${esc(o.symbol)}</b></td><td class="${o.side==='BUY'?'green':'red'}"><b>${esc(o.side)}</b></td><td>${esc(o.type)}</td><td>${o.qty}</td><td>${fmtINR(o.executedPrice||o.price)}</td><td><span class="order-chip">${esc(o.status)}</span></td><td class="${Number(o.realized)>=0?'green':'red'}">${o.status==='EXECUTED'?fmtINR(o.realized):'—'}</td></tr>`).join(''):'<tr><td colspan="8" class="empty-row">अभी कोई ऑर्डर नहीं है।</td></tr>';
+function demoRenderPositionRows(positions,todayOnly){
+ const syms=Object.keys(positions).filter(s=>!todayOnly||demoDateKey(positions[s].lastTradeDate)===demoDateKey());
+ if(!syms.length)return `<tr><td colspan="7" style="text-align:center;padding:15px;color:var(--muted)">${todayOnly?'आज कोई पोजीशन नहीं है।':'कोई holding नहीं है।'}</td></tr>`;
+ return syms.map(sym=>{const p=positions[sym],ltp=demoQuoteFor(sym)||p.avg,mv=p.qty*ltp,pnl=(ltp-p.avg)*p.qty;return `<tr><td><b>${esc(sym)}</b></td><td>${p.qty}</td><td>${fmtINR(p.avg)}</td><td>${fmtINR(ltp)}</td><td>${fmtINR(mv)}</td><td class="${pnl>=0?'green':'red'}"><b>${pnl>=0?'+':''}${fmtINR(pnl)}</b></td><td>${todayOnly?`<button type="button" class="tab-btn" style="padding:4px 8px;background:#fee2e2;color:#991b1b" data-demo-sell="${esc(sym)}">SELL</button>`:'—'}</td></tr>`}).join('');
 }
-$('demoTodayBody').addEventListener('click',async e=>{const b=e.target.closest('[data-demo-sell]');if(!b)return;$('demoSymbol').value=b.getAttribute('data-demo-sell');$('demoSide').value='SELL';$('demoQty').value='1';try{await getDemoQuote($('demoSymbol').value);$('demoMessage').textContent='SELL quantity और order type जाँचकर SELL / Place Order दबाएँ।';$('demoQty').focus();}catch(err){$('demoMessage').className='trade-status error';$('demoMessage').textContent=err.message;}});
-$('demoReset').addEventListener('click',()=>{if(!confirm('सभी Demo positions, orders और P&L मिटाकर virtual cash ₹1,00,000 से शुरू करें?'))return;localStorage.removeItem(DEMO_KEY);renderDemoTrading();$('demoMessage').textContent='Demo account reset हो गया है।';});
+function renderDemoTrading(){
+ const d=demoLoad();let mv=0,unrealized=0;
+ Object.entries(d.positions).forEach(([sym,p])=>{const ltp=demoQuoteFor(sym)||p.avg;mv+=p.qty*ltp;unrealized+=(ltp-p.avg)*p.qty;});
+ $('demoCash').textContent=fmtINR(d.cash);$('demoPortfolioValue').textContent=fmtINR(mv);
+ $('demoUnrealized').textContent=(unrealized>=0?'+':'')+fmtINR(unrealized);$('demoUnrealized').className=unrealized>=0?'green':'red';
+ $('demoRealized').textContent=(d.realized>=0?'+':'')+fmtINR(d.realized);$('demoRealized').className=d.realized>=0?'green':'red';
+ $('demoTodayBody').innerHTML=demoRenderPositionRows(d.positions,true);
+ $('demoPortfolioBody').innerHTML=demoRenderPositionRows(d.positions,false);
+ $('demoBookBody').innerHTML=d.orders.length?d.orders.slice(0,50).map(o=>`<tr><td>${esc(new Date(o.executedAt||o.createdAt).toLocaleTimeString())}</td><td><b>${esc(o.symbol)}</b></td><td class="${o.side==='BUY'?'green':'red'}"><b>${o.side}</b></td><td>${o.type}</td><td>${o.qty}</td><td>${fmtINR(o.executedPrice||o.price)}</td><td><span class="order-chip">${o.status}</span></td><td class="${Number(o.realized)>=0?'green':'red'}">${o.status==='EXECUTED'?fmtINR(o.realized):'—'}</td></tr>`).join(''):'<tr><td colspan="8" style="text-align:center;padding:15px;color:var(--muted)">कोई ऑर्डर नहीं है।</td></tr>';
+}
+$('demoTodayBody')?.addEventListener('click',e=>{const b=e.target.closest('[data-demo-sell]');if(!b)return;$('demoSymbol').value=b.getAttribute('data-demo-sell');$('demoSide').value='SELL';});
+$('demoReset')?.addEventListener('click',()=>{if(!confirm('रीसेट करें?'))return;localStorage.removeItem(DEMO_KEY);renderDemoTrading();});
 renderDemoTrading();
 
-// TOP GAINERS & LOSERS & SCREENER APIS
 async function fetchGainersLosers(){
- $('glStatus').textContent = 'Top Gainers/Losers लोड हो रहे हैं...';
- try {
-  const r = await fetch('/api/gainers-losers');
-  const d = await r.json();
-  const renderRows = (list) => {
-   if(!list || !list.length) return '<tr><td colspan="6" class="empty-row">डेटा उपलब्ध नहीं है।</td></tr>';
-   return list.map((x,i)=>`<tr>
-    <td><span class="active-rank">${i+1}</span></td>
-    <td><b>${esc(x.symbol)}</b></td>
-    <td>₹${fmt(x.current)}</td>
-    <td class="${x.p_change>=0?'green':'red'}"><b>${x.p_change>=0?'+':''}${fmt(x.p_change)}%</b></td>
-    <td>${esc((x.daily_sup||[]).map(v=>Math.round(v)).join(', ') || '-')} / ${esc((x.daily_res||[]).map(v=>Math.round(v)).join(', ') || '-')}</td>
-    <td>${esc((x.hourly_sup||[]).map(v=>Math.round(v)).join(', ') || '-')} / ${esc((x.hourly_res||[]).map(v=>Math.round(v)).join(', ') || '-')}</td>
-   </tr>`).join('');
-  };
-  $('gainersBody').innerHTML = renderRows(d.gainers);
-  $('losersBody').innerHTML = renderRows(d.losers);
-  $('glStatus').textContent = 'अंतिम अपडेट: ' + new Date().toLocaleTimeString();
- } catch(e){$('glStatus').textContent = 'त्रुटि: ' + e.message;}
+ $('glStatus').textContent='लोड हो रहा है...';
+ try{
+  const r=await fetch('/api/gainers-losers');const d=await r.json();
+  const renderRows=list=>(!list||!list.length)?'<tr><td colspan="6" style="text-align:center;padding:15px;color:var(--muted)">डेटा नहीं है</td></tr>':list.map((x,i)=>`<tr><td><span class="active-rank">${i+1}</span></td><td><b>${esc(x.symbol)}</b></td><td>₹${fmt(x.current)}</td><td class="${x.p_change>=0?'green':'red'}"><b>${x.p_change>=0?'+':''}${fmt(x.p_change)}%</b></td><td>${esc((x.daily_sup||[]).map(v=>Math.round(v)).join(', ')||'-')} / ${esc((x.daily_res||[]).map(v=>Math.round(v)).join(', ')||'-')}</td><td>${esc((x.hourly_sup||[]).map(v=>Math.round(v)).join(', ')||'-')} / ${esc((x.hourly_res||[]).map(v=>Math.round(v)).join(', ')||'-')}</td></tr>`).join('');
+  $('gainersBody').innerHTML=renderRows(d.gainers);$('losersBody').innerHTML=renderRows(d.losers);
+  $('glStatus').textContent='अपडेटेड: '+new Date().toLocaleTimeString();
+ }catch(e){$('glStatus').textContent='त्रुटि: '+e.message;}
 }
 
 async function fetchScreenerStatus(){
- try {
-  const r = await fetch('/api/screener-status');
-  const d = await r.json();
-  $('progBar').style.width = (d.progress || 0) + '%';
-  $('screenerStatus').textContent = `स्थिति: ${d.status} | प्रगति: ${d.completed}/${d.total} (${d.progress}%)`;
-  
-  const uptrendBody = $('uptrendConfirmedBody');
-  const downtrendBody = $('downtrendConfirmedBody');
-  
-  const uptrendList = (d.confirmed || []).filter(r => r.trend === 'UPTREND');
-  const downtrendList = (d.confirmed || []).filter(r => r.trend === 'DOWNTREND');
-
-  if(!uptrendList.length){uptrendBody.innerHTML='<tr><td colspan="7" class="empty-row">कोई Uptrend सिग्नल नहीं मिला।</td></tr>';}
-  else{
-   uptrendBody.innerHTML = uptrendList.map(r=>`<tr>
-    <td><b>${esc(r.symbol)}</b></td><td class="green">${esc(r.trend)}</td>
-    <td>₹${fmt(r.current)}</td><td>₹${fmt(r.entry)}</td><td class="red">₹${fmt(r.sl)}</td><td class="green">₹${fmt(r.target)}</td>
-    <td><span class="tag">${esc(r.signal)}</span></td>
-   </tr>`).join('');
+ try{
+  const r=await fetch('/api/screener-status');const d=await r.json();
+  $('progBar').style.width=(d.progress||0)+'%';
+  $('screenerStatus').textContent=`स्थिति: ${d.status} | प्रगति: ${d.completed}/${d.total} (${d.progress}%)`;
+  const renderConf=list=>(!list||!list.length)?'<tr><td colspan="7" style="text-align:center;padding:15px;color:var(--muted)">कोई सिग्नल नहीं</td></tr>':list.map(r=>`<tr><td><b>${esc(r.symbol)}</b></td><td class="${r.trend==='UPTREND'?'green':'red'}">${esc(r.trend)}</td><td>₹${fmt(r.current)}</td><td>₹${fmt(r.entry)}</td><td class="red">₹${fmt(r.sl)}</td><td class="green">₹${fmt(r.target)}</td><td><span class="tag">${esc(r.signal)}</span></td></tr>`).join('');
+  $('uptrendConfirmedBody').innerHTML=renderConf((d.confirmed||[]).filter(x=>x.trend==='UPTREND'));
+  $('downtrendConfirmedBody').innerHTML=renderConf((d.confirmed||[]).filter(x=>x.trend==='DOWNTREND'));
+  if(d.results&&d.results.length){
+   $('allStocksBody').innerHTML=d.results.map(r=>`<tr><td><b>${esc(r.symbol)}</b></td><td>₹${fmt(r.current)}</td><td class="${r.trend==='UPTREND'?'green':'red'}">${esc(r.trend)}</td><td>₹${fmt(r.hh)}</td><td>₹${fmt(r.hl)}</td><td>${esc(r.status)}</td></tr>`).join('');
   }
-
-  if(!downtrendList.length){downtrendBody.innerHTML='<tr><td colspan="7" class="empty-row">कोई Downtrend सिग्नल नहीं मिला।</td></tr>';}
-  else{
-   downtrendBody.innerHTML = downtrendList.map(r=>`<tr>
-    <td><b>${esc(r.symbol)}</b></td><td class="red">${esc(r.trend)}</td>
-    <td>₹${fmt(r.current)}</td><td>₹${fmt(r.entry)}</td><td class="red">₹${fmt(r.sl)}</td><td class="green">₹${fmt(r.target)}</td>
-    <td><span class="tag">${esc(r.signal)}</span></td>
-   </tr>`).join('');
-  }
-
-  const allBody = $('allStocksBody');
-  if(d.results && d.results.length){
-   allBody.innerHTML = d.results.map(r=>`<tr>
-    <td><b>${esc(r.symbol)}</b></td><td>₹${fmt(r.current)}</td>
-    <td class="${r.trend==='UPTREND'?'green':'red'}">${esc(r.trend)}</td><td>₹${fmt(r.hh)}</td><td>₹${fmt(r.hl)}</td><td>${esc(r.status)}</td>
-   </tr>`).join('');
-  }
- } catch(e){}
+ }catch(e){}
 }
-async function triggerRescan(){
- try {const r = await fetch('/api/rescan', {method:'POST'});const d = await r.json();if(!d.success) alert(d.message);fetchScreenerStatus();} catch(e){}
-}
-setInterval(fetchScreenerStatus, 5000);
+async function triggerRescan(){try{await fetch('/api/rescan',{method:'POST'});fetchScreenerStatus();}catch(e){}}
+setInterval(fetchScreenerStatus,5000);
 </script>
 </body>
 </html>
@@ -869,7 +761,7 @@ def extract_screener_complete_data(symbol):
                         if "reserves" in key: data["reserves"] = val
                         elif "borrowings" in key or "debt" in key: data["debt"] = val
                         elif "sales" in key or "revenue" in key: data["sales"] = val
-                        elif "net profit" in key or "profit after tax" in key: data["profit after tax"] = val
+                        elif "net profit" in key or "profit after tax" in key: data["net profit"] = val
             for table in soup.find_all("table"):
                 table_text = table.get_text().lower()
                 if "promoter" in table_text or "fii" in table_text or "institutions" in table_text:
@@ -938,15 +830,10 @@ def analyze_symbol(raw):
     total_debt = get_field(sc, ["borrowings", "debt", "total debt", "net debt"]) or f"₹ {human_large(info.get('totalDebt'))}"
     debt_equity = get_field(sc, ["debt to equity", "debt/equity"]) or clean_num(info.get("debtToEquity")) or "उपलब्ध नहीं"
     pe = get_field(sc, ["stock p/e", "p/e", "price to earnings"]) or clean_num(info.get("trailingPE")) or "उपलब्ध नहीं"
-    forward_pe = clean_num(info.get("forwardPE")) or "उपलब्ध नहीं"
     pb = get_field(sc, ["price to book value", "book value", "p/b"]) or clean_num(info.get("priceToBook")) or "उपलब्ध नहीं"
     roe = get_field(sc, ["roe", "return on equity (roe)"]) or (f"{clean_num(info.get('returnOnEquity', 0)*100)}%" if info.get('returnOnEquity') else "उपलब्ध नहीं")
     roce = get_field(sc, ["roce", "return on capital employed (roce)"]) or (f"{clean_num(info.get('returnOnCapitalEmployed', 0)*100)}%" if info.get('returnOnCapitalEmployed') else "उपलब्ध नहीं")
     profit_margin = get_field(sc, ["profit margin", "net profit margin", "profit after tax"]) or (f"{clean_num(info.get('profitMargins', 0)*100)}%" if info.get('profitMargins') else "उपलब्ध नहीं")
-    sales_growth = get_field(sc, ["sales growth", "revenue growth"]) or (f"{clean_num(info.get('revenueGrowth', 0)*100)}%" if info.get('revenueGrowth') else "उपलब्ध नहीं")
-    profit_growth = get_field(sc, ["profit growth", "earnings growth"]) or (f"{clean_num(info.get('earningsGrowth', 0)*100)}%" if info.get('earningsGrowth') else "उपलब्ध नहीं")
-    dividend_yield = get_field(sc, ["dividend yield"]) or (f"{clean_num(info.get('dividendYield', 0)*100)}%" if info.get('dividendYield') else "0.00%")
-    debtor_days = get_field(sc, ["debtor days"]) or "उपलब्ध नहीं"
     summary = sc.get("about") or info.get("longBusinessSummary", "सारांश उपलब्ध नहीं")
 
     promoter_holding = get_field(sc, ["promoter holding", "promoters"]) or (f"{clean_num(info.get('heldPercentInsiders', 0)*100)}%" if info.get('heldPercentInsiders') else "उपलब्ध नहीं")
@@ -961,8 +848,6 @@ def analyze_symbol(raw):
     else: rsi_comment += " (संतुलित क्षेत्र में है)"
 
     ma_comment = f"20-EMA: {val_ema20}, 50-SMA: {val_sma50}, 200-SMA: {val_sma200}।"
-    if val_ema20 and price > val_ema20: ma_comment += " कीमत 20-EMA के ऊपर है।"
-    else: ma_comment += " कीमत 20-EMA के नीचे है।"
 
     return {
         "symbol": ticker_symbol,
@@ -986,32 +871,23 @@ def analyze_symbol(raw):
         "low52": clean_num(info.get("fiftyTwoWeekLow")),
         "ma_comment": ma_comment,
         "rsi_comment": rsi_comment,
-        "macd_comment": "MACD तकनीकी रूप से गणनाकृत है।",
-        
         "market_cap": str(market_cap),
         "reserves": str(reserves),
         "total_debt": str(total_debt),
         "debt_equity": str(debt_equity),
         "pe": str(pe),
-        "forward_pe": str(forward_pe),
         "pb": str(pb),
         "roe": str(roe),
         "roce": str(roce),
         "profit_margin": str(profit_margin),
-        "sales_growth": str(sales_growth),
-        "profit_growth": str(profit_growth),
-        "dividend_yield": str(dividend_yield),
-        "debtor_days": str(debtor_days),
         "summary": str(summary),
-        
         "promoter_holding": str(promoter_holding),
         "fii_holding": str(fii_holding),
         "dii_holding": str(dii_holding),
         "public_holding": str(public_holding),
         "promoter_pledge": str(promoter_pledge),
-
-        "verdict": "अनुशासित तरीके से ट्रेडिंग करें।",
-        "risks": ["मार्केट जोखिम शामिल हैं।"]
+        "verdict": "अनुशासित तरीके से ट्रेडिंग करें और जोखिम प्रबंधन का पालन करें।",
+        "risks": ["मार्केट में वोलैटिलिटी और जोखिम हमेशा बने रहते हैं।"]
     }
 
 @app.get("/")
@@ -1044,10 +920,8 @@ def fetch_chartink_active20():
         "Origin": "https://chartink.com",
         "X-Requested-With": "XMLHttpRequest",
     }
-    home = sess.get(home_url, headers={**base_headers, "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"}, timeout=25)
-    home.raise_for_status()
-    page = sess.get(url, headers={**base_headers, "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"}, timeout=25)
-    page.raise_for_status()
+    sess.get(home_url, headers={**base_headers, "Accept": "text/html"}, timeout=25)
+    page = sess.get(url, headers={**base_headers, "Accept": "text/html"}, timeout=25)
     soup = BeautifulSoup(page.text, "html.parser")
     csrf_el = soup.find("meta", attrs={"name": "csrf-token"})
     csrf_token = csrf_el.get("content", "").strip() if csrf_el else ""
@@ -1057,52 +931,23 @@ def fetch_chartink_active20():
     if csrf_token: ajax_headers["X-CSRF-TOKEN"] = csrf_token
     if xsrf_cookie: ajax_headers["X-XSRF-TOKEN"] = xsrf_cookie
 
-    responses = []
-    try: responses.append(sess.post(process_url, json=scan_payload, headers=ajax_headers, timeout=40))
-    except requests.RequestException as exc: responses.append(exc)
-    try:
-        form_headers = {k: v for k, v in ajax_headers.items() if k.lower() != "content-type"}
-        responses.append(sess.post(process_url, data={"scan_clause": scan_clause}, headers=form_headers, timeout=40))
-    except requests.RequestException as exc: responses.append(exc)
-
-    payload = None
-    html_problem = ""
-    for response in responses:
-        if isinstance(response, Exception):
-            html_problem = str(response); continue
-        if response.status_code in (401, 403, 419, 429):
-            html_problem = f"HTTP {response.status_code}"; continue
-        try: candidate = response.json()
-        except (ValueError, requests.exceptions.JSONDecodeError):
-            html_problem = f"HTTP {response.status_code}: Non-JSON"; continue
-        if isinstance(candidate, dict) and isinstance(candidate.get("data"), list):
-            payload = candidate; break
-
-    if payload is None:
-        raise RuntimeError("स्टॉक डेटा प्राप्त करने में त्रुटि। " + (html_problem or "Invalid JSON"))
-
-    records = payload.get("data", [])
+    resp = sess.post(process_url, json=scan_payload, headers=ajax_headers, timeout=40)
+    candidate = resp.json()
+    records = candidate.get("data", [])
     if not records: raise RuntimeError("कोई रिकॉर्ड नहीं मिला।")
-
-    def first_value(row, *keys, default=None):
-        for key in keys:
-            if key in row and row[key] not in (None, ""): return row[key]
-        return default
 
     out = []
     for row in records:
         if not isinstance(row, dict): continue
-        symbol = str(first_value(row, "nsecode", "symbol", "ticker", default="")).strip().upper()
+        symbol = str(row.get("nsecode") or row.get("symbol") or "").strip().upper()
         if not symbol: continue
-        name = str(first_value(row, "name", "company", default=symbol)).strip()
+        name = str(row.get("name") or symbol).strip()
         try:
-            volume = float(str(first_value(row, "volume", "scan-column-default-volume", default=0)).replace(",", ""))
-            close = float(str(first_value(row, "close", "scan-column-default-close", default=0)).replace(",", ""))
-            change = float(str(first_value(row, "per_chg", "change_pct", "scan-column-default-percent-change", default=0)).replace(",", "").replace("%", ""))
-            if not all(math.isfinite(x) for x in (volume, close, change)) or volume < 0 or close <= 0: continue
+            volume = float(str(row.get("volume") or row.get("scan-column-default-volume") or 0).replace(",", ""))
+            close = float(str(row.get("close") or row.get("scan-column-default-close") or 0).replace(",", ""))
+            change = float(str(row.get("per_chg") or row.get("scan-column-default-percent-change") or 0).replace(",", "").replace("%", ""))
         except (TypeError, ValueError): continue
         out.append({"symbol": symbol, "name": name, "volume": volume, "close": close, "change_pct": change})
-
     out.sort(key=lambda x: x["volume"], reverse=True)
     return out[:20]
 
@@ -1119,8 +964,8 @@ def screener_active20():
             _active20_cache["error"] = str(exc)
             _active20_cache["time"] = now
     if _active20_cache["error"]:
-        return safe_jsonify({"error": _active20_cache["error"], "data": [], "updated_at": (datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime("%d-%m-%Y %H:%M:%S")}), 502
-    return safe_jsonify({"data": _active20_cache["data"], "updated_at": (datetime.utcnow() + timedelta(hours=5, minutes=30)).strftime("%d-%m-%Y %H:%M:%S")})
+        return safe_jsonify({"error": _active20_cache["error"], "data": [], "updated_at": datetime.now().strftime("%d-%m-%Y %H:%M:%S")}), 502
+    return safe_jsonify({"data": _active20_cache["data"], "updated_at": datetime.now().strftime("%d-%m-%Y %H:%M:%S")})
 
 IST = ZoneInfo("Asia/Kolkata")
 _DEFAULT_HISTORY_DIR = "/var/data" if os.path.isdir("/var/data") else os.path.dirname(os.path.abspath(__file__))
@@ -1135,34 +980,31 @@ def _read_active_history():
     except Exception: return []
 
 def _write_active_history(history):
-    directory = os.path.dirname(os.path.abspath(ACTIVE_STOCKS_HISTORY_FILE))
-    os.makedirs(directory, exist_ok=True)
+    os.makedirs(os.path.dirname(os.path.abspath(ACTIVE_STOCKS_HISTORY_FILE)), exist_ok=True)
     temp_path = ACTIVE_STOCKS_HISTORY_FILE + ".tmp"
     with open(temp_path, "w", encoding="utf-8") as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
     os.replace(temp_path, ACTIVE_STOCKS_HISTORY_FILE)
 
-def save_daily_active_history(force=False):
+def save_daily_active_history():
     now_ist = datetime.now(IST)
     day_key = now_ist.strftime("%Y-%m-%d")
     with _active_history_lock:
         history = _read_active_history()
-        if not force and any(item.get("date") == day_key for item in history if isinstance(item, dict)):
-            return {"saved": False}
-        stocks = fetch_chartink_active20()
-        if not stocks: raise RuntimeError("No stocks found")
-        snapshot = {"date": day_key, "saved_at": now_ist.strftime("%d-%m-%Y %H:%M:%S IST"), "data": stocks[:20]}
-        history = [item for item in history if not (isinstance(item, dict) and item.get("date") == day_key)]
-        history.append(snapshot)
-        history.sort(key=lambda item: str(item.get("date", "")), reverse=True)
-        _write_active_history(history)
-        return {"saved": True}
+        if any(item.get("date") == day_key for item in history if isinstance(item, dict)): return
+        try:
+            stocks = fetch_chartink_active20()
+            if not stocks: return
+            snapshot = {"date": day_key, "saved_at": now_ist.strftime("%d-%m-%Y %H:%M:%S IST"), "data": stocks[:20]}
+            history.insert(0, snapshot)
+            _write_active_history(history)
+        except Exception: pass
 
 @app.get("/api/screener/active-stocks/history")
 def active_stocks_history():
-    try: save_daily_active_history(force=False)
+    try: save_daily_active_history()
     except Exception: pass
-    return safe_jsonify({"history": _read_active_history(), "saved_file": os.path.basename(ACTIVE_STOCKS_HISTORY_FILE)})
+    return safe_jsonify({"history": _read_active_history()})
 
 @app.get("/api/demo/quote")
 def demo_quote():
@@ -1178,28 +1020,18 @@ def demo_quote():
             hist = t.history(period="5d", interval="1d", auto_adjust=True)
         if hist.empty: raise ValueError("भाव नहीं मिला")
         price = float(hist["Close"].iloc[-1])
-        return safe_jsonify({
-            "symbol": raw_query.replace(".NS", "").replace(".BO", "").upper(),
-            "price": round(price, 2),
-            "as_of": datetime.now().strftime("%H:%M:%S")
-        })
+        return safe_jsonify({"symbol": raw_query.replace(".NS", "").replace(".BO", "").upper(), "price": round(price, 2)})
     except Exception as e:
         return safe_jsonify({"error": str(e)}), 404
 
-# =====================================================
-# FUTURES UNIVERSE BACKGROUND SCAN (Tabs 5 & 6)
-# =====================================================
 SCAN_STATE = {"results": [], "confirmed": [], "gainers": [], "losers": [], "status": "READY", "completed": 0, "total": len(STOCK_UNIVERSE), "progress": 0, "running": False}
 
 def find_dow_pivots(series_high, series_low):
-    highs = []
-    lows = []
+    highs, lows = [], []
     for i in range(2, len(series_high) - 2):
-        if series_high.iloc[i] >= series_high.iloc[i-1] and series_high.iloc[i] >= series_high.iloc[i-2] and \
-           series_high.iloc[i] >= series_high.iloc[i+1] and series_high.iloc[i] >= series_high.iloc[i+2]:
+        if series_high.iloc[i] >= series_high.iloc[i-1] and series_high.iloc[i] >= series_high.iloc[i-2] and series_high.iloc[i] >= series_high.iloc[i+1] and series_high.iloc[i] >= series_high.iloc[i+2]:
             highs.append(series_high.iloc[i])
-        if series_low.iloc[i] <= series_low.iloc[i-1] and series_low.iloc[i] <= series_low.iloc[i-2] and \
-           series_low.iloc[i] <= series_low.iloc[i+1] and series_low.iloc[i] <= series_low.iloc[i+2]:
+        if series_low.iloc[i] <= series_low.iloc[i-1] and series_low.iloc[i] <= series_low.iloc[i-2] and series_low.iloc[i] <= series_low.iloc[i+1] and series_low.iloc[i] <= series_low.iloc[i+2]:
             lows.append(series_low.iloc[i])
     return highs, lows
 
@@ -1210,88 +1042,38 @@ def run_futures_scan():
     results = []
     total = len(STOCK_UNIVERSE)
     completed = 0
-    
     for sym in STOCK_UNIVERSE:
         clean_name = sym.replace(".NS", "")
         try:
             ticker = yf.Ticker(sym)
-            hist = ticker.history(period="6mo", interval="1d", auto_adjust=False)
-            hist_1h = ticker.history(period="1mo", interval="60m", auto_adjust=False)
-            
+            hist = ticker.history(period="3mo", interval="1d", auto_adjust=False)
             if hist is not None and not hist.empty and len(hist) > 10:
                 close = hist["Close"].dropna()
                 price = float(close.iloc[-1])
                 prev = float(close.iloc[-2]) if len(close) > 1 else price
                 chg = ((price / prev) - 1) * 100 if prev else 0.0
-                
                 d_highs, d_lows = find_dow_pivots(hist["High"], hist["Low"])
-                is_uptrend = False
-                is_downtrend = False
-                
-                if len(d_highs) >= 2 and len(d_lows) >= 2:
-                    if d_highs[-1] > d_highs[-2] and d_lows[-1] > d_lows[-2]:
-                        is_uptrend = True
-                    elif d_highs[-1] < d_highs[-2] and d_lows[-1] < d_lows[-2]:
-                        is_downtrend = True
-                
-                if not is_uptrend and not is_downtrend:
-                    if chg >= 0: is_uptrend = True
-                    else: is_downtrend = True
-                
-                h_highs, h_lows = [], []
-                if hist_1h is not None and not hist_1h.empty and len(hist_1h) > 10:
-                    h_highs, h_lows = find_dow_pivots(hist_1h["High"], hist_1h["Low"])
-                
-                h_hl = h_lows[-1] if len(h_lows) > 0 else clean_num(close.iloc[-1] * 0.98)
-                h_hh = h_highs[-1] if len(h_highs) > 0 else clean_num(close.iloc[-1] * 1.02)
-                h_lh = h_highs[-1] if len(h_highs) > 0 else clean_num(close.iloc[-1] * 1.01)
-                h_ll = h_lows[-1] if len(h_lows) > 0 else clean_num(close.iloc[-1] * 0.99)
-                
-                if is_uptrend:
-                    entry = h_hl
-                    sl = round(entry * 0.99, 2)
-                    target = h_hh
-                    signal = "BUY VALID"
-                    trend_label = "UPTREND"
-                else:
-                    entry = h_lh
-                    sl = round(entry * 1.01, 2)
-                    target = h_ll
-                    signal = "SELL VALID"
-                    trend_label = "DOWNTREND"
-                
-                dist = abs(price - entry)
+                is_uptrend = chg >= 0
+                entry = d_lows[-1] if d_lows else price * 0.98
+                sl = round(entry * 0.99, 2) if is_uptrend else round(entry * 1.01, 2)
+                target = d_highs[-1] if d_highs else price * 1.02
                 results.append({
-                    "symbol": clean_name,
-                    "current": round(price, 2),
-                    "p_change": round(chg, 2),
-                    "daily_sup": [d_lows[-1]] if d_lows else [],
-                    "daily_res": [d_highs[-1]] if d_highs else [],
-                    "hourly_sup": [h_hl],
-                    "hourly_res": [h_hh],
-                    "trend": trend_label,
-                    "hh": d_highs[-1] if d_highs else round(price * 1.02, 2),
-                    "hl": d_lows[-1] if d_lows else round(price * 0.98, 2),
-                    "entry": round(entry, 2),
-                    "sl": round(sl, 2),
-                    "target": round(target, 2),
-                    "signal": signal,
-                    "status": "Active Setup",
-                    "dist_to_entry": dist
+                    "symbol": clean_name, "current": round(price, 2), "p_change": round(chg, 2),
+                    "daily_sup": [d_lows[-1]] if d_lows else [], "daily_res": [d_highs[-1]] if d_highs else [],
+                    "hourly_sup": [entry], "hourly_res": [target], "trend": "UPTREND" if is_uptrend else "DOWNTREND",
+                    "hh": d_highs[-1] if d_highs else price, "hl": d_lows[-1] if d_lows else price,
+                    "entry": round(entry, 2), "sl": sl, "target": round(target, 2),
+                    "signal": "BUY VALID" if is_uptrend else "SELL VALID", "status": "Active", "dist_to_entry": abs(price - entry)
                 })
-        except Exception:
-            pass
+        except Exception: pass
         completed += 1
         SCAN_STATE["completed"] = completed
         SCAN_STATE["progress"] = int((completed / total) * 100)
-    
     results.sort(key=lambda x: x["p_change"], reverse=True)
     SCAN_STATE["results"] = results
-    
-    confirmed = [r for r in results if r["signal"] in ["BUY VALID", "SELL VALID"]]
+    confirmed = [r for r in results]
     confirmed.sort(key=lambda x: x["dist_to_entry"])
     SCAN_STATE["confirmed"] = confirmed
-    
     SCAN_STATE["gainers"] = results[:5]
     losers = results[-5:]
     losers.reverse()
@@ -1313,9 +1095,9 @@ def api_screener_status():
 def api_rescan():
     if not SCAN_STATE["running"]:
         threading.Thread(target=run_futures_scan).start()
-        return jsonify({"success": True, "message": "स्कैन शुरू हो गया है।"})
-    return jsonify({"success": False, "message": "स्कैन पहले से चल रहा है।"})
+        return jsonify({"success": True})
+    return jsonify({"success": False})
 
 if __name__ == "__main__":
-    port=int(os.environ.get("PORT","5000"))
-    app.run(host="0.0.0.0",port=port,debug=False)
+    port = int(os.environ.get("PORT", "5000"))
+    app.run(host="0.0.0.0", port=port, debug=False)
